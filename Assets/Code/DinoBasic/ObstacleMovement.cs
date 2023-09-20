@@ -19,7 +19,7 @@ namespace DinoBasic
         void Update()
         {
             // Auto scroll
-            _rb.AddForce(Vector2.left * 6f * Time.deltaTime, ForceMode2D.Impulse);
+            _rb.AddForce(Vector2.left * 15f * Time.deltaTime, ForceMode2D.Impulse);
         }
     }
 }
