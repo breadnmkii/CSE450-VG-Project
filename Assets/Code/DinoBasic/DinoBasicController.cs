@@ -29,7 +29,7 @@ namespace DinoBasic
                 if(jumpsLeft > 0)
                 {
                     jumpsLeft--;
-                    _rb.AddForce(Vector2.up * 15f, ForceMode2D.Impulse);
+                    _rb.AddForce(Vector2.up * 25f, ForceMode2D.Impulse);
                 }
             }
         }
