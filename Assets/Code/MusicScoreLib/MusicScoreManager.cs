@@ -96,13 +96,23 @@ using UnityEngine;
  * 
  */
 
-public class MusicScoreManager : MonoBehaviour
+
+public enum Difficulty
+{
+    protege,    // Easy
+    concert,    // Normal
+    virtuoso,   // Hard
+    prodigy     // rhythm-game-addict
+}
+
+
+public class MusicScoreManager
 {
     // Private members for defining interal song properties
-    private readonly int[] _timeSignature = new int[2] { 4, NoteLength.Quarter }; // DEBUG: hardcode for now
-    private readonly int _BPM = 60;     // DEBUG: hardcode for now
-    private readonly int _songDuration = 4; // DEBUG: hardcode for now
-    private readonly List<Note> _musicScore = new List<Note>(); // DEBUG: hardcode for now
+    private readonly List<int> _timeSignature;
+    private readonly int _BPM;
+    private readonly int _songDuration;
+    private readonly SortedDictionary<double, Note> _musicScore;
 
     private int _currentBeat = 0;          // counter index to current beat in beat-timeline
     private double _timeLastBeat = 0;      // delta timer for last time in real-timeline
@@ -110,18 +120,18 @@ public class MusicScoreManager : MonoBehaviour
 
     // Public members for song properties (readonly)
     public readonly int songDurationBeats;
-    public readonly MusicScene.Difficulty difficulty;
+    public readonly Difficulty difficulty;
     
 
     // Constructor
-    MusicScoreManager(int[] timeSignature,
-                      List<Note> notes, 
-                      MusicScene.Difficulty diff,
-                      int BPM,
-                      int songDuration)
+    public MusicScoreManager(List<int> timeSignature,
+                             int BPM,
+                             int songDuration,
+                             SortedDictionary<double, Note> musicScore, 
+                             Difficulty diff)
     {
         /* Pre Checks */
-        if (timeSignature.Length != 2)
+        if (timeSignature.Count != 2)
         {
             throw new Exception("Invalid time signature length!");
         }
@@ -134,7 +144,7 @@ public class MusicScoreManager : MonoBehaviour
         _timeSignature = timeSignature;
         _BPM = BPM;
         _songDuration = songDuration;
-        _musicScore = notes;
+        _musicScore = musicScore;
 
         // Define public members
         songDurationBeats = _BPM * _songDuration;
@@ -143,38 +153,15 @@ public class MusicScoreManager : MonoBehaviour
         /* Post Checks */
         // checking that number of worst case (lowest granularity (sixteenth)) notes
         // can fit within duration
-        if (_musicScore.Count > songDurationBeats * (NoteLength.Sixteenth/_timeSignature[1]))
+        if (_musicScore.Count > songDurationBeats * ((int)NoteLength.Sixteenth/_timeSignature[1]))
         {
             throw new Exception("Incompatible staff and song duration!");
         }
-    }
-    
-    private void Start()
-    {
-        // MusicScoreManager _ = gameObject.AddComponent<MusicScoreManager>();
-    }
-    
-
-    // Update is called once per frame
-    void Update()
-    {
-        print(Time.time);
-        print(_BPM);
-        /*
-        if (Time.time >= (60 / _BPM) + _timeLastBeat)
-        {
-            _timeLastBeat = Time.time;
-            print("Beating every " + (60 / _BPM) + "seconds per beat...");
-            spawnNote();
-        }
-        */
     }
 
     /* Object lifetime management functions */
     void spawnNote()
     {
-        print("Hello from MusicScoreManager!");
-        print(NoteLength.Sixteenth / 16);
         // Reads staff and select notes
         // TODO: figure out how to integrate staff and notes to spawn object
     }
@@ -185,6 +172,4 @@ public class MusicScoreManager : MonoBehaviour
         // and deletes
         // TODO: figure out...
     }
-
-    
 }

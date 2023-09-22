@@ -11,26 +11,45 @@ using System.Collections.Generic;
  *                               etc.]
  */
 
-struct Note
+public struct Note
 {
-    public NoteLength len;
-    public NoteLocation loc;
-    public NoteVoice voc;
-    public NoteType type;
+    private readonly NoteLength len;
+    public int Length { get { return (int)len;  } }
+
+    private readonly NoteLocation loc;
+    public int Location { get { return (int)loc; } }
+
+    private readonly NoteVoice voc;
+    public int Voice { get { return (int)voc; } }
+
+    private readonly NoteType type;
+    public int Type { get { return (int)type; } }
+
+    // Constructor
+    public Note(NoteLength length, 
+                NoteLocation location, 
+                NoteVoice voice, 
+                NoteType type)
+    {
+        len = length;
+        loc = location;
+        voc = voice;
+        this.type = type;
+    }
 }
 
-public class NoteLength
+public enum NoteLength
 {
-    public static readonly int Whole = 1;
-    public static readonly int Half = 2;
-    public static readonly int Quarter = 4;
-    public static readonly int Eighth = 8;
-    public static readonly int Sixteenth = 16;
+    Whole = 1,
+    Half = 2,
+    Quarter = 4,
+    Eighth = 8,
+    Sixteenth = 16
 }
 
 // Define different physical locations an obstacle may be at
 // currently only supports lane location
-enum NoteLocation
+public enum NoteLocation
 {
     Lane1,
     Lane2,
@@ -38,14 +57,14 @@ enum NoteLocation
     Lane4
 }
 
-enum NoteVoice
+public enum NoteVoice
 {
-    bass,
-    harmony,
-    melody
+    Bass,
+    Harmony,
+    Melody
 }
 
-enum NoteType
+public enum NoteType
 {
     BlockObstacle,
     BallProjectile,
