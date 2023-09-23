@@ -27,7 +27,7 @@ public class Goal : MonoBehaviour
         // Load next scene when colliding with goal
         if (other.gameObject.GetComponent<DinoBasicController>())
         {
-            SceneManager.LoadScene("SampleScene");
+            SceneManager.LoadScene("LaneTest");
         }
     }
 }

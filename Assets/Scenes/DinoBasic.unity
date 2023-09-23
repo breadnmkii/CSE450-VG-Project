@@ -741,7 +741,7 @@ GameObject:
   - component: {fileID: 2140327379}
   - component: {fileID: 2140327383}
   - component: {fileID: 2140327382}
-  m_Layer: 13
+  m_Layer: 12
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -854,7 +854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e17b106cfe63c89469cd40edab63a79e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpsLeft: 0
+  jumpsLeft: 1
 --- !u!61 &2140327383
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1082,6 +1082,10 @@ PrefabInstance:
     - target: {fileID: 161878141634345283, guid: ec2a363c1fb393d43b4e0e1827055cb2, type: 3}
       propertyPath: m_Name
       value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 161878141634345283, guid: ec2a363c1fb393d43b4e0e1827055cb2, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4160845267476861127, guid: ec2a363c1fb393d43b4e0e1827055cb2, type: 3}
       propertyPath: m_LocalPosition.x
