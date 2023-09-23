@@ -1,0 +1,38 @@
+2023/9/21
+*********************
+Main changes:
+1. Created scripts: "HPBar.cs", "ObstacleChecker.cs", "Obstacles.cs", "Player.cs"
+2. Modified script: "Util.cs"
+3. Removed script: "LaneManager.cs"
+4. Add two sprite textures for obstacles and one animator for the trap.
+5. Add two tags: "Breakable", "Unbreakable" for obstacles class.
+
+Descriptions:
+
+Player.cs
+1. Replace the original LaneManager.cs;
+2. Maintain the functions from LaneManager.cs;
+3. Add properties: HP(int), MaxHP(int);
+4. Add method "public int getHP()": Return the private integer field "HP" to the caller.
+5. Add method "public void ModifyHP(int n)": For other classes to modify player's HP by adding an integer (positive/negative);
+
+HPBar.cs
+1. Control the HP bar UI;
+2. Bind with Player object, keep updating the bar according to player's current HP.
+
+Obstacles.cs
+1. Controls the behavior of obstacles;
+2. When enter obstacle checker's collider, add itself to checker's queue if it's tagged "Breakable", otherwise do nothing;
+3. When enter player's collider, modify player's hp with -1 and destroy it self;
+4. When exit obstacle checker's collider, let checker dequeue;
+
+ObstacleChecker.cs
+1. Use a queue to record every notes entering the area with order.
+2. Method "public void AddObstacle(GameObject tar)": Add the gameobject into the queue.
+3. Method "public void RemoveObstacle()": Dequeue;
+4. When pressed Spacebar when there are Objects in the trigger zone (which means exists some objects in the queue), it will "destroy" the obstacle object following the queue order.
+
+Util.cs
+1. Add method "public static void SetSpeed( Rigidbody2D rb, Vector2 speed)": Set the velocity of rb to speed;
+2. Add method "public static void setLayer(GameObject tar, string layername)": Set the layer of tar to the target layer which name is layername;
+*****************************
