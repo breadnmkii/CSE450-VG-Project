@@ -16,11 +16,10 @@ TagManager:
   - Lane1
   - Lane2
   - Lane3
-  - Background
-  - 
-  - 
-  - 
-  - 
+  - CShadow
+  - Ground
+  - Player
+  - Obstacles
   - 
   - 
   - 
