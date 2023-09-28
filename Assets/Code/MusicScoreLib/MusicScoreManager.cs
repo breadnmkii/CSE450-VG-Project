@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /* Docs:
  * Goal of this class is to provide an OOP oriented method
@@ -96,7 +97,7 @@ using UnityEngine;
  * 
  */
 
-
+// Speed factors
 public enum Difficulty
 {
     protege,    // Easy
@@ -106,57 +107,108 @@ public enum Difficulty
 }
 
 
-public class MusicScoreManager
+public class MusicScoreManager : MonoBehaviour
 {
-    // Private members for defining interal song properties
-    private readonly List<int> _timeSignature;
-    private readonly int _BPM;
-    private readonly int _songDuration;
-    private readonly SortedDictionary<double, Note> _musicScore;
-
-    private int _currentBeat = 0;          // counter index to current beat in beat-timeline
-    private double _timeLastBeat = 0;      // delta timer for last time in real-timeline
-
-
     // Public members for song properties (readonly)
-    public readonly int songDurationBeats;
-    public readonly Difficulty difficulty;
-    
+    public int BPM;
+    public int songDuration;
+    public List<int> timeSignature;
+    public string scorePath;
+    public Difficulty difficulty;
+
+    // Private members for defining interal song properties
+    private readonly int _songDurationBeats;
+    private readonly List<(double, List<Note>)> _musicScore;
+    private double _nowTime;                // var to hold current real-time
+    private int _currBeat;                  // counter index to current beat in beat-time
+    private double _timeSinceLastBeat;      // delta time for last time in real-time
+
 
     // Constructor
     public MusicScoreManager(List<int> timeSignature,
                              int BPM,
                              int songDuration,
-                             SortedDictionary<double, Note> musicScore, 
+                             string scorePath,
                              Difficulty diff)
     {
         /* Pre Checks */
         if (timeSignature.Count != 2)
         {
-            throw new Exception("Invalid time signature length!");
+            throw new Exception("Invalid time signature!");
         }
         if (BPM <= 0)
         {
             throw new Exception("BPM must be a positive valued number!");
         }
-
+        
         // Define private members
-        _timeSignature = timeSignature;
-        _BPM = BPM;
-        _songDuration = songDuration;
-        _musicScore = musicScore;
-
-        // Define public members
-        songDurationBeats = _BPM * _songDuration;
-        difficulty = diff;
+        _musicScore = processMusicScoreJSON(scorePath);
+        _songDurationBeats = BPM * songDuration;
 
         /* Post Checks */
         // checking that number of worst case (lowest granularity (sixteenth)) notes
         // can fit within duration
-        if (_musicScore.Count > songDurationBeats * ((int)NoteLength.Sixteenth/_timeSignature[1]))
+        if (_musicScore.Count > _songDurationBeats * ((int)NoteLength.Sixteenth/timeSignature[1]))
         {
             throw new Exception("Incompatible staff and song duration!");
         }
+    }
+
+
+    // Methods
+    private void Start()
+    {
+        _currBeat = 0;  // Every song begins on beat 0
+        _timeSinceLastBeat = 0;
+        // song.Begin();
+        print("Time now: " + Time.time);
+    }
+
+    private void Update()
+    {
+        _nowTime = Time.time;
+        print(_nowTime);
+
+        if (_nowTime >= _timeSinceLastBeat + 60/BPM)
+        {
+            print("A beat just went off at..." + _currBeat);
+            ++_currBeat;
+        }
+
+
+
+    }
+
+    /* Reads an input string path to a Music Score JSON file
+     * and parses into a list of 2-tuples of beat and list of notes
+     */
+    private List<(double, List<Note>)> processMusicScoreJSON(string scorePath)
+    {
+        List<(double, List<Note>)> score = new();
+
+        // TODO: currently hardcoding
+        print("Processing music score at " + scorePath + "...");
+        for (int line=0; line < 10; ++line)
+        {
+            double beat = line; // Beat will eventually be read from line's json
+            List<Note> notes = new();
+
+            int numNotes = 1;   // Each beat can have up to a 4-note chord
+            for (int currNote = 0; currNote < numNotes; ++currNote)
+            {
+                Note note = new(NoteLength.Quarter,
+                                NoteLocation.Lane1,
+                                NoteVoice.Melody,
+                                NoteType.BlockObstacle);
+                notes.Add(note);
+            }
+
+            (double, List<Note>) beatNotes = (beat, notes);
+            score.Add(beatNotes);
+        }
+        print("Processed music score!");
+
+        return score;
     }
 
     /* Object lifetime management functions */
@@ -165,11 +217,5 @@ public class MusicScoreManager
         // Reads staff and select notes
         // TODO: figure out how to integrate staff and notes to spawn object
     }
-
-    void cleanupNotes()
-    {
-        // Determines if any notes are outside camera view
-        // and deletes
-        // TODO: figure out...
-    }
+    
 }
