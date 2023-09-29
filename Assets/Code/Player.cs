@@ -35,22 +35,25 @@ public class Player : MonoBehaviour
     // Gameover UI Object
     public GameObject DeadUI;
 
+    // Player's animator
+    private Animator myAni;
+
     //Initialize
     private void Start()
     {
         lane_No = 0;
         HP = MaxHP;
+        myAni = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
+        myAni.SetBool("isGround", jumpsLeft > 0);
+        myAni.SetFloat("HorizontalVelocity", _rb.velocity.y);
         if ( this.HP <= 0 )
         {
-            Destroy(CharacterShadow);
-            Destroy(gameObject);
-            Time.timeScale = 0;
-            DeadUI.SetActive(true);
+            myAni.SetBool("Dead", true);
         }
         if (Input.GetKeyDown(KeyCode.UpArrow) && lane_No < 3)
         {
@@ -120,9 +123,9 @@ public class Player : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("LaneGround"))
         {
             // Check what is directly below our character's feet
-            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.down, 0.75f);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.down, 1.5f );
 
-            Debug.DrawRay(transform.position, Vector2.down * 0.75f);
+            Debug.DrawRay(transform.position, Vector2.down * 1.5f);
 
             // We might have multiple things below character's feet
             for (int i = 0; i < hits.Length; i++)
@@ -149,5 +152,13 @@ public class Player : MonoBehaviour
     private void EnableLane(int laneNo)
     {
         Lanes[laneNo].transform.GetChild(0).GetComponent<BoxCollider2D>().enabled = true;
+    }
+
+    // Death effects and UI Call
+    public void onDead()
+    {
+        Destroy(CharacterShadow);
+        Time.timeScale = 0;
+        DeadUI.SetActive(true);
     }
 }
