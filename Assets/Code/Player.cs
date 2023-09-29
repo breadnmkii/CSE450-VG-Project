@@ -32,6 +32,9 @@ public class Player : MonoBehaviour
     // index of lane that the player is on.
     private int lane_No;
 
+    // Gameover UI Object
+    public GameObject DeadUI;
+
     //Initialize
     private void Start()
     {
@@ -46,13 +49,15 @@ public class Player : MonoBehaviour
         {
             Destroy(CharacterShadow);
             Destroy(gameObject);
+            Time.timeScale = 0;
+            DeadUI.SetActive(true);
         }
         if (Input.GetKeyDown(KeyCode.UpArrow) && lane_No < 3)
         {
             DisableLane(lane_No);
             lane_No += 1;
             EnableLane(lane_No);
-            Util.Move(gameObject, Lanes[lane_No], "Lane" + lane_No.ToString());
+            Util.Move(gameObject, Lanes[lane_No].transform.GetChild(1).gameObject, "Lane" + lane_No.ToString());
             StartCoroutine(Util.WaitForSec(duration, () =>
             {
                 Util.Move(CharacterShadow, gameObject);
@@ -64,7 +69,7 @@ public class Player : MonoBehaviour
             DisableLane(lane_No);
             lane_No -= 1;
             EnableLane(lane_No);
-            Util.Move(gameObject, Lanes[lane_No], "Lane" + lane_No.ToString());
+            Util.Move(gameObject, Lanes[lane_No].transform.GetChild(1).gameObject, "Lane" + lane_No.ToString());
             StartCoroutine(Util.WaitForSec(duration, () =>
             {
                 Util.Move(CharacterShadow, gameObject);

@@ -36,3 +36,16 @@ Util.cs
 1. Add method "public static void SetSpeed( Rigidbody2D rb, Vector2 speed)": Set the velocity of rb to speed;
 2. Add method "public static void setLayer(GameObject tar, string layername)": Set the layer of tar to the target layer which name is layername;
 *****************************
+
+2023/9/29
+
+Main changes:
+1. Created UI prefab: "DeadUI"
+2. Modified script: "Player.cs"(Multilane), "DinoBasicController.cs"(DinoBasic)
+3. Fixed the bug that dino position seemed weired in multilane scene.
+
+DeadUI:
+Drag it into the hierachy, set it non-Active. Whenever the player dies, set timescale to 0 and set DeadUI Active.
+
+Player.cs & DinoBasicController.cs:
+Modified to fit Dead UI.

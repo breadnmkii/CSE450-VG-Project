@@ -7,6 +7,8 @@ namespace DinoBasic
 {
     public class Obstacle : MonoBehaviour
     {
+        
+
         // Outlet
         Rigidbody2D _rb;
 
@@ -28,7 +30,7 @@ namespace DinoBasic
             // Reload scene when colliding with obstacle
             if (other.gameObject.GetComponent<DinoBasicController>())
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                other.gameObject.GetComponent<DinoBasicController>().Dead();
             }
         }
     }

@@ -12,6 +12,9 @@ namespace DinoBasic
         // State tracking
         public int jumpsLeft;
 
+        // Gameover UI Object
+        public GameObject DeadUI;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -32,6 +35,12 @@ namespace DinoBasic
                     _rb.AddForce(Vector2.up * 25f, ForceMode2D.Impulse);
                 }
             }
+        }
+
+        public void Dead()
+        {
+            DeadUI.SetActive(true);
+            Time.timeScale = 0;
         }
 
         // check for collisions
