@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Threading;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    // Outlets
+    Rigidbody2D _rb;
 
     // A tmp Character to solve possible animation problem.
     public GameObject CharacterShadow;
@@ -23,6 +26,9 @@ public class Player : MonoBehaviour
     // Health point
     private int HP;
 
+    // number of jumps left for player
+    public int jumpsLeft;
+
     // index of lane that the player is on.
     private int lane_No;
 
@@ -31,6 +37,7 @@ public class Player : MonoBehaviour
     {
         lane_No = 0;
         HP = MaxHP;
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -42,7 +49,9 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.UpArrow) && lane_No < 3)
         {
+            DisableLane(lane_No);
             lane_No += 1;
+            EnableLane(lane_No);
             Util.Move(gameObject, Lanes[lane_No], "Lane" + lane_No.ToString());
             StartCoroutine(Util.WaitForSec(duration, () =>
             {
@@ -52,13 +61,26 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.DownArrow) && lane_No > 0)
         {
+            DisableLane(lane_No);
             lane_No -= 1;
+            EnableLane(lane_No);
             Util.Move(gameObject, Lanes[lane_No], "Lane" + lane_No.ToString());
             StartCoroutine(Util.WaitForSec(duration, () =>
             {
                 Util.Move(CharacterShadow, gameObject);
             }));
             Debug.Log(lane_No);
+        }
+
+        // Jump
+        if (Input.GetKeyDown(KeyCode.Space) ||
+            Input.GetKeyDown(KeyCode.W))
+        {
+            if (jumpsLeft > 0)
+            {
+                jumpsLeft--;
+                _rb.AddForce(Vector2.up * 25f, ForceMode2D.Impulse);
+            }
         }
     }
 
@@ -84,5 +106,43 @@ public class Player : MonoBehaviour
         {
             HP = MaxHP;
         }
+    }
+
+    // check for collisions
+    void OnCollisionStay2D(Collision2D other)
+    {
+        // Check that we collided with Ground
+        if (other.gameObject.layer == LayerMask.NameToLayer("LaneGround"))
+        {
+            // Check what is directly below our character's feet
+            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.down, 0.75f);
+
+            Debug.DrawRay(transform.position, Vector2.down * 0.75f);
+
+            // We might have multiple things below character's feet
+            for (int i = 0; i < hits.Length; i++)
+            {
+                RaycastHit2D hit = hits[i];
+
+                // Check that we collided with ground below our feet
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("LaneGround"))
+                {
+                    // Reset jump count
+                    jumpsLeft = 1;
+                }
+            }
+        }
+    }
+
+    // Disable collision for a lane
+    private void DisableLane(int laneNo)
+    {
+        Lanes[laneNo].transform.GetChild(0).GetComponent<BoxCollider2D>().enabled = false;
+    }
+
+    // Enable collision for a lane
+    private void EnableLane(int laneNo)
+    {
+        Lanes[laneNo].transform.GetChild(0).GetComponent<BoxCollider2D>().enabled = true;
     }
 }

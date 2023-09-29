@@ -28,10 +28,6 @@ public class Util
     public static void Move(GameObject obj, GameObject target, string layer = null)
     {
         obj.transform.position = target.transform.position;
-        if (layer != null)
-        {
-            setLayer(obj, layer);
-        }
         return;
     }
 
