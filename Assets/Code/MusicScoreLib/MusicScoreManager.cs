@@ -6,14 +6,6 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 /* Docs:
- * Goal of this class is to provide an OOP oriented method
- * of organizing our "songs" into actual game elements.
- * 
- * Makes heavy use of actual music theory to organize how 
- * we can layout/manage the creation of obstacles throughout
- * the song and level.
- * 
- * General Notes/Context:
  *  Since we want to make note spawning
  *  easy to implement and the fact that this game is 
  *  continuous-timed, there are two timelines to keep track
@@ -63,8 +55,7 @@ using UnityEngine.Rendering;
  *                                  songDuration = 4 (min)
  *                                  songDurationBeats = songBPM * songDuration = 400 b
  *                                  
- *                                  so we have 400 beats at which we may spawn obstacles        
- *                          
+ *                                  so we have 400 beats at which we may spawn obstacles                         
  *                              
  *   musicScore         --> The temporal location of notes within the beat-timeline     (const)
  *                              + the beat when note is registered in player zone 
@@ -117,19 +108,15 @@ public class MusicScoreManager : MonoBehaviour
     public Difficulty difficulty;
 
     // Private members for defining interal song properties
-    private readonly int _songDurationBeats;
-    private readonly List<(double, List<Note>)> _musicScore;
+    private int _songDurationBeats;
+    private List<(double, List<Note>)> _musicScore;
     private double _nowTime;                // var to hold current real-time
     private int _currBeat;                  // counter index to current beat in beat-time
-    private double _timeSinceLastBeat;      // delta time for last time in real-time
+    private double _timeDeltaBeat;           // delta time for beat-time
+    private double _timeSinceLastBeat;      // timer for last time in real-time
 
-
-    // Constructor
-    public MusicScoreManager(List<int> timeSignature,
-                             int BPM,
-                             int songDuration,
-                             string scorePath,
-                             Difficulty diff)
+    // Methods
+    private void Start()
     {
         /* Pre Checks */
         if (timeSignature.Count != 2)
@@ -140,26 +127,22 @@ public class MusicScoreManager : MonoBehaviour
         {
             throw new Exception("BPM must be a positive valued number!");
         }
-        
+
         // Define private members
+        _currBeat = 0;  // Every song begins on beat 0
+        _timeDeltaBeat = (double)60 / BPM;
+        _timeSinceLastBeat = 0;
         _musicScore = processMusicScoreJSON(scorePath);
         _songDurationBeats = BPM * songDuration;
 
         /* Post Checks */
         // checking that number of worst case (lowest granularity (sixteenth)) notes
         // can fit within duration
-        if (_musicScore.Count > _songDurationBeats * ((int)NoteLength.Sixteenth/timeSignature[1]))
+        if (_musicScore.Last().Item1 > _songDurationBeats)
         {
-            throw new Exception("Incompatible staff and song duration!");
+            throw new Exception("Notes in score cannot be past song end!");
         }
-    }
 
-
-    // Methods
-    private void Start()
-    {
-        _currBeat = 0;  // Every song begins on beat 0
-        _timeSinceLastBeat = 0;
         // song.Begin();
         print("Time now: " + Time.time);
     }
@@ -167,11 +150,12 @@ public class MusicScoreManager : MonoBehaviour
     private void Update()
     {
         _nowTime = Time.time;
-        print(_nowTime);
 
-        if (_nowTime >= _timeSinceLastBeat + 60/BPM)
+        if (_nowTime >= _timeSinceLastBeat + _timeDeltaBeat)
         {
-            print("A beat just went off at..." + _currBeat);
+            _timeSinceLastBeat += _timeDeltaBeat;
+            print("Beat " + _currBeat + " just went off at " + _nowTime);
+            
             ++_currBeat;
         }
 
