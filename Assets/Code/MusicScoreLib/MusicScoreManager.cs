@@ -104,7 +104,7 @@ public class MusicScoreManager : MonoBehaviour
     public Transform location;
 
     // Public objects
-    public GameObject cactusObstacle;
+    public Obstacles obstacle;
 
     // Public members for song properties (readonly)
     public int BPM;
@@ -118,7 +118,7 @@ public class MusicScoreManager : MonoBehaviour
     // maybe score isn't a list of double, but just notes (rests included)
     // and then it calculates how long a note should last/spacing between
     // next note based on its length
-    private List<Note> _musicScore;
+    private Queue<Note> _musicScore;
     private double _nowTime;                // var to hold current real-time
     private int _currBeat;                  // counter index to current beat in beat-time
     private double _timeDeltaBeat;           // delta time for beat-time
@@ -158,19 +158,23 @@ public class MusicScoreManager : MonoBehaviour
         }
 
         /* Begin playing song audio */
-        // song.Begin();
+        print("Playing song at difficulty " + difficulty);
         print("Time now: " + Time.time);
+        // song.Begin();
     }
 
     private void Update()
     {
         _nowTime = Time.time;
+        
 
-
-        if (_nowTime >= _timeSinceLastBeat + _timeDeltaBeat && _currBeat < _songDurationBeats)
+        if (_nowTime >= _timeSinceLastBeat + _timeDeltaBeat &&
+            _currBeat < _songDurationBeats &&
+            _musicScore.Count > 0)
         {
             
-            _timeSinceLastBeat += SpawnNote(_musicScore[_currBeat]);
+            _timeSinceLastBeat += SpawnNote(_musicScore.Dequeue());
+
             print("Beat " + _currBeat + " just went off at " + _nowTime);
             ++_currBeat;
         }
@@ -180,45 +184,42 @@ public class MusicScoreManager : MonoBehaviour
     /* Reads an input string path to a Music Score JSON file
      * and parses into a list of 2-tuples of beat and list of notes
      */
-    private List<Note> ProcessMusicScoreJSON(string scorePath)
+    private Queue<Note> ProcessMusicScoreJSON(string scorePath)
     {
-        List<Note> score = new();
+        Queue<Note> score = new();
         print("Processing music score at " + scorePath + "...");
 
         // TODO: currently hardcoding
-        List<NoteLocation> chord = new List<NoteLocation> { NoteLocation.Lane1 };
-
-
-        score.Add(new(NoteLength.Quarter,
-                      chord,
+        score.Enqueue(new(NoteLength.Quarter,
+                      new List<NoteLocation> { NoteLocation.Lane1 },
                       NoteVoice.Melody,
                       NoteType.BlockObstacle));
-        score.Add(new(NoteLength.Whole,
-                      chord,
+        score.Enqueue(new(NoteLength.Whole,
+                      new List<NoteLocation> { NoteLocation.Lane1 },
                       NoteVoice.Melody,
                       NoteType.BlockObstacle));
-        score.Add(new(NoteLength.Eighth,
-                      chord,
+        score.Enqueue(new(NoteLength.Eighth,
+                      new List<NoteLocation> { NoteLocation.Lane1 },
                       NoteVoice.Melody,
                       NoteType.BlockObstacle));
-        score.Add(new(NoteLength.Eighth,
-                      chord,
+        score.Enqueue(new(NoteLength.Eighth,
+                      new List<NoteLocation> { NoteLocation.Lane1 },
                       NoteVoice.Melody,
                       NoteType.BlockObstacle));
-        score.Add(new(NoteLength.Sixteenth,
-                      chord,
+        score.Enqueue(new(NoteLength.Sixteenth,
+                      new List<NoteLocation> { NoteLocation.Lane1 },
                       NoteVoice.Melody,
                       NoteType.BlockObstacle));
-        score.Add(new(NoteLength.Quarter,
-                      chord,
+        score.Enqueue(new(NoteLength.Quarter,
+                      new List<NoteLocation> { NoteLocation.Lane1 },
                       NoteVoice.Melody,
                       NoteType.BlockObstacle));
-        score.Add(new(NoteLength.Sixteenth,
-                      chord,
+        score.Enqueue(new(NoteLength.Sixteenth,
+                      new List<NoteLocation> { NoteLocation.Lane1 },
                       NoteVoice.Melody,
                       NoteType.BlockObstacle));
-        score.Add(new(NoteLength.Sixteenth,
-                      chord,
+        score.Enqueue(new(NoteLength.Sixteenth,
+                      new List<NoteLocation> { NoteLocation.Lane1 },
                       NoteVoice.Melody,
                       NoteType.BlockObstacle));
         //for (int line=0; line < 10; ++line)
@@ -245,15 +246,18 @@ public class MusicScoreManager : MonoBehaviour
         print("Chord:");
         foreach (NoteLocation loc in currNote.Location)
         {
-            print(currNote.Location);
+            print(loc);
         }
         print("Type: " + currNote.Type);
         print("Voice: " + currNote.Voice);
 
-        // Spawn object into world
-        // Instantiate(currNote.Type)
-        GameObject songNote = Instantiate(cactusObstacle);
-        songNote.transform.position = transform.position;
+        // Configure obstacle with given note
+        
+
+        // Spawn object into world and set physics
+        GameObject songNote = Instantiate(obstacle);
+        Util.Move(songNote, this.gameObject);
+        Util.SetSpeed(songNote.GetComponent<Rigidbody2D>(), Vector2.left * obstacle.speed * difficulty);
 
         // relative len = BPM/60 * countedBeat/Note.NoteLength
         return _timeDeltaBeat * timeSignature[1] / currNote.Length;
