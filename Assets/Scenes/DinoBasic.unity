@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 48350587}
   - component: {fileID: 48350586}
   - component: {fileID: 48350590}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: Cactus10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,7 +243,7 @@ Transform:
   m_GameObject: {fileID: 48350584}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 72.67, y: -3.64, z: 0.059363414}
+  m_LocalPosition: {x: 72.67, y: -3.65, z: 0.059363414}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -285,14 +285,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.04, y: 1}
+    oldSize: {x: 1.3866667, y: 1.3333334}
     newSize: {x: 1.3866667, y: 1.5466666}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.04, y: 1}
+  m_Size: {x: 1.3866667, y: 1.3333334}
   m_EdgeRadius: 0
 --- !u!1 &149808622
 GameObject:
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 149808625}
   - component: {fileID: 149808623}
   - component: {fileID: 149808628}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: Cactus3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -414,7 +414,7 @@ Transform:
   m_GameObject: {fileID: 149808622}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.94, y: -3.62, z: 0.059363414}
+  m_LocalPosition: {x: 29.94, y: -3.74, z: 0.059363414}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -478,7 +478,7 @@ GameObject:
   - component: {fileID: 406423656}
   - component: {fileID: 406423655}
   - component: {fileID: 406423654}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: Cactus7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -630,7 +630,7 @@ Transform:
   m_GameObject: {fileID: 406423653}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 56.46, y: -3.64, z: 0.059363414}
+  m_LocalPosition: {x: 56.46, y: -3.69, z: 0.059363414}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -649,7 +649,7 @@ GameObject:
   - component: {fileID: 473742560}
   - component: {fileID: 473742559}
   - component: {fileID: 473742558}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: Cactus8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -801,7 +801,7 @@ Transform:
   m_GameObject: {fileID: 473742557}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 61.16, y: -3.64, z: 0.059363414}
+  m_LocalPosition: {x: 61.16, y: -3.68, z: 0.059363414}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1030,7 +1030,7 @@ GameObject:
   - component: {fileID: 1684682853}
   - component: {fileID: 1684682851}
   - component: {fileID: 1684682856}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: Cactus2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1137,7 +1137,7 @@ Transform:
   m_GameObject: {fileID: 1684682850}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.01, y: -3.84, z: 0.059363414}
+  m_LocalPosition: {x: 20.01, y: -3.85, z: 0.059363414}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1201,7 +1201,7 @@ GameObject:
   - component: {fileID: 1743193795}
   - component: {fileID: 1743193794}
   - component: {fileID: 1743193798}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: Cactus4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1308,7 +1308,7 @@ Transform:
   m_GameObject: {fileID: 1743193792}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 36.88, y: -3.64, z: 0.059363414}
+  m_LocalPosition: {x: 36.88, y: -3.79, z: 0.059363414}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1372,7 +1372,7 @@ GameObject:
   - component: {fileID: 1883906040}
   - component: {fileID: 1883906039}
   - component: {fileID: 1883906038}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: Cactus6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1524,7 +1524,7 @@ Transform:
   m_GameObject: {fileID: 1883906037}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 50.08, y: -3.64, z: 0.059363414}
+  m_LocalPosition: {x: 50.08, y: -3.82, z: 0.059363414}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1543,7 +1543,7 @@ GameObject:
   - component: {fileID: 1956989613}
   - component: {fileID: 1956989612}
   - component: {fileID: 1956989611}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: Goal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1695,7 +1695,7 @@ Transform:
   m_GameObject: {fileID: 1956989610}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 83.65, y: -1.56, z: 0.1590139}
+  m_LocalPosition: {x: 83.65, y: -2.08, z: 0.1590139}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1714,7 +1714,7 @@ GameObject:
   - component: {fileID: 1989558225}
   - component: {fileID: 1989558224}
   - component: {fileID: 1989558223}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: Cactus9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1866,7 +1866,7 @@ Transform:
   m_GameObject: {fileID: 1989558222}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 65.84, y: -3.64, z: 0.059363414}
+  m_LocalPosition: {x: 65.84, y: -3.74, z: 0.059363414}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1885,7 +1885,7 @@ GameObject:
   - component: {fileID: 2035059650}
   - component: {fileID: 2035059649}
   - component: {fileID: 2035059653}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: Cactus5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1992,7 +1992,7 @@ Transform:
   m_GameObject: {fileID: 2035059647}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 45.85, y: -3.64, z: 0.059363414}
+  m_LocalPosition: {x: 45.85, y: -3.76, z: 0.059363414}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2234,7 +2234,7 @@ GameObject:
   - component: {fileID: 2145607271}
   - component: {fileID: 2145607269}
   - component: {fileID: 2145607272}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: Cactus1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
