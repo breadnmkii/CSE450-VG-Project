@@ -100,6 +100,12 @@ public enum Difficulty
 
 public class MusicScoreManager : MonoBehaviour
 {
+    // Outlets
+    public Transform location;
+
+    // Public objects
+    public GameObject cactusObstacle;
+
     // Public members for song properties (readonly)
     public int BPM;
     public int songDuration;
@@ -135,6 +141,9 @@ public class MusicScoreManager : MonoBehaviour
         _musicScore = processMusicScoreJSON(scorePath);
         _songDurationBeats = BPM * songDuration;
 
+        // Connect outlets
+
+
         /* Post Checks */
         // checking that number of worst case (lowest granularity (sixteenth)) notes
         // can fit within duration
@@ -155,6 +164,9 @@ public class MusicScoreManager : MonoBehaviour
         {
             _timeSinceLastBeat += _timeDeltaBeat;
             print("Beat " + _currBeat + " just went off at " + _nowTime);
+
+            GameObject cactusNote = Instantiate(cactusObstacle);
+            cactusNote.transform.position = transform.position;
             
             ++_currBeat;
         }
