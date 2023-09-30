@@ -19,7 +19,7 @@ public class Goal : MonoBehaviour
     void Update()
     {
         // Auto scroll
-        _rb.AddForce(Vector2.left * 25f * Time.deltaTime, ForceMode2D.Impulse);
+        _rb.velocity = transform.right * -7f;
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -27,7 +27,7 @@ public class Goal : MonoBehaviour
         // Load next scene when colliding with goal
         if (other.gameObject.GetComponent<DinoBasicController>())
         {
-            SceneManager.LoadScene("SampleScene");
+            SceneManager.LoadScene("LaneTest");
         }
     }
 }

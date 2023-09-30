@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -22,15 +23,27 @@ public class Util
     // Usage:To change an obj's position from one to another.
     // Input: obj -- Gameobject to be moved or to change the collision layer;
     //        target -- Gameobject holding the target position info.
-    //        layer -- the target collision layer.
+    //        layer -- The name of the target collision layer.
     // Todo: Modify to become more generalized.
     public static void Move(GameObject obj, GameObject target, string layer = null)
     {
         obj.transform.position = target.transform.position;
-        if (layer != null)
-        {
-            obj.layer = LayerMask.NameToLayer(layer);
-        }
         return;
+    }
+
+    // Usage:To change an obj's velocity. (Rigidbody 2D required)
+    // Input: rb -- Target rigidbody2D
+    //        speed -- Vector2 object representing the target speed;
+    public static void SetSpeed(Rigidbody2D rb, Vector2 speed)
+    {
+        rb.velocity = speed;
+    }
+
+    // Usage:To change an obj's layer from one to another.
+    // Input: tar -- Gameobject to change the collision layer;
+    //        layername -- The name of the target collision layer.
+    public static void setLayer(GameObject tar, string layername)
+    {
+        tar.layer = LayerMask.NameToLayer(layername);
     }
 }

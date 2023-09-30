@@ -7,6 +7,8 @@ namespace DinoBasic
 {
     public class Obstacle : MonoBehaviour
     {
+        
+
         // Outlet
         Rigidbody2D _rb;
 
@@ -20,7 +22,7 @@ namespace DinoBasic
         void Update()
         {
             // Auto scroll
-            _rb.AddForce(Vector2.left * 25f * Time.deltaTime, ForceMode2D.Impulse);
+            _rb.velocity = transform.right * -7f;
         }
 
         void OnCollisionEnter2D(Collision2D other)
@@ -28,7 +30,7 @@ namespace DinoBasic
             // Reload scene when colliding with obstacle
             if (other.gameObject.GetComponent<DinoBasicController>())
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                other.gameObject.GetComponent<DinoBasicController>().Dead();
             }
         }
     }
