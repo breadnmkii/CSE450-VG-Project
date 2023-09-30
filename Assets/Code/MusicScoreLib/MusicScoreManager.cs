@@ -115,7 +115,10 @@ public class MusicScoreManager : MonoBehaviour
 
     // Private members for defining interal song properties
     private int _songDurationBeats;
-    private List<(double, List<Note>)> _musicScore;
+    // maybe score isn't a list of double, but just notes (rests included)
+    // and then it calculates how long a note should last/spacing between
+    // next note based on its length
+    private List<Note> _musicScore;
     private double _nowTime;                // var to hold current real-time
     private int _currBeat;                  // counter index to current beat in beat-time
     private double _timeDeltaBeat;           // delta time for beat-time
@@ -134,24 +137,27 @@ public class MusicScoreManager : MonoBehaviour
             throw new Exception("BPM must be a positive valued number!");
         }
 
-        // Define private members
+        /* Define private members */
+
+        // Beat-time delta time vars
         _currBeat = 0;  // Every song begins on beat 0
         _timeDeltaBeat = (double)60 / BPM;
         _timeSinceLastBeat = 0;
-        _musicScore = processMusicScoreJSON(scorePath);
-        _songDurationBeats = BPM * songDuration;
 
-        // Connect outlets
+        // Music score vars
+        _musicScore = ProcessMusicScoreJSON(scorePath);
+        _songDurationBeats = BPM * songDuration;
 
 
         /* Post Checks */
         // checking that number of worst case (lowest granularity (sixteenth)) notes
         // can fit within duration
-        if (_musicScore.Last().Item1 > _songDurationBeats)
+        if (_musicScore.Count > _songDurationBeats * (int)NoteLength.Sixteenth)
         {
-            throw new Exception("Notes in score cannot be past song end!");
+            throw new Exception("Cannot fit all of score's notes into song!");
         }
 
+        /* Begin playing song audio */
         // song.Begin();
         print("Time now: " + Time.time);
     }
@@ -160,58 +166,97 @@ public class MusicScoreManager : MonoBehaviour
     {
         _nowTime = Time.time;
 
-        if (_nowTime >= _timeSinceLastBeat + _timeDeltaBeat)
-        {
-            _timeSinceLastBeat += _timeDeltaBeat;
-            print("Beat " + _currBeat + " just went off at " + _nowTime);
 
-            GameObject cactusNote = Instantiate(cactusObstacle);
-            cactusNote.transform.position = transform.position;
+        if (_nowTime >= _timeSinceLastBeat + _timeDeltaBeat && _currBeat < _songDurationBeats)
+        {
             
+            _timeSinceLastBeat += SpawnNote(_musicScore[_currBeat]);
+            print("Beat " + _currBeat + " just went off at " + _nowTime);
             ++_currBeat;
         }
-
-
 
     }
 
     /* Reads an input string path to a Music Score JSON file
      * and parses into a list of 2-tuples of beat and list of notes
      */
-    private List<(double, List<Note>)> processMusicScoreJSON(string scorePath)
+    private List<Note> ProcessMusicScoreJSON(string scorePath)
     {
-        List<(double, List<Note>)> score = new();
+        List<Note> score = new();
+        print("Processing music score at " + scorePath + "...");
 
         // TODO: currently hardcoding
-        print("Processing music score at " + scorePath + "...");
-        for (int line=0; line < 10; ++line)
-        {
-            double beat = line; // Beat will eventually be read from line's json
-            List<Note> notes = new();
+        List<NoteLocation> chord = new List<NoteLocation> { NoteLocation.Lane1 };
 
-            int numNotes = 1;   // Each beat can have up to a 4-note chord
-            for (int currNote = 0; currNote < numNotes; ++currNote)
-            {
-                Note note = new(NoteLength.Quarter,
-                                NoteLocation.Lane1,
-                                NoteVoice.Melody,
-                                NoteType.BlockObstacle);
-                notes.Add(note);
-            }
 
-            (double, List<Note>) beatNotes = (beat, notes);
-            score.Add(beatNotes);
-        }
+        score.Add(new(NoteLength.Quarter,
+                      chord,
+                      NoteVoice.Melody,
+                      NoteType.BlockObstacle));
+        score.Add(new(NoteLength.Whole,
+                      chord,
+                      NoteVoice.Melody,
+                      NoteType.BlockObstacle));
+        score.Add(new(NoteLength.Eighth,
+                      chord,
+                      NoteVoice.Melody,
+                      NoteType.BlockObstacle));
+        score.Add(new(NoteLength.Eighth,
+                      chord,
+                      NoteVoice.Melody,
+                      NoteType.BlockObstacle));
+        score.Add(new(NoteLength.Sixteenth,
+                      chord,
+                      NoteVoice.Melody,
+                      NoteType.BlockObstacle));
+        score.Add(new(NoteLength.Quarter,
+                      chord,
+                      NoteVoice.Melody,
+                      NoteType.BlockObstacle));
+        score.Add(new(NoteLength.Sixteenth,
+                      chord,
+                      NoteVoice.Melody,
+                      NoteType.BlockObstacle));
+        score.Add(new(NoteLength.Sixteenth,
+                      chord,
+                      NoteVoice.Melody,
+                      NoteType.BlockObstacle));
+        //for (int line=0; line < 10; ++line)
+        //{
+        //    List<NoteLocation> chord = new List<NoteLocation> { NoteLocation.Lane1 };
+        //    Note note = new(NoteLength.Quarter,
+        //                    chord,
+        //                    NoteVoice.Melody,
+        //                    NoteType.BlockObstacle);
+        //    score.Add(note);
+        //}
         print("Processed music score!");
 
         return score;
     }
 
-    /* Object lifetime management functions */
-    void spawnNote()
+    // Method to spawn a note
+    // Returns the amount of delta time to add to timer (based on length type)
+    double SpawnNote(Note currNote)
     {
-        // Reads staff and select notes
-        // TODO: figure out how to integrate staff and notes to spawn object
+        // TODO: get each note's properties and spawn into world accordingly
+        print("Read note from score containing metadata:");
+        print("Length: " + currNote.Length);
+        print("Chord:");
+        foreach (NoteLocation loc in currNote.Location)
+        {
+            print(currNote.Location);
+        }
+        print("Type: " + currNote.Type);
+        print("Voice: " + currNote.Voice);
+
+        // Spawn object into world
+        // Instantiate(currNote.Type)
+        GameObject songNote = Instantiate(cactusObstacle);
+        songNote.transform.position = transform.position;
+
+        // relative len = BPM/60 * countedBeat/Note.NoteLength
+        return _timeDeltaBeat * timeSignature[1] / currNote.Length;
     }
     
 }

@@ -11,23 +11,23 @@ using System.Collections.Generic;
  *                               etc.]
  */
 
-public struct Note
+public readonly struct Note
 {
     private readonly NoteLength len;
-    public int Length { get { return (int)len;  } }
+    public readonly int Length { get { return (int)len;  } }
 
-    private readonly NoteLocation loc;
-    public int Location { get { return (int)loc; } }
+    private readonly List<NoteLocation> loc;
+    public readonly List<NoteLocation> Location { get { return loc; } }
 
     private readonly NoteVoice voc;
-    public int Voice { get { return (int)voc; } }
+    public readonly int Voice { get { return (int)voc; } }
 
     private readonly NoteType type;
-    public int Type { get { return (int)type; } }
+    public readonly int Type { get { return (int)type; } }
 
     // Constructor
     public Note(NoteLength length, 
-                NoteLocation location, 
+                List<NoteLocation> location, 
                 NoteVoice voice, 
                 NoteType type)
     {
@@ -66,6 +66,7 @@ public enum NoteVoice
 
 public enum NoteType
 {
+    Rest,            // empty note, will not spawm object
     BlockObstacle,
     BallProjectile,
     BeamProjectile,
