@@ -4,49 +4,61 @@ using UnityEngine;
 using UnityEngine.Diagnostics;
 
 
-// General script for all types of obstacles.
+/* General script for all types of obstacles.
+ * 
+ * This script encodes all the necessary data of an obstacle, like
+ * - baseSpeed:     the base speed of the obstacle
+ * - isBreakable:   whether the player can "hit" the note
+ * 
+ * The script also manages the lifetime of obstacles and trigger collision
+ * detection.
+ */
 public class Obstacles : MonoBehaviour
 {
-    // Represent the tag.
-    public int type;
+    /* Public properties */
+    // Outlets
     Rigidbody2D _rb;
-    public GameObject startPoint;
+
+    // Obstacle properties
+    public int baseSpeed;
+    public bool isBreakable;
+
 
     private void Start()
     {
-        if(gameObject.tag == "Breakable") { type = 1; }
-        else { type = 0; }
+        // Connect outlets
         _rb = gameObject.GetComponent<Rigidbody2D>();
-        Util.Move(gameObject, startPoint);
-        Util.SetSpeed(_rb, Vector2.left * 5);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
+
+        print(other);
         
-        if (collision.gameObject.GetComponent<Player>())
+        if (other.gameObject.GetComponent<Player>())
         {
-             Debug.Log("Touch Player");
-             collision.gameObject.GetComponent<Player>().ModifyHP(-1);
-             Util.Move(gameObject, startPoint);
-             Util.SetSpeed(_rb, Vector2.left * 0);
+            Debug.Log("Touch Player");
+            other.gameObject.GetComponent<Player>().ModifyHP(-1);
+            //Util.Move(gameObject, startPoint);
+            //Util.SetSpeed(_rb, Vector2.left * 0);
         }
-        if (collision.gameObject.GetComponent<ObstacleChecker>())
-        {
-            Debug.Log("Ready for check");
-            if (type == 1)
-            {
-                collision.gameObject.GetComponent<ObstacleChecker>().AddObstacle(gameObject);
-            }
-        }
+        //if (other.gameObject.GetComponent<ObstacleChecker>())
+        //{
+        //    Debug.Log("Ready for check");
+        //    if (isBreakable)
+        //    {
+        //        other.gameObject.GetComponent<ObstacleChecker>().AddObstacle(gameObject);
+        //    }
+        //}
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D other)
     {
-        if (type == 1 && collision.gameObject.GetComponent<ObstacleChecker>())
+        if (isBreakable && other.gameObject.GetComponent<ObstacleChecker>())
         {
             Debug.Log("Out Check");
-            collision.gameObject.GetComponent<ObstacleChecker>().RemoveObstacle();
+            Destroy(gameObject);
+            //collision.gameObject.GetComponent<ObstacleChecker>().RemoveObstacle();
         }
     }
 }

@@ -42,7 +42,7 @@ public class Util
     // Usage:To change an obj's layer from one to another.
     // Input: tar -- Gameobject to change the collision layer;
     //        layername -- The name of the target collision layer.
-    public static void setLayer(GameObject tar, string layername)
+    public static void SetLayer(GameObject tar, string layername)
     {
         tar.layer = LayerMask.NameToLayer(layername);
     }

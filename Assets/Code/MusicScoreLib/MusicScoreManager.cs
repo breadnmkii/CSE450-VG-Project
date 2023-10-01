@@ -103,8 +103,9 @@ public class MusicScoreManager : MonoBehaviour
     // Outlets
     public Transform location;
 
-    // Public objects
-    public Obstacles obstacle;
+    // Public obstacle prefabs
+    // (Note: must contain Obstacles component)
+    public GameObject cactusObstacle;
 
     // Public members for song properties (readonly)
     public int BPM;
@@ -115,16 +116,15 @@ public class MusicScoreManager : MonoBehaviour
 
     // Private members for defining interal song properties
     private int _songDurationBeats;
-    // maybe score isn't a list of double, but just notes (rests included)
-    // and then it calculates how long a note should last/spacing between
-    // next note based on its length
     private Queue<Note> _musicScore;
     private double _nowTime;                // var to hold current real-time
     private int _currBeat;                  // counter index to current beat in beat-time
-    private double _timeDeltaBeat;           // delta time for beat-time
-    private double _timeSinceLastBeat;      // timer for last time in real-time
+    private double _timeDeltaBeat;          // delta time for beat-time
+    private double _timeDeltaNote;          // delta time for real-time
+    private double _timeSinceLastBeat;      // timer for last beat time in beat-time
+    private double _timeSinceLastNote;      // timer for last note time in real-time
 
-    // Methods
+    /* Unity Loop Methods */
     private void Start()
     {
         /* Pre Checks */
@@ -138,11 +138,11 @@ public class MusicScoreManager : MonoBehaviour
         }
 
         /* Define private members */
-
         // Beat-time delta time vars
         _currBeat = 0;  // Every song begins on beat 0
         _timeDeltaBeat = (double)60 / BPM;
         _timeSinceLastBeat = 0;
+        _timeSinceLastNote = 0;
 
         // Music score vars
         _musicScore = ProcessMusicScoreJSON(scorePath);
@@ -165,25 +165,35 @@ public class MusicScoreManager : MonoBehaviour
 
     private void Update()
     {
-        _nowTime = Time.time;
-        
-
-        if (_nowTime >= _timeSinceLastBeat + _timeDeltaBeat &&
-            _currBeat < _songDurationBeats &&
-            _musicScore.Count > 0)
+        // Play while song is still playing
+        if (_currBeat < _songDurationBeats)
         {
-            
-            _timeSinceLastBeat += SpawnNote(_musicScore.Dequeue());
+            // Beat beat-time loop
+            _nowTime = Time.time;
+            if (_nowTime >= _timeSinceLastBeat + _timeDeltaBeat)
+            {
+                _timeSinceLastBeat += _timeDeltaBeat;
+                print("Beat " + _currBeat + " just went off at " + _nowTime);
 
-            print("Beat " + _currBeat + " just went off at " + _nowTime);
-            ++_currBeat;
+                ++_currBeat;
+            }
+
+            // Note real-time loop
+            _nowTime = Time.time;
+            if (_nowTime >= _timeSinceLastNote + _timeDeltaBeat &&
+                _musicScore.Count > 0)
+            {
+                _timeSinceLastNote += SpawnNote(_musicScore.Dequeue());
+                print("Note spawned at " + _nowTime);
+            }
         }
 
     }
 
-    /* Reads an input string path to a Music Score JSON file
-     * and parses into a list of 2-tuples of beat and list of notes
-     */
+
+    /* Class Methods */
+
+    // Reads an input JSON file to process into queue of notes
     private Queue<Note> ProcessMusicScoreJSON(string scorePath)
     {
         Queue<Note> score = new();
@@ -236,8 +246,27 @@ public class MusicScoreManager : MonoBehaviour
         return score;
     }
 
+
+    // Obtains the specified value for a difficulty enum type
+    static float GetDifficultyFactor(Difficulty diff)
+    {
+        switch (diff)
+        {
+            case Difficulty.protege:
+                return 0.5F;
+            case Difficulty.concert:
+                return 1;
+            case Difficulty.virtuoso:
+                return 3;
+            case Difficulty.prodigy:
+                return 6;
+        }
+        return 0;
+    }
+
+
     // Method to spawn a note
-    // Returns the amount of delta time to add to timer (based on length type)
+    // Returns the amount of delta time to add to timer (based on note length)
     double SpawnNote(Note currNote)
     {
         // TODO: get each note's properties and spawn into world accordingly
@@ -251,13 +280,29 @@ public class MusicScoreManager : MonoBehaviour
         print("Type: " + currNote.Type);
         print("Voice: " + currNote.Voice);
 
-        // Configure obstacle with given note
-        
+        // Spawn obstacle with given note type
+        GameObject songNote;
+        switch (currNote.Type)
+        {
+            case (int)NoteType.Rest:
+                songNote = null;
+                break;
+            case (int)NoteType.BlockObstacle:
+                songNote = Instantiate(cactusObstacle);
+                break;
+            default:
+                songNote = null;
+                print("MusicScoreManager: (Warn) Unknown note type!");
+                break;
+        }
 
-        // Spawn object into world and set physics
-        GameObject songNote = Instantiate(obstacle);
-        Util.Move(songNote, this.gameObject);
-        Util.SetSpeed(songNote.GetComponent<Rigidbody2D>(), Vector2.left * obstacle.speed * difficulty);
+        // Configure obstacle physics
+        if (songNote != null)
+        {
+            // TODO: move songNote to respective lane based on note loc (chord)
+            Util.Move(songNote, this.gameObject);
+            Util.SetSpeed(songNote.GetComponent<Rigidbody2D>(), GetDifficultyFactor(difficulty) * songNote.GetComponent<Obstacles>().baseSpeed * Vector2.left);
+        }
 
         // relative len = BPM/60 * countedBeat/Note.NoteLength
         return _timeDeltaBeat * timeSignature[1] / currNote.Length;

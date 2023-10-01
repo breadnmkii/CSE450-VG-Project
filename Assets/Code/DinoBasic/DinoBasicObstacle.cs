@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace DinoBasic
 {
-    public class Obstacle : MonoBehaviour
+    public class DinoBasicObstacle : MonoBehaviour
     {
         
 

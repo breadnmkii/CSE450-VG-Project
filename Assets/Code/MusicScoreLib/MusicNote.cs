@@ -68,7 +68,7 @@ public enum NoteType
 {
     Rest,            // empty note, will not spawm object
     BlockObstacle,
-    BallProjectile,
+    BulletProjectile,
     BeamProjectile,
     
     // Add additional obstacle types
