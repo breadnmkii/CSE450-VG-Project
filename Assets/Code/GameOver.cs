@@ -15,6 +15,11 @@ public class GameOver : MonoBehaviour
         
     }
 
+    void OnEnable()
+    {
+        Time.timeScale = 0;
+    }
+
     public void restart()
     {
         Time.timeScale = 1;

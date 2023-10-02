@@ -158,7 +158,6 @@ public class Player : MonoBehaviour
     public void onDead()
     {
         Destroy(CharacterShadow);
-        Time.timeScale = 0;
-        DeadUI.SetActive(true);
+        DeadUI.SetActive(true); // does setting this active call on enable for gameover.cs?
     }
 }
