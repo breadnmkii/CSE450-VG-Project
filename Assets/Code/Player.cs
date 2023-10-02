@@ -123,9 +123,9 @@ public class Player : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("LaneGround"))
         {
             // Check what is directly below our character's feet
-            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.down, 1.5f );
+            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.down, 1.1f );
 
-            Debug.DrawRay(transform.position, Vector2.down * 1.5f);
+            Debug.DrawRay(transform.position, Vector2.down * 1.1f);
 
             // We might have multiple things below character's feet
             for (int i = 0; i < hits.Length; i++)
