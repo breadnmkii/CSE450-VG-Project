@@ -2549,7 +2549,7 @@ GameObject:
   - component: {fileID: 2140327379}
   - component: {fileID: 2140327382}
   - component: {fileID: 2140327383}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2995,7 +2995,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 161878141634345283, guid: ec2a363c1fb393d43b4e0e1827055cb2, type: 3}
       propertyPath: m_Layer
-      value: 11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 167214962380713338, guid: ec2a363c1fb393d43b4e0e1827055cb2, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x

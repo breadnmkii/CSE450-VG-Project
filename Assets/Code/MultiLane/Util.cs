@@ -28,6 +28,10 @@ public class Util
     public static void Move(GameObject obj, GameObject target, string layer = null)
     {
         obj.transform.position = target.transform.position;
+        if (layer != null)
+        {
+            obj.layer = LayerMask.NameToLayer(layer);
+        }
         return;
     }
 
