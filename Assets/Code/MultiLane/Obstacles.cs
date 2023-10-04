@@ -42,23 +42,23 @@ public class Obstacles : MonoBehaviour
             //Util.Move(gameObject, startPoint);
             //Util.SetSpeed(_rb, Vector2.left * 0);
         }
-        //if (other.gameObject.GetComponent<ObstacleChecker>())
-        //{
-        //    Debug.Log("Ready for check");
-        //    if (isBreakable)
-        //    {
-        //        other.gameObject.GetComponent<ObstacleChecker>().AddObstacle(gameObject);
-        //    }
-        //}
+        if (other.gameObject.GetComponent<ObstacleChecker>())
+        {
+            Debug.Log("Ready for check");
+            if (isBreakable)
+            {
+                other.gameObject.GetComponent<ObstacleChecker>().AddObstacle(gameObject);
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (isBreakable && other.gameObject.GetComponent<ObstacleChecker>())
         {
-            Debug.Log("Out Check");
-            Destroy(gameObject);
-            //collision.gameObject.GetComponent<ObstacleChecker>().RemoveObstacle();
+            /*Debug.Log("Out Check");
+            Destroy(gameObject);*/
+            other.gameObject.GetComponent<ObstacleChecker>().RemoveObstacle(gameObject.layer);
         }
     }
 }

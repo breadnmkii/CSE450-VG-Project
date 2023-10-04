@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     Rigidbody2D _rb;
 
     // A tmp Character to solve possible animation problem.
-    public GameObject CharacterShadow;
+    // public GameObject CharacterShadow;
     // List of lane pivot point, to hold the positions for player to move.
     public List<GameObject> Lanes;
     // duration between shadow and character animation.
@@ -61,10 +61,10 @@ public class Player : MonoBehaviour
             lane_No += 1;
             EnableLane(lane_No);
             Util.Move(gameObject, Lanes[lane_No].transform.GetChild(1).gameObject, "Lane" + lane_No.ToString());
-            StartCoroutine(Util.WaitForSec(duration, () =>
+            /*StartCoroutine(Util.WaitForSec(duration, () =>
             {
                 Util.Move(CharacterShadow, gameObject);
-            }));
+            }));*/
             Debug.Log(lane_No);
         }
         if (Input.GetKeyDown(KeyCode.DownArrow) && lane_No > 0)
@@ -73,10 +73,10 @@ public class Player : MonoBehaviour
             lane_No -= 1;
             EnableLane(lane_No);
             Util.Move(gameObject, Lanes[lane_No].transform.GetChild(1).gameObject, "Lane" + lane_No.ToString());
-            StartCoroutine(Util.WaitForSec(duration, () =>
+            /*StartCoroutine(Util.WaitForSec(duration, () =>
             {
                 Util.Move(CharacterShadow, gameObject);
-            }));
+            }));*/
             Debug.Log(lane_No);
         }
 
@@ -157,7 +157,7 @@ public class Player : MonoBehaviour
     // Death effects and UI Call
     public void onDead()
     {
-        Destroy(CharacterShadow);
+        // Destroy(CharacterShadow);
         DeadUI.SetActive(true); // does setting this active call on enable for gameover.cs?
     }
 }
