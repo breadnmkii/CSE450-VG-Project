@@ -19,21 +19,16 @@ public readonly struct Note
     private readonly List<NoteLocation> loc;
     public readonly List<NoteLocation> Location { get { return loc; } }
 
-    private readonly NoteVoice voc;
-    public readonly int Voice { get { return (int)voc; } }
-
     private readonly NoteType type;
     public readonly int Type { get { return (int)type; } }
 
     // Constructor
     public Note(NoteLength length, 
                 List<NoteLocation> location, 
-                NoteVoice voice, 
                 NoteType type)
     {
         len = length;
         loc = location;
-        voc = voice;
         this.type = type;
     }
 }
@@ -55,13 +50,6 @@ public enum NoteLocation
     Lane1,
     Lane2,
     Lane3
-}
-
-public enum NoteVoice
-{
-    Bass,
-    Harmony,
-    Melody
 }
 
 public enum NoteType

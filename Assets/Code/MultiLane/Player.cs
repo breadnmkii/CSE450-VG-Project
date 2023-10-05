@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
             {
                 Util.Move(CharacterShadow, gameObject);
             }));*/
-            Debug.Log(lane_No);
+            // Debug.Log(lane_No);
         }
 
         // Go down lane
@@ -81,7 +81,7 @@ public class Player : MonoBehaviour
             {
                 Util.Move(CharacterShadow, gameObject);
             }));*/
-            Debug.Log(lane_No);
+            // Debug.Log(lane_No);
         }
 
         // Jump
@@ -129,7 +129,7 @@ public class Player : MonoBehaviour
             // Check what is directly below our character's feet
             RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.down, 1.1f );
 
-            Debug.DrawRay(transform.position, Vector2.down * 1.1f);
+            // Debug.DrawRay(transform.position, Vector2.down * 1.1f);
 
             // We might have multiple things below character's feet
             for (int i = 0; i < hits.Length; i++)

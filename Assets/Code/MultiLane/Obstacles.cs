@@ -32,23 +32,27 @@ public class Obstacles : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-
-        print(other);
         
         if (other.gameObject.GetComponent<Player>())
         {
-            Debug.Log("Touch Player");
-            other.gameObject.GetComponent<Player>().ModifyHP(-1);
-            //Util.Move(gameObject, startPoint);
-            //Util.SetSpeed(_rb, Vector2.left * 0);
+            Player player = other.gameObject.GetComponent<Player>();
+            // Debug.Log("Touch Player");
+            player.ModifyHP(-1);
+            
         }
         if (other.gameObject.GetComponent<ObstacleChecker>())
         {
-            Debug.Log("Ready for check");
+            // Debug.Log("Ready for check");
             if (isBreakable)
             {
                 other.gameObject.GetComponent<ObstacleChecker>().AddObstacle(gameObject);
             }
+        }
+
+        // Cleanup layer
+        if (other.gameObject.layer == LayerMask.NameToLayer("Cleanup"))
+        {
+            Destroy(gameObject);
         }
     }
 
