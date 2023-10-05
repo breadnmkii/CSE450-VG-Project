@@ -20,12 +20,12 @@ TagManager:
   - Lane2
   - Lane3
   - CShadow
-  - Ground
+  - 
   - Boss
   - Obstacles
   - LaneGround
   - 
-  - 
+  - Ground
   - 
   - 
   - 
@@ -44,4 +44,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 501410813
+    locked: 0
+  - name: 
+    uniqueID: 975001961
+    locked: 0
+  - name: Boss
+    uniqueID: 4217127875
+    locked: 0
+  - name: Obstacles
+    uniqueID: 2451799507
+    locked: 0
+  - name: Ground
+    uniqueID: 1786991509
     locked: 0
