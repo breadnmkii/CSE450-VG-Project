@@ -69,6 +69,7 @@ public class ObstacleChecker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Attack
         if (Input.GetKeyDown(KeyCode.J))
         {
             if (Player.layer == 6 && obs_Lane_0.Count > 0)

@@ -51,10 +51,10 @@ public enum NoteLength
 // currently only supports lane location
 public enum NoteLocation
 {
+    Lane0,
     Lane1,
     Lane2,
-    Lane3,
-    Lane4
+    Lane3
 }
 
 public enum NoteVoice
@@ -67,9 +67,9 @@ public enum NoteVoice
 public enum NoteType
 {
     Rest,            // empty note, will not spawm object
-    BlockObstacle,
-    BulletProjectile,
-    BeamProjectile,
+    WallObstacle,
+    BallProjectileA,
+    BallProjectileB,
     
     // Add additional obstacle types
     // as we develop

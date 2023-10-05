@@ -55,6 +55,8 @@ public class Player : MonoBehaviour
         {
             myAni.SetBool("Dead", true);
         }
+
+        // Go up lane
         if (Input.GetKeyDown(KeyCode.UpArrow) && lane_No < 3)
         {
             DisableLane(lane_No);
@@ -67,6 +69,8 @@ public class Player : MonoBehaviour
             }));*/
             Debug.Log(lane_No);
         }
+
+        // Go down lane
         if (Input.GetKeyDown(KeyCode.DownArrow) && lane_No > 0)
         {
             DisableLane(lane_No);

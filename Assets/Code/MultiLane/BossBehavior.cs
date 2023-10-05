@@ -5,15 +5,21 @@ using UnityEngine;
 public class BossBehavior : MonoBehaviour
 {
 
-    public int HPMax;
+    private int HPMax;
     private int HPCur;
     private bool dead;
     private SpriteRenderer sprite;
     private Animator anim;
+
+    // Outlets
     public GameObject WinUI;
+    public MusicScoreManager LevelMusicManager;  // music score manager
+
     // Start is called before the first frame update
     void Start()
     {
+        HPMax = LevelMusicManager.songNumNotes;
+
         HPCur = HPMax;
         dead = false;
         sprite = GetComponent<SpriteRenderer>();
@@ -51,6 +57,11 @@ public class BossBehavior : MonoBehaviour
         gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.down * 2f;
         yield return new WaitForSeconds(1f);
         WinUI.SetActive(true);
+    }
+
+    public int GetMaxHP()
+    {
+        return HPMax;
     }
 
     public int getHP()

@@ -100,16 +100,20 @@ public enum Difficulty
 
 public class MusicScoreManager : MonoBehaviour
 {
-    // Outlets
-    public Transform location;
+    /* Outlets */
+    // Public lane locations
+    public GameObject[] lanes;
 
     // Public obstacle prefabs
     // (Note: must contain Obstacles component)
-    public GameObject cactusObstacle;
+    public GameObject ballProjectileA;
+    public GameObject ballProjectileB;
+    public GameObject wallObstacle;
 
     // Public members for song properties (readonly)
     public int BPM;
     public int songDuration;
+    public int songNumNotes;    // DO NOT CHANGE IN INSPECTOR
     public List<int> timeSignature;
     public string scorePath;
     public Difficulty difficulty;
@@ -145,6 +149,8 @@ public class MusicScoreManager : MonoBehaviour
 
         // Music score vars
         _musicScore = ProcessMusicScoreJSON(scorePath);
+        songNumNotes = _musicScore.Count();
+        print("Song num notes: " + songNumNotes);
         _songDurationBeats = BPM * songDuration;
 
 
@@ -158,7 +164,7 @@ public class MusicScoreManager : MonoBehaviour
 
         /* Begin playing song audio */
         print("Playing song at difficulty " + difficulty);
-        print("Time now: " + Time.time);
+        print("Time now: " + Time.timeSinceLevelLoad);
         // song.Begin();
     }
 
@@ -168,7 +174,7 @@ public class MusicScoreManager : MonoBehaviour
         if (_currBeat < _songDurationBeats)
         {
             // Beat beat-time loop
-            _nowTime = Time.time;
+            _nowTime = Time.timeSinceLevelLoad;
             if (_nowTime >= _timeSinceLastBeat + _timeDeltaBeat)
             {
                 _timeSinceLastBeat += _timeDeltaBeat;
@@ -178,7 +184,7 @@ public class MusicScoreManager : MonoBehaviour
             }
 
             // Note real-time loop
-            _nowTime = Time.time;
+            _nowTime = Time.timeSinceLevelLoad;
             if (_nowTime >= _timeSinceLastNote + _timeDeltaBeat &&
                 _musicScore.Count > 0)
             {
@@ -192,6 +198,27 @@ public class MusicScoreManager : MonoBehaviour
 
     /* Class Methods */
 
+
+    // Obtains the specified value for a difficulty enum type
+    static float GetDifficultyFactor(Difficulty diff)
+    {
+        switch (diff)
+        {
+            case Difficulty.protege:
+                return 1F;
+            case Difficulty.concert:
+                return 2;
+            case Difficulty.virtuoso:
+                return 4;
+            case Difficulty.prodigy:
+                return 6;
+            default:
+                break;
+        }
+        return 0;
+    }
+
+
     // Reads an input JSON file to process into queue of notes
     private Queue<Note> ProcessMusicScoreJSON(string scorePath)
     {
@@ -202,35 +229,35 @@ public class MusicScoreManager : MonoBehaviour
         score.Enqueue(new(NoteLength.Quarter,
                       new List<NoteLocation> { NoteLocation.Lane1 },
                       NoteVoice.Melody,
-                      NoteType.BlockObstacle));
+                      NoteType.BallProjectileA));
         score.Enqueue(new(NoteLength.Whole,
                       new List<NoteLocation> { NoteLocation.Lane1 },
                       NoteVoice.Melody,
-                      NoteType.BlockObstacle));
+                      NoteType.BallProjectileA));
         score.Enqueue(new(NoteLength.Eighth,
                       new List<NoteLocation> { NoteLocation.Lane1 },
                       NoteVoice.Melody,
-                      NoteType.BlockObstacle));
+                      NoteType.BallProjectileA));
         score.Enqueue(new(NoteLength.Eighth,
                       new List<NoteLocation> { NoteLocation.Lane1 },
                       NoteVoice.Melody,
-                      NoteType.BlockObstacle));
+                      NoteType.BallProjectileA));
         score.Enqueue(new(NoteLength.Sixteenth,
                       new List<NoteLocation> { NoteLocation.Lane1 },
                       NoteVoice.Melody,
-                      NoteType.BlockObstacle));
+                      NoteType.BallProjectileA));
         score.Enqueue(new(NoteLength.Quarter,
                       new List<NoteLocation> { NoteLocation.Lane1 },
                       NoteVoice.Melody,
-                      NoteType.BlockObstacle));
+                      NoteType.BallProjectileA));
         score.Enqueue(new(NoteLength.Sixteenth,
                       new List<NoteLocation> { NoteLocation.Lane1 },
                       NoteVoice.Melody,
-                      NoteType.BlockObstacle));
+                      NoteType.BallProjectileA));
         score.Enqueue(new(NoteLength.Sixteenth,
                       new List<NoteLocation> { NoteLocation.Lane1 },
                       NoteVoice.Melody,
-                      NoteType.BlockObstacle));
+                      NoteType.BallProjectileA));
         //for (int line=0; line < 10; ++line)
         //{
         //    List<NoteLocation> chord = new List<NoteLocation> { NoteLocation.Lane1 };
@@ -243,24 +270,6 @@ public class MusicScoreManager : MonoBehaviour
         print("Processed music score!");
 
         return score;
-    }
-
-
-    // Obtains the specified value for a difficulty enum type
-    static float GetDifficultyFactor(Difficulty diff)
-    {
-        switch (diff)
-        {
-            case Difficulty.protege:
-                return 0.5F;
-            case Difficulty.concert:
-                return 1;
-            case Difficulty.virtuoso:
-                return 3;
-            case Difficulty.prodigy:
-                return 6;
-        }
-        return 0;
     }
 
 
@@ -286,8 +295,14 @@ public class MusicScoreManager : MonoBehaviour
             case (int)NoteType.Rest:
                 songNote = null;
                 break;
-            case (int)NoteType.BlockObstacle:
-                songNote = Instantiate(cactusObstacle);
+            case (int)NoteType.BallProjectileA:
+                songNote = ballProjectileA;
+                break;
+            case (int)NoteType.BallProjectileB:
+                songNote = ballProjectileB;
+                break;
+            case (int)NoteType.WallObstacle:
+                songNote = wallObstacle;
                 break;
             default:
                 songNote = null;
@@ -299,12 +314,19 @@ public class MusicScoreManager : MonoBehaviour
         if (songNote != null)
         {
             // TODO: move songNote to respective lane based on note loc (chord)
-            Util.Move(songNote, this.gameObject);
-            Util.SetSpeed(songNote.GetComponent<Rigidbody2D>(), GetDifficultyFactor(difficulty) * songNote.GetComponent<Obstacles>().baseSpeed * Vector2.left);
+            for (int lane = 0; lane < currNote.Location.Count; ++lane)
+            {
+                GameObject songNoteSpawn = Instantiate(songNote);
+
+                Util.Move(songNoteSpawn, lanes[lane]);
+                Util.SetSpeed(songNoteSpawn.GetComponent<Rigidbody2D>(),
+                    GetDifficultyFactor(difficulty) *
+                    songNote.GetComponent<Obstacles>().baseSpeed * Vector2.left);
+            }
         }
 
         // relative len = BPM/60 * countedBeat/Note.NoteLength
         return _timeDeltaBeat * timeSignature[1] / currNote.Length;
     }
-    
+
 }

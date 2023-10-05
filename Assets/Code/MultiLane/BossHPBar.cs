@@ -28,8 +28,8 @@ public class BossHPBar : MonoBehaviour
     {
         if (!init)
         {
-            slider.maxValue = Boss.HPMax;
-            slider.value = Boss.HPMax;
+            slider.maxValue = Boss.GetMaxHP();
+            slider.value = Boss.GetMaxHP();
             slider.minValue = 0;
         }
         slider.value = Boss.getHP();
