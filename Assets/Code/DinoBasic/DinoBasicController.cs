@@ -25,9 +25,9 @@ namespace DinoBasic
         void Update()
         {
             // Jump
-            if(Input.GetKeyDown(KeyCode.Space) || 
-                Input.GetKeyDown(KeyCode.UpArrow) || 
-                Input.GetKeyDown(KeyCode.W))
+            if(Input.GetKey(KeyCode.Space) || 
+                Input.GetKey(KeyCode.UpArrow) || 
+                Input.GetKey(KeyCode.W))
             {
                 if(jumpsLeft > 0)
                 {
