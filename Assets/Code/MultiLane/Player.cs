@@ -165,9 +165,9 @@ public class Player : MonoBehaviour
     }
 
     // Death effects and UI Call
-    public void onDead()
+    public void OnDead()
     {
         // Destroy(CharacterShadow);
-        DeadUI.SetActive(true); // does setting this active call on enable for gameover.cs?
+        DeadUI.SetActive(true);
     }
 }
