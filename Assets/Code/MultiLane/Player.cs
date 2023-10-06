@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
 
     // index of lane that the player is on.
     private int lane_No;
+    private KeyCode MoveUpLaneKey = KeyCode.W;
+    private KeyCode MoveDownLaneKey = KeyCode.S;
 
     // Gameover UI Object
     public GameObject DeadUI;
@@ -57,21 +59,18 @@ public class Player : MonoBehaviour
         }
 
         // Go up lane
-        if (Input.GetKeyDown(KeyCode.UpArrow) && lane_No < 3)
+        if ((Input.GetKeyDown(MoveUpLaneKey) || Input.GetKeyDown(KeyCode.UpArrow))
+            && lane_No < 3)
         {
             DisableLane(lane_No);
             lane_No += 1;
             EnableLane(lane_No);
             Util.Move(gameObject, Lanes[lane_No].transform.GetChild(1).gameObject, "Lane" + lane_No.ToString());
-            /*StartCoroutine(Util.WaitForSec(duration, () =>
-            {
-                Util.Move(CharacterShadow, gameObject);
-            }));*/
-            // Debug.Log(lane_No);
         }
 
         // Go down lane
-        if (Input.GetKeyDown(KeyCode.DownArrow) && lane_No > 0)
+        if ((Input.GetKeyDown(MoveDownLaneKey) || Input.GetKeyDown(KeyCode.DownArrow))
+            && lane_No > 0)
         {
             DisableLane(lane_No);
             lane_No -= 1;
@@ -85,8 +84,7 @@ public class Player : MonoBehaviour
         }
 
         // Jump
-        if (Input.GetKey(KeyCode.Space) ||
-            Input.GetKey(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (jumpsLeft > 0)
             {
@@ -96,7 +94,7 @@ public class Player : MonoBehaviour
         }
 
         // Slam to ground
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.Space) && (jumpsLeft == 0))
         {
             Util.Move(gameObject, Lanes[lane_No].transform.GetChild(1).gameObject, "Lane" + lane_No.ToString());
         }

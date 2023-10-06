@@ -191,10 +191,10 @@ public class MusicScoreManager : MonoBehaviour
         _timeSpawnDelay = GetSpawnDelay(_musicScore.Peek());
 
         /* Prepare playing song audio */
-        print("(MSM) Playing song at difficulty " + difficulty);
+        Debug.Log("(MSM) Playing song at difficulty " + difficulty);
         _songStarted = false;
         _as.Stop();
-        print("WTF");
+        Debug.Log("WTF IS WRONG WIT THIS");
     }
 
     private void Update()
@@ -225,12 +225,12 @@ public class MusicScoreManager : MonoBehaviour
                 {
                     _songStarted = true;
                     _as.PlayOneShot(songAudio);
-                    print("(MSM) Started music at " + Time.timeSinceLevelLoad);
+                    Debug.Log("(MSM) Started music at " + Time.timeSinceLevelLoad);
                 }
 
                 if (_currBeat % timeSignature[0] == 0)
                 {
-                    print("(MSM) Measure " + _currBeat / timeSignature[0]);
+                    Debug.Log("(MSM) Measure " + _currBeat / timeSignature[0]);
                 }
 
                 // print("(MSM) Beat " + _currBeat + ": " + _nowTime);
@@ -252,11 +252,11 @@ public class MusicScoreManager : MonoBehaviour
                         if (_timeSpawnDelay != -1)
                         {
                             // Debug info for non-rest notes
-                            print("(MSM) Upcoming note spawn advance: " + _timeSpawnDelay + " to arrive at: " + (Time.timeSinceLevelLoad + _timeSpawnDelay));
+                            Debug.Log("(MSM) Upcoming note spawn advance: " + _timeSpawnDelay + " to arrive at: " + (Time.timeSinceLevelLoad + _timeSpawnDelay));
                         }
                     }
 
-                    print("(MSM) Spawned: " + _nowTime);
+                    Debug.Log("(MSM) Spawned: " + _nowTime);
 
                 }
             }
@@ -286,7 +286,7 @@ public class MusicScoreManager : MonoBehaviour
 
     
     // Getter for number of music notes
-    public int GetNumMusicNotes()
+    public int GetTotalNumMusicNotes()
     {
         return _musicNumNotes;
     }
@@ -314,7 +314,7 @@ public class MusicScoreManager : MonoBehaviour
             // Do not parse empty or comment lines
             if (line.Length > 1 && !line[0].Equals('#'))
             {
-                print(line);
+                Debug.Log(line);
                 // formatted as: type, length, location0(,...,location3)
                 var metadata = line.Split(',');
                 NoteType noteType = (NoteType)int.Parse(metadata[0]);
@@ -337,7 +337,7 @@ public class MusicScoreManager : MonoBehaviour
                 }
             }
         }
-        print("Processed music score!");
+        Debug.Log("Processed music score!");
 
         // Do not count rests towards number of actual notes
         int numSongNotes = score.Count - numRests;
@@ -368,7 +368,7 @@ public class MusicScoreManager : MonoBehaviour
                 break;
             default:
                 songNote = null;
-                print("(MSM - Warn) Unknown note type!");
+                Debug.Log("(MSM - Warn) Unknown note type!");
                 break;
         }
 

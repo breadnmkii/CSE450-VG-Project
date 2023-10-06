@@ -13,6 +13,9 @@ public class ObstacleChecker : MonoBehaviour
     public GameObject Player;
     public BossBehavior Boss;
 
+    private KeyCode AttackAKey = KeyCode.D;
+    private KeyCode AttackBKey = KeyCode.A;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,7 +76,8 @@ public class ObstacleChecker : MonoBehaviour
     void Update()
     {
         // Attack
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(AttackAKey) ||
+            Input.GetKeyDown(AttackBKey))
         {
             if (Player.layer == 6 && obs_Lane_0.Count > 0)
             {
