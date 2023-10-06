@@ -165,7 +165,7 @@ public class Player : MonoBehaviour
     }
 
     // Death effects and UI Call
-    public void OnDead()
+    public void onDead()
     {
         // Destroy(CharacterShadow);
         DeadUI.SetActive(true);
