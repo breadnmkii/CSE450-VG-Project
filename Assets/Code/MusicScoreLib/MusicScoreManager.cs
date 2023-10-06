@@ -105,9 +105,10 @@ public class MusicScoreManager : MonoBehaviour
 {
     /* Outlets */
     // AudioSource
-    AudioSource songAudio;
-    AudioSource metroUpAudio;
-    AudioSource metroAudio;
+    AudioSource _as;
+    public AudioClip songAudio;
+    public AudioClip metroUpAudio;
+    public AudioClip metroAudio;
 
 
     // Public members for song properties (readonly)
@@ -159,10 +160,7 @@ public class MusicScoreManager : MonoBehaviour
         }
 
         // Get attached AudioSource
-        AudioSource[] audios = gameObject.GetComponents<AudioSource>();
-        songAudio = audios[0];
-        metroUpAudio = audios[1];
-        metroAudio = audios[2];
+        _as = gameObject.GetComponent<AudioSource>();
 
         /* Define private members */
         // Beat-time delta time vars
@@ -195,7 +193,7 @@ public class MusicScoreManager : MonoBehaviour
         /* Prepare playing song audio */
         print("(MSM) Playing song at difficulty " + difficulty);
         _songStarted = false;
-        songAudio.Stop();
+        _as.Stop();
         print("WTF");
     }
 
@@ -204,37 +202,39 @@ public class MusicScoreManager : MonoBehaviour
         // Play while song is still playing
         if (_currBeat < _songDurationBeats + _songStartupBeats)
         {
-            // Metronome sound
-            if (_currBeat < 4)
-            {
-                if (_currBeat == 0)
-                {
-                    metroUpAudio.Play();
-                }
-                else
-                {
-                    metroAudio.Play();
-                }
-            }
             // Beat beat-time loop
             _nowTime = Time.timeSinceLevelLoad;
             if (_nowTime >= _timeSinceLastBeat + _timeDeltaBeat)
             {
                 _timeSinceLastBeat += _timeDeltaBeat;
+                // Metronome sound
+                if (_currBeat < 4)
+                {
+                    if (_currBeat == 0)
+                    {
+                        _as.PlayOneShot(metroUpAudio);
+                    }
+                    else
+                    {
+                        _as.PlayOneShot(metroAudio);
+                    }
+                }
+
+                // Song
                 if (!_songStarted && _currBeat >= _songStartupBeats)
                 {
                     _songStarted = true;
-                    songAudio.Play();
+                    _as.PlayOneShot(songAudio);
                     print("(MSM) Started music at " + Time.timeSinceLevelLoad);
                 }
-                // print("(MSM) Beat " + _currBeat + ": " + _nowTime);
-
-                ++_currBeat;
 
                 if (_currBeat % timeSignature[0] == 0)
                 {
                     print("(MSM) Measure " + _currBeat / timeSignature[0]);
                 }
+
+                // print("(MSM) Beat " + _currBeat + ": " + _nowTime);
+                ++_currBeat;
             }
             
 
