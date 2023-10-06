@@ -1410,8 +1410,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.10467124, y: 0.042221665}
-  m_Size: {x: 0.9619832, y: 1.952956}
+  m_Offset: {x: -0.22185326, y: 0.042221665}
+  m_Size: {x: 0.7276192, y: 1.952956}
   m_Direction: 0
 --- !u!1 &751639185
 GameObject:
@@ -1513,6 +1513,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc326ff1cf7b3c2468ba961951d2f420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  songAudio: {fileID: 8300000, guid: eee7f23b253b45e4e98d386b3b2d50ad, type: 3}
+  metroUpAudio: {fileID: 8300000, guid: ac53e0368759edb4f9aeaba4e5038aff, type: 3}
+  metroAudio: {fileID: 8300000, guid: 26ba0e0437847d044ab8b34fe9a92bb6, type: 3}
   scoreFile: {fileID: 4900000, guid: 6fadf97f9855408458248d750a1803bc, type: 3}
   songDurationMinutes: 4
   songDurationSeconds: 10
