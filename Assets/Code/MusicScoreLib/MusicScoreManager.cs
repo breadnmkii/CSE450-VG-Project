@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -106,7 +108,7 @@ public class MusicScoreManager : MonoBehaviour
     AudioSource _as;
 
     // Public members for song properties (readonly)
-    public string scoreFilePath;
+    public TextAsset scoreFile;
     public int songDurationMinutes;
     public int songDurationSeconds;
     public int BPM;
@@ -165,7 +167,7 @@ public class MusicScoreManager : MonoBehaviour
         _songStartupBeats = 4;
 
         // Process music score and its properties
-        (Queue<Note>, int) musicScoreProcess = ProcessMusicScoreJSON(scoreFilePath, _songStartupBeats);
+        (Queue<Note>, int) musicScoreProcess = ProcessMusicScoreJSON(_songStartupBeats);
         _musicScore = musicScoreProcess.Item1;
         _musicNumNotes = musicScoreProcess.Item2;
         _songDurationBeats = (BPM/60) * (songDurationMinutes*60 + songDurationSeconds);
@@ -214,18 +216,24 @@ public class MusicScoreManager : MonoBehaviour
 
             // Note real-time loop
             _nowTime = Time.timeSinceLevelLoad;
-            if (_nowTime >= _timeSinceLastNote + _timeDeltaBeat - _timeSpawnDelay &&
-                _musicScore.Count > 0)
+            if ((_nowTime >= _timeSinceLastNote + _timeDeltaBeat - _timeSpawnDelay) ||
+                (_timeSpawnDelay == -1) &&
+                (_musicScore.Count > 0))
             {
                 _timeSinceLastNote += SpawnNote(_musicScore.Dequeue());
                 if (_musicScore.Count > 1)
                 {
                     // Get upcoming note's spawn delay
                     _timeSpawnDelay = GetSpawnDelay(_musicScore.Peek());
+                    if (_timeSpawnDelay != -1)
+                    {
+                        // Debug info for non-rest notes
+                        print("(MSM) Upcoming note spawn advance: " + _timeSpawnDelay + " to arrive at: " + (Time.timeSinceLevelLoad + _timeSpawnDelay));
+                    }
                 }
                 
                 print("(MSM) Spawned: " + _nowTime);
-                print("(MSM) Upcoming note spawn advance: " + _timeSpawnDelay + " to arrive at: " + (Time.timeSinceLevelLoad + _timeSpawnDelay));
+                
             }
         }
     }
@@ -253,22 +261,20 @@ public class MusicScoreManager : MonoBehaviour
 
     
     // Getter for number of music notes
-    public int getNumMusicNotes()
+    public int GetNumMusicNotes()
     {
         return _musicNumNotes;
     }
 
 
     // Reads an input JSON file to process into queue of notes
-    private (Queue<Note>, int) ProcessMusicScoreJSON(string scoreFilePath, int startupBeats)
+    private (Queue<Note>, int) ProcessMusicScoreJSON(int startupBeats)
     {
-        Queue<Note> score = new();
         int numRests = startupBeats;
-        print("Processing music score at " + scoreFilePath + "...");
-
-        NoteLength countedBeat = (NoteLength)timeSignature[1];
 
         // Inject startup beats as rests to "spawn"
+        Queue<Note> score = new();
+        NoteLength countedBeat = (NoteLength)timeSignature[1];
         for (int i=0; i<startupBeats; ++i)
         {
             score.Enqueue(new(countedBeat,
@@ -276,15 +282,35 @@ public class MusicScoreManager : MonoBehaviour
                           NoteType.Rest));
         }
 
-        // TODO: currently hardcoding 
-        for (int line=0; line < 500; ++line)
+        // Read CSV music map file
+        var lines = scoreFile.text.Split('\n');
+        foreach (string line in lines)
         {
-            List<NoteLocation> chord = new() { NoteLocation.Lane1 };
-            Note note = new(NoteLength.Quarter,
-                            chord,
-                            NoteType.BallProjectileA);
-            score.Enqueue(note);
-            // if is rest, increment numRests
+            // Do not parse empty or comment lines
+            if (line.Length > 1 && !line[0].Equals('#'))
+            {
+                print(line);
+                // formatted as: type, length, location0(,...,location3)
+                var metadata = line.Split(',');
+                NoteType noteType = (NoteType)int.Parse(metadata[0]);
+                NoteLength noteLen = (NoteLength)int.Parse(metadata[1]);
+                List<NoteLocation> chord = new();
+                for (int i = 2; i < metadata.Length; ++i)
+                {
+                    chord.Add((NoteLocation)int.Parse(metadata[i]));
+                }
+
+                Note note = new(noteLen,
+                                chord,
+                                noteType);
+                score.Enqueue(note);
+
+                // Increment number of rests to not count as physical note
+                if (noteType == NoteType.Rest)
+                {
+                    ++numRests;
+                }
+            }
         }
         print("Processed music score!");
 
@@ -324,12 +350,17 @@ public class MusicScoreManager : MonoBehaviour
         // Configure obstacle physics
         if (songNote != null)
         {
-            // TODO: move songNote to respective lane based on note loc (chord)
-            for (int lane = 0; lane < currNote.Location.Count; ++lane)
+            // For every note in chord
+            foreach (NoteLocation loc in currNote.Location)
             {
+                // Spawn note
                 GameObject songNoteSpawn = Instantiate(songNote);
 
-                Util.Move(songNoteSpawn, lanes[lane]);
+                // Move to correct lane and set layer
+                Util.Move(songNoteSpawn, lanes[(int)loc]);
+                songNoteSpawn.layer = MusicNote.GetLayerFromNoteloc(loc);
+
+                // Set speed with difficulty factor
                 Util.SetSpeed(songNoteSpawn.GetComponent<Rigidbody2D>(),
                     GetDifficultyFactor(difficulty) *
                     songNote.GetComponent<Obstacles>().baseSpeed * Vector2.left);
@@ -360,7 +391,7 @@ public class MusicScoreManager : MonoBehaviour
             // we want to return a large early spawn to ensure
             // we get through the rests and calculate the next
             // physical note spawn time in advance to not miss
-            return 1000;
+            return -1;
         }
         return _spawnToZoneDistance / noteVelocity;
     }

@@ -1411,8 +1411,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.028337002, y: 0.03717196}
-  m_Size: {x: 0.9531269, y: 2.1444952}
+  m_Offset: {x: -1.3519759, y: 0.03717196}
+  m_Size: {x: 1.0528803, y: 2.3266425}
   m_Direction: 0
 --- !u!1 &751639185
 GameObject:
@@ -1514,7 +1514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc326ff1cf7b3c2468ba961951d2f420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreFilePath: 
+  scoreFile: {fileID: 4900000, guid: 6fadf97f9855408458248d750a1803bc, type: 3}
   songDurationMinutes: 4
   songDurationSeconds: 10
   BPM: 103
@@ -1526,7 +1526,7 @@ MonoBehaviour:
   - {fileID: 1109336477}
   - {fileID: 906827272}
   collisionChecker: {fileID: 2139164480}
-  ballProjectileA: {fileID: 36918871752905147, guid: ccbf882f51dc59149a00124f0bb70751, type: 3}
+  ballProjectileA: {fileID: 3469784436352636698, guid: dfa4d91876683a0428d00d77aea3b176, type: 3}
   ballProjectileB: {fileID: 36918871752905147, guid: ccbf882f51dc59149a00124f0bb70751, type: 3}
   wallObstacle: {fileID: 36918871752905147, guid: ccbf882f51dc59149a00124f0bb70751, type: 3}
 --- !u!4 &814710157

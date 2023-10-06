@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
+using UnityEngine;
 
 /* External file containing properties of every note (obstacle)
  *   Note              --> The properties of the obstacle
@@ -10,6 +12,21 @@ using System.Collections.Generic;
  *                             + type: what kind of obstacle [projectile, beam, wall, 
  *                               etc.]
  */
+
+public class MusicNote
+{
+    public static LayerMask GetLayerFromNoteloc(NoteLocation loc)
+    {
+        return loc switch
+        {
+            NoteLocation.Lane0 => (LayerMask)LayerMask.NameToLayer("Lane0"),
+            NoteLocation.Lane1 => (LayerMask)LayerMask.NameToLayer("Lane1"),
+            NoteLocation.Lane2 => (LayerMask)LayerMask.NameToLayer("Lane2"),
+            NoteLocation.Lane3 => (LayerMask)LayerMask.NameToLayer("Lane3"),
+            _ => throw new System.Exception("(MusicNote.cs) Invalid note location!"),
+        };
+    }
+}
 
 public readonly struct Note
 {
@@ -62,4 +79,3 @@ public enum NoteType
     // Add additional obstacle types
     // as we develop
 }
-

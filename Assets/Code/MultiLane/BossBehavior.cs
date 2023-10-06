@@ -18,7 +18,7 @@ public class BossBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HPMax = LevelMusicManager.getNumMusicNotes();
+        HPMax = LevelMusicManager.GetNumMusicNotes();
 
         HPCur = HPMax;
         dead = false;
