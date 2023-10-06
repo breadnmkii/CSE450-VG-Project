@@ -105,7 +105,10 @@ public class MusicScoreManager : MonoBehaviour
 {
     /* Outlets */
     // AudioSource
-    AudioSource _as;
+    AudioSource songAudio;
+    AudioSource metroUpAudio;
+    AudioSource metroAudio;
+
 
     // Public members for song properties (readonly)
     public TextAsset scoreFile;
@@ -156,7 +159,10 @@ public class MusicScoreManager : MonoBehaviour
         }
 
         // Get attached AudioSource
-        _as = gameObject.GetComponent<AudioSource>();
+        AudioSource[] audios = gameObject.GetComponents<AudioSource>();
+        songAudio = audios[0];
+        metroUpAudio = audios[1];
+        metroAudio = audios[2];
 
         /* Define private members */
         // Beat-time delta time vars
@@ -189,7 +195,7 @@ public class MusicScoreManager : MonoBehaviour
         /* Prepare playing song audio */
         print("(MSM) Playing song at difficulty " + difficulty);
         _songStarted = false;
-        _as.Stop();
+        songAudio.Stop();
         print("WTF");
     }
 
@@ -198,6 +204,18 @@ public class MusicScoreManager : MonoBehaviour
         // Play while song is still playing
         if (_currBeat < _songDurationBeats + _songStartupBeats)
         {
+            // Metronome sound
+            if (_currBeat < 4)
+            {
+                if (_currBeat == 0)
+                {
+                    metroUpAudio.Play();
+                }
+                else
+                {
+                    metroAudio.Play();
+                }
+            }
             // Beat beat-time loop
             _nowTime = Time.timeSinceLevelLoad;
             if (_nowTime >= _timeSinceLastBeat + _timeDeltaBeat)
@@ -206,34 +224,41 @@ public class MusicScoreManager : MonoBehaviour
                 if (!_songStarted && _currBeat >= _songStartupBeats)
                 {
                     _songStarted = true;
-                    _as.Play();
+                    songAudio.Play();
                     print("(MSM) Started music at " + Time.timeSinceLevelLoad);
                 }
                 // print("(MSM) Beat " + _currBeat + ": " + _nowTime);
 
                 ++_currBeat;
+
+                if (_currBeat % timeSignature[0] == 0)
+                {
+                    print("(MSM) Measure " + _currBeat / timeSignature[0]);
+                }
             }
+            
 
             // Note real-time loop
             _nowTime = Time.timeSinceLevelLoad;
-            if ((_nowTime >= _timeSinceLastNote + _timeDeltaBeat - _timeSpawnDelay) ||
-                (_timeSpawnDelay == -1) &&
-                (_musicScore.Count > 0))
-            {
-                _timeSinceLastNote += SpawnNote(_musicScore.Dequeue());
-                if (_musicScore.Count > 1)
+            if (_musicScore.Count > 0) {
+                if ((_nowTime >= _timeSinceLastNote + _timeDeltaBeat - _timeSpawnDelay) || 
+                    (_timeSpawnDelay == -1))
                 {
-                    // Get upcoming note's spawn delay
-                    _timeSpawnDelay = GetSpawnDelay(_musicScore.Peek());
-                    if (_timeSpawnDelay != -1)
+                    _timeSinceLastNote += SpawnNote(_musicScore.Dequeue());
+                    if (_musicScore.Count > 1)
                     {
-                        // Debug info for non-rest notes
-                        print("(MSM) Upcoming note spawn advance: " + _timeSpawnDelay + " to arrive at: " + (Time.timeSinceLevelLoad + _timeSpawnDelay));
+                        // Get upcoming note's spawn delay
+                        _timeSpawnDelay = GetSpawnDelay(_musicScore.Peek());
+                        if (_timeSpawnDelay != -1)
+                        {
+                            // Debug info for non-rest notes
+                            print("(MSM) Upcoming note spawn advance: " + _timeSpawnDelay + " to arrive at: " + (Time.timeSinceLevelLoad + _timeSpawnDelay));
+                        }
                     }
+
+                    print("(MSM) Spawned: " + _nowTime);
+
                 }
-                
-                print("(MSM) Spawned: " + _nowTime);
-                
             }
         }
     }
