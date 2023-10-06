@@ -30,7 +30,6 @@ namespace DinoBasic
         {
             // Jump
             if(Input.GetKey(KeyCode.Space) || 
-                Input.GetKey(KeyCode.UpArrow) || 
                 Input.GetKey(KeyCode.W))
             {
                 if(jumpsLeft > 0)
