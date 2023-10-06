@@ -94,6 +94,12 @@ public class Player : MonoBehaviour
                 _rb.AddForce(Vector2.up * 25f, ForceMode2D.Impulse);
             }
         }
+
+        // Slam to ground
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            Util.Move(gameObject, Lanes[lane_No].transform.GetChild(1).gameObject, "Lane" + lane_No.ToString());
+        }
     }
 
 

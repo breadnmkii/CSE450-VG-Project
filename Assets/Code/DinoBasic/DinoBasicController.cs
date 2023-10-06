@@ -15,10 +15,14 @@ namespace DinoBasic
         // Gameover UI Object
         public GameObject DeadUI;
 
+        // Lane position
+        Vector3 PlayerStartPosition;
+
         // Start is called before the first frame update
         void Start()
         {
             _rb = GetComponent<Rigidbody2D>();
+            PlayerStartPosition = gameObject.transform.position;
         }
 
         // Update is called once per frame
@@ -34,6 +38,12 @@ namespace DinoBasic
                     jumpsLeft--;
                     _rb.AddForce(Vector2.up * 25f, ForceMode2D.Impulse);
                 }
+            }
+
+            // Slam to ground
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                gameObject.transform.position = PlayerStartPosition;
             }
         }
 
