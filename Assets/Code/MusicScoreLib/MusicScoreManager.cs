@@ -205,8 +205,9 @@ public class MusicScoreManager : MonoBehaviour
                 {
                     _songStarted = true;
                     _as.Play();
+                    print("(MSM) Started music at " + Time.timeSinceLevelLoad);
                 }
-                print("(MSM) Beat " + _currBeat + ": " + _nowTime);
+                // print("(MSM) Beat " + _currBeat + ": " + _nowTime);
 
                 ++_currBeat;
             }
@@ -224,7 +225,7 @@ public class MusicScoreManager : MonoBehaviour
                 }
                 
                 print("(MSM) Spawned: " + _nowTime);
-                print("(MSM) Upcoming note spawn advance: " + _timeSpawnDelay);
+                print("(MSM) Upcoming note spawn advance: " + _timeSpawnDelay + " to arrive at: " + (Time.timeSinceLevelLoad + _timeSpawnDelay));
             }
         }
     }
@@ -276,7 +277,7 @@ public class MusicScoreManager : MonoBehaviour
         }
 
         // TODO: currently hardcoding 
-        for (int line=0; line < 10; ++line)
+        for (int line=0; line < 500; ++line)
         {
             List<NoteLocation> chord = new() { NoteLocation.Lane1 };
             Note note = new(NoteLength.Quarter,

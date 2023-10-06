@@ -28,7 +28,7 @@ public class ObstacleChecker : MonoBehaviour
         if (tar.layer == LayerMask.NameToLayer("Lane0"))
         {
             obs_Lane_0.Enqueue(tar);
-            Debug.Log("Item Added, Current length:" + obs_Lane_0.Count);
+            // Debug.Log("Item Added, Current length:" + obs_Lane_0.Count);
         }
         else if (tar.layer == LayerMask.NameToLayer("Lane1"))
         {
@@ -50,7 +50,7 @@ public class ObstacleChecker : MonoBehaviour
         if (layer == 6)
         {
             obs_Lane_0.Dequeue();
-            Debug.Log("Item Removed, Current length:" + obs_Lane_0.Count);
+            // Debug.Log("Item Removed, Current length:" + obs_Lane_0.Count);
         }
         else if (layer == 7)
         {

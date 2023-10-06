@@ -43,6 +43,7 @@ public class Obstacles : MonoBehaviour
         if (other.gameObject.GetComponent<ObstacleChecker>())
         {
             // Debug.Log("Ready for check");
+            print("Enter zone at " + Time.timeSinceLevelLoad);
             if (isBreakable)
             {
                 other.gameObject.GetComponent<ObstacleChecker>().AddObstacle(gameObject);
@@ -60,8 +61,8 @@ public class Obstacles : MonoBehaviour
     {
         if (isBreakable && other.gameObject.GetComponent<ObstacleChecker>())
         {
-            /*Debug.Log("Out Check");
-            Destroy(gameObject);*/
+            // Debug.Log("Out Check");
+            print("Exit zone at " + Time.timeSinceLevelLoad);
             other.gameObject.GetComponent<ObstacleChecker>().RemoveObstacle(gameObject.layer);
         }
     }
