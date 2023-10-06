@@ -28,6 +28,7 @@ public class Obstacles : MonoBehaviour
     {
         // Connect outlets
         _rb = gameObject.GetComponent<Rigidbody2D>();
+        // isBreakable = gameObject.CompareTag("Breakable");
     }
 
     private void OnTriggerEnter2D(Collider2D other)

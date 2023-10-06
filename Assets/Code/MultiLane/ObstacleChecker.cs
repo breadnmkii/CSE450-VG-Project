@@ -28,19 +28,22 @@ public class ObstacleChecker : MonoBehaviour
         if (tar.layer == LayerMask.NameToLayer("Lane0"))
         {
             obs_Lane_0.Enqueue(tar);
-            // Debug.Log("Item Added, Current length:" + obs_Lane_0.Count);
+            Debug.Log("Item Added 0, Current length:" + obs_Lane_0.Count);
         }
         else if (tar.layer == LayerMask.NameToLayer("Lane1"))
         {
             obs_Lane_1.Enqueue(tar);
+            Debug.Log("Item Added 1, Current length:" + obs_Lane_1.Count);
         }
         else if (tar.layer == LayerMask.NameToLayer("Lane2"))
         {
             obs_Lane_2.Enqueue(tar);
+            Debug.Log("Item Added 2, Current length:" + obs_Lane_2.Count);
         }
         else if (tar.layer == LayerMask.NameToLayer("Lane3"))
         {
             obs_Lane_3.Enqueue(tar);
+            Debug.Log("Item Added 3, Current length:" + obs_Lane_3.Count);
         }
     }
 
