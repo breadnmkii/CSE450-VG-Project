@@ -39,14 +39,20 @@ public readonly struct Note
     private readonly NoteType type;
     public readonly int Type { get { return (int)type; } }
 
+    private readonly double spawnTime;
+
+    public readonly double SpawnTime {  get { return spawnTime; } }
+
     // Constructor
     public Note(NoteLength length, 
                 List<NoteLocation> location, 
-                NoteType type)
+                NoteType type,
+                double spawnTime)
     {
         len = length;
         loc = location;
         this.type = type;
+        this.spawnTime = spawnTime;
     }
 }
 
