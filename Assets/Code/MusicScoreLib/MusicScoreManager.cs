@@ -413,9 +413,6 @@ public class MusicScoreManager : MonoBehaviour
         if (noteVelocity == 0)
         {
             // case for non-speed notes (i.e. rests)
-            // we want to return a large early spawn to ensure
-            // we get through the rests and calculate the next
-            // physical note spawn time in advance to not miss
             return -1;
         }
         return _spawnToZoneDistance / noteVelocity;
