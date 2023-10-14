@@ -420,4 +420,14 @@ public class MusicScoreManager : MonoBehaviour
         }
         return _spawnToZoneDistance / noteVelocity;
     }
+
+    public void pauseSong()
+    {
+        _as.Pause();
+    }
+
+    public void resumeSong()
+    {
+        _as.UnPause();
+    }
 }

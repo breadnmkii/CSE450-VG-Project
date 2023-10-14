@@ -32,6 +32,12 @@ namespace DinoBasic
             {
                 other.gameObject.GetComponent<DinoBasicController>().Dead();
             }
+
+            // Despawn after reaching despawn zone
+            if (other.gameObject.layer == LayerMask.NameToLayer("CactiDespawn"))
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
