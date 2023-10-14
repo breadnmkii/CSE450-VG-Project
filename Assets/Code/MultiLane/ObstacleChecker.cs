@@ -15,6 +15,9 @@ public class ObstacleChecker : MonoBehaviour
     private KeyCode AttackAKey = KeyCode.D;
     private KeyCode AttackBKey = KeyCode.A;
 
+    //animation stuff
+    Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,24 +83,51 @@ public class ObstacleChecker : MonoBehaviour
         {
             if (Player.layer == 6 && obs_Lane_0.Count > 0)
             {
-                Destroy(obs_Lane_0.Peek());
+                animator.SetBool("shieldon", true);
                 Boss.doDamage(1);
             }
             else if (Player.layer == 7 && obs_Lane_1.Count > 0)
             {
-                Destroy(obs_Lane_1.Peek());
+                animator.SetBool("shieldon", true);
                 Boss.doDamage(1);
             }
             else if (Player.layer == 8 && obs_Lane_2.Count > 0)
             {
-                Destroy(obs_Lane_2.Peek());
+                animator.SetBool("shieldon", true);
                 Boss.doDamage(1);
             }
             else if (Player.layer == 9 && obs_Lane_3.Count > 0)
             {
-                Destroy(obs_Lane_3.Peek());
+                animator.SetBool("shieldon", true);
                 Boss.doDamage(1);
             }
         }
     }
+
+    public void destroyed()
+    {
+        // Destroy(CharacterShadow);
+        if (Player.layer == 6 && obs_Lane_0.Count > 0)
+        {
+            Destroy(obs_Lane_0.Peek());
+        }
+        else if (Player.layer == 7 && obs_Lane_1.Count > 0)
+        {
+            Destroy(obs_Lane_1.Peek());
+           
+        }
+        else if (Player.layer == 8 && obs_Lane_2.Count > 0)
+        {
+            Destroy(obs_Lane_2.Peek());
+            
+        }
+        else if (Player.layer == 9 && obs_Lane_3.Count > 0)
+        {
+            Destroy(obs_Lane_3.Peek());
+            
+        }
+
+    }
 }
+
+
