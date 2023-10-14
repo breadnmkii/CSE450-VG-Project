@@ -141,7 +141,7 @@ public class MusicScoreManager : MonoBehaviour
 
     private int _currBeat;                  // counter index to current beat in beat-time
     private double _nowTime;                // var to hold current real-time
-    private double _timeSpawnDelay;            // var to hold delay time from spawn to zone of note travel
+    private double _timeSpawnDelay;         // var to hold delay time from spawn to zone of note travel
     private double _timeDeltaBeat;          // delta time for beat-time
     private double _timeSinceLastBeat;      // timer for last beat time in beat-time
     private double _timeSinceLastNote;      // timer for last note time in real-time
