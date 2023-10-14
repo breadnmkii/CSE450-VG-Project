@@ -12,16 +12,26 @@ public class ObstacleChecker : MonoBehaviour
     public GameObject Player;
     public BossBehavior Boss;
 
-    private KeyCode AttackAKey = KeyCode.D;
-    private KeyCode AttackBKey = KeyCode.A;
+    private KeyCode[] AttackAKey;
+    private KeyCode[] AttackBKey;
+
+    private int operationType;
 
     // Start is called before the first frame update
     void Start()
     {
+        operationType = 0;
         obs_Lane_0 = new Queue<GameObject>();
         obs_Lane_1 = new Queue<GameObject>();
         obs_Lane_2 = new Queue<GameObject>();
         obs_Lane_3 = new Queue<GameObject>();
+        AttackAKey = new KeyCode[2];
+        AttackAKey[0] = KeyCode.J;
+        AttackAKey[1] = KeyCode.F;
+        AttackBKey = new KeyCode[2];
+        AttackBKey[0] = KeyCode.K;
+        AttackBKey[1] = KeyCode.D;
+
     }
 
     // Add tar into the queue;
@@ -75,8 +85,8 @@ public class ObstacleChecker : MonoBehaviour
     void Update()
     {
         // Attack
-        if (Input.GetKeyDown(AttackAKey) ||
-            Input.GetKeyDown(AttackBKey))
+        if (Input.GetKeyDown(AttackAKey[operationType]) ||
+            Input.GetKeyDown(AttackBKey[operationType]))
         {
             if (Player.layer == 6 && obs_Lane_0.Count > 0)
             {
@@ -99,5 +109,11 @@ public class ObstacleChecker : MonoBehaviour
                 Boss.doDamage(1);
             }
         }
+    }
+
+    // Change Operation Type;
+    public void setOperationType(int type)
+    {
+        this.operationType = type;
     }
 }

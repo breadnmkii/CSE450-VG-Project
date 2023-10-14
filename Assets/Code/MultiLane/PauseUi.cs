@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,8 +12,17 @@ public class PauseUi : MonoBehaviour
 
     public MusicScoreManager musicManger;
 
+    public Player player;
+
+    public ObstacleChecker checker;
+
+    private int operationType;
+
+    public TextMeshProUGUI opText;
+
     public void Start()
     {
+        operationType = 0;
         isPausing = false;
         //gameObject.GetComponent<Canvas>().enabled = false;
         //gameObject.GetComponent<GraphicRaycaster>().enabled = false;
@@ -51,7 +61,7 @@ public class PauseUi : MonoBehaviour
             isPausing = false;
             if (musicManger != null)
             {
-                musicManger.pauseSong();
+                musicManger.resumeSong();
             }
 
             Time.timeScale = 1f;
@@ -67,7 +77,7 @@ public class PauseUi : MonoBehaviour
         //gameObject.GetComponent<GraphicRaycaster>().enabled = false;
         if (musicManger != null)
         {
-            musicManger.pauseSong();
+            musicManger.resumeSong();
         }
         Time.timeScale = 1f;
         isPausing = false;
@@ -78,6 +88,11 @@ public class PauseUi : MonoBehaviour
 
         transform.Find("L2").gameObject.SetActive(true);
         transform.Find("L1").gameObject.SetActive(false);
+        //----------------------------Following is temporary-----------------
+        if( player == null || checker == null )
+        {
+            opText.text = "----";
+        }
     }
 
     public void onClickBack()
@@ -89,6 +104,21 @@ public class PauseUi : MonoBehaviour
 
     public void onClickOperationType()
     {
+        if (player == null || checker == null)
+        {
+            return;
+        }
+        operationType = 1 - operationType;
+        player.setOperationType(operationType);
+        checker.setOperationType(operationType);
+        if (operationType == 0)
+        {
+            opText.text = "Right-handed";
+        }
+        else if (operationType == 1)
+        {
+            opText.text = "Left-handed";
+        }
         
     }
 

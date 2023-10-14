@@ -31,8 +31,12 @@ public class Player : MonoBehaviour
 
     // index of lane that the player is on.
     private int lane_No;
-    private KeyCode MoveUpLaneKey = KeyCode.W;
-    private KeyCode MoveDownLaneKey = KeyCode.S;
+    
+    // representing current operation type: 0 = right-handed, 1 = left-handed;
+    private int operationType;
+
+    private KeyCode[] MoveUpLaneKey;
+    private KeyCode[] MoveDownLaneKey;
 
     // Gameover UI Object
     public GameObject DeadUI;
@@ -43,10 +47,17 @@ public class Player : MonoBehaviour
     //Initialize
     private void Start()
     {
+        operationType = 0;
         lane_No = 0;
         HP = MaxHP;
         myAni = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
+        MoveUpLaneKey = new KeyCode[2];
+        MoveUpLaneKey[0] = KeyCode.W;
+        MoveUpLaneKey[1] = KeyCode.I;
+        MoveDownLaneKey = new KeyCode[2];
+        MoveDownLaneKey[0] = KeyCode.S;
+        MoveDownLaneKey[1] = KeyCode.K;
     }
 
     private void Update()
@@ -59,7 +70,7 @@ public class Player : MonoBehaviour
         }
 
         // Go up lane
-        if ((Input.GetKeyDown(MoveUpLaneKey) || Input.GetKeyDown(KeyCode.UpArrow))
+        if ((Input.GetKeyDown(MoveUpLaneKey[operationType]) || Input.GetKeyDown(KeyCode.UpArrow))
             && lane_No < 3)
         {
             DisableLane(lane_No);
@@ -69,7 +80,7 @@ public class Player : MonoBehaviour
         }
 
         // Go down lane
-        if ((Input.GetKeyDown(MoveDownLaneKey) || Input.GetKeyDown(KeyCode.DownArrow))
+        if ((Input.GetKeyDown(MoveDownLaneKey[operationType]) || Input.GetKeyDown(KeyCode.DownArrow))
             && lane_No > 0)
         {
             DisableLane(lane_No);
@@ -167,5 +178,11 @@ public class Player : MonoBehaviour
     {
         // Destroy(CharacterShadow);
         DeadUI.SetActive(true);
+    }
+
+    //Change Operation Type;
+    public void setOperationType(int type)
+    {
+        this.operationType = type;
     }
 }

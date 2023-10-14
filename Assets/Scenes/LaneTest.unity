@@ -3449,6 +3449,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1219880639339359569, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
+      propertyPath: opText
+      value: 
+      objectReference: {fileID: 4310420151944234274}
+    - target: {fileID: 1219880639339359569, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 601065274}
+    - target: {fileID: 1219880639339359569, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
+      propertyPath: checker
+      value: 
+      objectReference: {fileID: 2139164483}
+    - target: {fileID: 1219880639339359569, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
       propertyPath: musicManger
       value: 
       objectReference: {fileID: 814710156}
@@ -3541,6 +3553,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
+--- !u!114 &4310420151944234274 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4629834239820057938, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
+  m_PrefabInstance: {fileID: 4310420151944234273}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4870909505081208700
 PrefabInstance:
   m_ObjectHideFlags: 0
