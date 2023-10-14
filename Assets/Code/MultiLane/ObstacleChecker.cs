@@ -17,8 +17,6 @@ public class ObstacleChecker : MonoBehaviour
 
     private int operationType;
 
-    //animation stuff
-    Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +32,7 @@ public class ObstacleChecker : MonoBehaviour
         AttackBKey = new KeyCode[2];
         AttackBKey[0] = KeyCode.K;
         AttackBKey[1] = KeyCode.D;
+
 
     }
 
@@ -93,24 +92,28 @@ public class ObstacleChecker : MonoBehaviour
         {
             if (Player.layer == 6 && obs_Lane_0.Count > 0)
             {
-                animator.SetBool("shieldon", true);
+                obs_Lane_0.Peek().GetComponent<Animator>().SetBool("shieldon", true);
+                // Destroy(obs_Lane_0.Peek());
                 Boss.doDamage(1);
             }
             else if (Player.layer == 7 && obs_Lane_1.Count > 0)
             {
-                animator.SetBool("shieldon", true);
+                obs_Lane_1.Peek().GetComponent<Animator>().SetBool("shieldon", true);
+
                 Boss.doDamage(1);
             }
             else if (Player.layer == 8 && obs_Lane_2.Count > 0)
             {
-                animator.SetBool("shieldon", true);
+                obs_Lane_2.Peek().GetComponent<Animator>().SetBool("shieldon", true);
+
                 Boss.doDamage(1);
             }
             else if (Player.layer == 9 && obs_Lane_3.Count > 0)
             {
-                animator.SetBool("shieldon", true);
+                obs_Lane_3.Peek().GetComponent<Animator>().SetBool("shieldon", true);
                 Boss.doDamage(1);
             }
+
         }
     }
 

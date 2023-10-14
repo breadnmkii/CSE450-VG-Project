@@ -14,8 +14,8 @@ public class CleanupZone : MonoBehaviour
         // On obstacle collision
         if (other.gameObject.GetComponent<Obstacles>())
         {
-            player.GetComponent<Player>().ModifyHP(-1);
-            Destroy(other);
+            // player.GetComponent<Player>().ModifyHP(-1);
+            Destroy(other.gameObject);
         }
         
     }
