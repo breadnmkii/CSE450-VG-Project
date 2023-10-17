@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
-using System.IO;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
+
+// MusicNote
+using MusicNote;
 
 /* Docs:
  *  Since we want to make note spawning
@@ -170,31 +167,26 @@ public class MusicScoreManager : MonoBehaviour
         _timeSinceLastNote = 0;
         _songStartupBeats = 4;
 
-        // Process music score and its properties
-        (Queue<Note>, int) musicScoreProcess = ProcessMusicScoreJSON(_songStartupBeats);
-        _musicScore = musicScoreProcess.Item1;
-        _musicNumNotes = musicScoreProcess.Item2;
+        // Process music xml file and level properties to create music score (beatmap)
+        MusicScore _musicScore = MSMUtil.ProcessMusicScore(scoreFile, "P1", difficulty);
         _songDurationBeats = (BPM/60) * (songDurationMinutes*60 + songDurationSeconds);
-
-        // Calculate distance from spawn to note hit zone
-        _spawnToZoneDistance = Math.Abs(collisionChecker.transform.position[0] - lanes[0].transform.position[0]);
 
         /* Post Checks */
         // checking that number of worst case (lowest granularity (sixteenth)) notes
         // can fit within duration
-        if (_musicScore.Count > _songDurationBeats * (int)NoteLength.Sixteenth)
+        if (_musicScore.GetNumTotalNotes() > _songDurationBeats * (int)NoteLength.Sixteenth)
         {
             throw new Exception("Cannot fit all of score's notes into song!");
         }
 
         /* Calculate first upcoming note's spawn delay */
-        _timeSpawnDelay = GetSpawnDelay(_musicScore.Peek());
+        // DEPRECATED: this will be encoded in the MusicScore queue
+        // _timeSpawnDelay = GetSpawnDelay(_musicScore.Peek());
 
         /* Prepare playing song audio */
         Debug.Log("(MSM) Playing song at difficulty " + difficulty);
         _songStarted = false;
         _as.Stop();
-        Debug.Log("WTF IS WRONG WIT THIS");
     }
 
     private void Update()
@@ -248,7 +240,8 @@ public class MusicScoreManager : MonoBehaviour
                     if (_musicScore.Count > 1)
                     {
                         // Get upcoming note's spawn delay
-                        _timeSpawnDelay = GetSpawnDelay(_musicScore.Peek());
+                        // DEPRECATED: this is trash now
+                        // _timeSpawnDelay = GetSpawnDelay(_musicScore.Peek());
                         if (_timeSpawnDelay != -1)
                         {
                             // Debug info for non-rest notes
@@ -265,26 +258,6 @@ public class MusicScoreManager : MonoBehaviour
 
 
     /* Class Methods */
-    // Obtains the specified value for a difficulty enum type
-    static float GetDifficultyFactor(Difficulty diff)
-    {
-        switch (diff)
-        {
-            case Difficulty.protege:
-                return 1F;
-            case Difficulty.concert:
-                return 2;
-            case Difficulty.virtuoso:
-                return 4;
-            case Difficulty.prodigy:
-                return 6;
-            default:
-                break;
-        }
-        return 0;
-    }
-
-    
     // Getter for number of music notes
     public int GetTotalNumMusicNotes()
     {
@@ -292,6 +265,7 @@ public class MusicScoreManager : MonoBehaviour
     }
 
 
+    /*
     // Reads an input JSON file to process into queue of notes
     private (Queue<Note>, int) ProcessMusicScoreJSON(int startupBeats)
     {
@@ -344,6 +318,7 @@ public class MusicScoreManager : MonoBehaviour
 
         return (score, numSongNotes);
     }
+    */
 
 
     // Method to spawn a note
@@ -383,38 +358,16 @@ public class MusicScoreManager : MonoBehaviour
 
                 // Move to correct lane and set layer
                 Util.Move(songNoteSpawn, lanes[(int)loc]);
-                songNoteSpawn.layer = MusicNote.GetLayerFromNoteloc(loc);
+                songNoteSpawn.layer = MusicNoteHelper.GetLayerFromNoteloc(loc);
 
                 // Set speed with difficulty factor
                 Util.SetSpeed(songNoteSpawn.GetComponent<Rigidbody2D>(),
-                    GetDifficultyFactor(difficulty) *
+                    MSMUtil.GetDifficultyFactor(difficulty) *
                     songNote.GetComponent<Obstacles>().baseSpeed * Vector2.left);
             }
         }
 
         // relative len = BPM/60 * countedBeat/Note.NoteLength
         return _timeDeltaBeat * timeSignature[1] / currNote.Length;
-    }
-
-
-    // Method to calculate the time a Note will take to travel from
-    // a lane spawn to collision checker
-    double GetSpawnDelay(Note songNote)
-    {
-        double songNoteSpeed = songNote.Type switch
-        {
-            (int)NoteType.BallProjectileA => ballProjectileA.GetComponent<Obstacles>().baseSpeed,
-            (int)NoteType.BallProjectileB => ballProjectileB.GetComponent<Obstacles>().baseSpeed,
-            (int)NoteType.WallObstacle => wallObstacle.GetComponent<Obstacles>().baseSpeed,
-            _ => (double)0,
-        };
-
-        double noteVelocity = GetDifficultyFactor(difficulty) * songNoteSpeed;
-        if (noteVelocity == 0)
-        {
-            // case for non-speed notes (i.e. rests)
-            return -1;
-        }
-        return _spawnToZoneDistance / noteVelocity;
     }
 }
