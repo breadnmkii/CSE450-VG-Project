@@ -174,8 +174,8 @@ public class MSMUtil : MonoBehaviour
         double noteVelocity = GetDifficultyFactor(diff) * songNoteSpeed;
         if (noteVelocity == 0)
         {
-            // case for non-speed notes (i.e. rests)
-            return -1;
+            // Case for rest note, takes 0 additional time to reach hitzone
+            return 0;
         }
         return _spawnToZoneDist / noteVelocity;
     }
