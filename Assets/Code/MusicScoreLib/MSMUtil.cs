@@ -12,9 +12,8 @@ public class MSMUtil : MonoBehaviour
 {
     /***** Private Members ***************************************************/
     // Distance b/w spawn and hitzone middle
-    private static double _spawnToZoneDist = Math.Abs(
-        collisionChecker.transform.position[0] - lanes[0].transform.position[0]);
-
+    // private static double _spawnToZoneDist = Math.Abs(collisionChecker.transform.position[0] - lanes[0].transform.position[0]);
+    private static double _spawnToZoneDist = 0.0;
 
 
     /***** Private Methods ***************************************************/
@@ -23,12 +22,12 @@ public class MSMUtil : MonoBehaviour
 
     /***** Public Members ***************************************************/
     // Outlets
-    public static GameObject[] lanes;
-    public static GameObject collisionChecker;
+    public GameObject[] lanes;
+    public GameObject collisionChecker;
     // Public obstacle prefabs (Note: must contain Obstacles component)
-    public static GameObject ballProjectileA;
-    public static GameObject ballProjectileB;
-    public static GameObject wallObstacle;
+    public GameObject ballProjectileA;
+    public GameObject ballProjectileB;
+    public GameObject wallObstacle;
 
 
 
@@ -79,23 +78,40 @@ public class MSMUtil : MonoBehaviour
      */
     // Create music score from a XML file and specified instrument part
     public static MusicScore ProcessMusicScore(
-        TextAsset xmlText, 
-        string instrumentPartID, 
+        TextAsset xmlText,
+        string instrumentPartID,
         Difficulty songDifficulty)
     {
         List<Note> notes = new();
 
         XmlDocument doc = new();
+        Debug.Log("loading xml");
         doc.LoadXml(xmlText.text); // might be super inefficient
         XmlNode root = doc.DocumentElement;
+        Debug.Log("loaded xml");
 
         /* HEAD BLOCK PROCESSING */
         // get first measure metadata
+        Debug.Log("head processing xml");
         XmlNode songMetadata = root.SelectSingleNode($"//part[@id='{instrumentPartID}']/measure[@number='1']/attributes");
-        int BPM                 = int.Parse(songMetadata.SelectSingleNode("./direction/direction-type/metronome/per-minute").Value);
+        int BPM = 0;
+        Debug.Log("BPM");
+        if (songMetadata.SelectSingleNode("./direction/direction-type/metronome/per-minute").Value != null)
+        {
+            BPM = int.Parse(songMetadata.SelectSingleNode("./direction/direction-type/metronome/per-minute").Value);
+        }
+        else
+        {
+            throw new Exception("MSMUtil: Did not process BPM from score");
+        }
+        
+        Debug.Log("beats per measure");
         int beatsPerMeasure     = int.Parse(songMetadata.SelectSingleNode("./time/beats").Value);
+        Debug.Log("beat duration");
         NoteLength beatDuration = (NoteLength)int.Parse(songMetadata.SelectSingleNode("./time/beat-type").Value);
+        Debug.Log("single staff");
         bool isSingleStaff      = int.Parse(songMetadata.SelectSingleNode("./staves").Value) == 1;
+
 
         // DEBUG
         Debug.Log("BPM is " + BPM 
@@ -163,11 +179,12 @@ public class MSMUtil : MonoBehaviour
     // Calculate the time a Note will take to travel from spawn to hitzone
     public static double timeFromSpawnToHitzone(Note songNote, Difficulty diff)
     {
+        // TODO: hardcoded base speed 5, maybe use controller instance for the info
         double songNoteSpeed = songNote.Type switch
         {
-            (int)NoteType.BallProjectileA => ballProjectileA.GetComponent<Obstacles>().baseSpeed,
-            (int)NoteType.BallProjectileB => ballProjectileB.GetComponent<Obstacles>().baseSpeed,
-            (int)NoteType.WallObstacle => wallObstacle.GetComponent<Obstacles>().baseSpeed,
+            (int)NoteType.BallProjectileA => 5, //ballProjectileA.GetComponent<Obstacles>().baseSpeed,
+            (int)NoteType.BallProjectileB => 5, //ballProjectileB.GetComponent<Obstacles>().baseSpeed,
+            (int)NoteType.WallObstacle => 5, //wallObstacle.GetComponent<Obstacles>().baseSpeed,
             _ => (double)0,
         };
 

@@ -168,7 +168,9 @@ public class MusicScoreManager : MonoBehaviour
         _songStartupBeats = 4;
 
         // Process music xml file and level properties to create music score (beatmap)
+        Debug.Log("Processing music score");
         MusicScore _musicScore = MSMUtil.ProcessMusicScore(scoreFile, "P1", difficulty);
+        Debug.Log("Finished processing");
         _songDurationBeats = (BPM/60) * (songDurationMinutes*60 + songDurationSeconds);
 
         /* Post Checks */
@@ -191,6 +193,7 @@ public class MusicScoreManager : MonoBehaviour
 
     private void Update()
     {
+        /*
         // Play while song is still playing
         if (_currBeat < _songDurationBeats + _songStartupBeats)
         {
@@ -254,6 +257,7 @@ public class MusicScoreManager : MonoBehaviour
                 }
             }
         }
+        */
     }
 
 
