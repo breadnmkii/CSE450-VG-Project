@@ -92,25 +92,62 @@ public class ObstacleChecker : MonoBehaviour
         {
             if (Player.layer == 6 && obs_Lane_0.Count > 0)
             {
-                obs_Lane_0.Peek().GetComponent<Animator>().SetBool("shieldon", true);
-                // Destroy(obs_Lane_0.Peek());
+
+                // obs_Lane_0.Peek().GetComponent<Animator>().SetBool("shieldon", true);
+                Destroy(obs_Lane_0.Peek());
+                GameObject destroyed = Instantiate(
+                    GameController.instance.destoryedPrefab,
+                    GameController.instance.lanes[0].transform
+                        .GetChild(1).gameObject.transform.position,
+                    Quaternion.identity
+                );
+                Destroy(destroyed, 0.65f);
+
                 Boss.doDamage(1);
             }
             else if (Player.layer == 7 && obs_Lane_1.Count > 0)
             {
-                obs_Lane_1.Peek().GetComponent<Animator>().SetBool("shieldon", true);
+                // obs_Lane_1.Peek().GetComponent<Animator>().SetBool("shieldon", true);
+
+                Destroy(obs_Lane_1.Peek());
+                GameObject destroyed = Instantiate(
+                    GameController.instance.destoryedPrefab,
+                    GameController.instance.lanes[1].transform
+                        .GetChild(1).gameObject.transform.position,
+                    Quaternion.identity
+                );
+                Destroy(destroyed, 0.65f);
 
                 Boss.doDamage(1);
             }
             else if (Player.layer == 8 && obs_Lane_2.Count > 0)
             {
-                obs_Lane_2.Peek().GetComponent<Animator>().SetBool("shieldon", true);
+                // obs_Lane_2.Peek().GetComponent<Animator>().SetBool("shieldon", true);
+
+                Destroy(obs_Lane_2.Peek());
+                GameObject destroyed = Instantiate(
+                    GameController.instance.destoryedPrefab,
+                    GameController.instance.lanes[2].transform
+                        .GetChild(1).gameObject.transform.position,
+                    Quaternion.identity
+                );
+                Destroy(destroyed, 0.65f);
 
                 Boss.doDamage(1);
             }
             else if (Player.layer == 9 && obs_Lane_3.Count > 0)
             {
-                obs_Lane_3.Peek().GetComponent<Animator>().SetBool("shieldon", true);
+
+                Destroy(obs_Lane_3.Peek());
+                GameObject destroyed = Instantiate(
+                    GameController.instance.destoryedPrefab,
+                    GameController.instance.lanes[3].transform
+                        .GetChild(1).gameObject.transform.position,
+                    Quaternion.identity
+                );
+                Destroy(destroyed, 0.65f);
+
+                // obs_Lane_3.Peek().GetComponent<Animator>().SetBool("shieldon", true);
                 Boss.doDamage(1);
             }
 
