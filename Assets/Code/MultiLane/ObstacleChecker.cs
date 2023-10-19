@@ -90,10 +90,13 @@ public class ObstacleChecker : MonoBehaviour
         if (Input.GetKeyDown(AttackAKey[operationType]) ||
             Input.GetKeyDown(AttackBKey[operationType]))
         {
+            Player.GetComponent<Animator>().SetBool("atk", true);
+            Player.GetComponent<Animator>().SetBool("atk", false, 0.65f);
+            
             if (Player.layer == 6 && obs_Lane_0.Count > 0)
             {
 
-                // obs_Lane_0.Peek().GetComponent<Animator>().SetBool("shieldon", true);
+              
                 Destroy(obs_Lane_0.Peek());
                 GameObject destroyed = Instantiate(
                     GameController.instance.destoryedPrefab,
@@ -102,7 +105,7 @@ public class ObstacleChecker : MonoBehaviour
                     Quaternion.identity
                 );
                 Destroy(destroyed, 0.65f);
-
+                
                 Boss.doDamage(1);
             }
             else if (Player.layer == 7 && obs_Lane_1.Count > 0)
