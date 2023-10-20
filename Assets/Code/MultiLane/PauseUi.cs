@@ -26,6 +26,7 @@ public class PauseUi : MonoBehaviour
         isPausing = false;
         //gameObject.GetComponent<Canvas>().enabled = false;
         //gameObject.GetComponent<GraphicRaycaster>().enabled = false;
+        transform.Find("BackGround").gameObject.SetActive(false);
         transform.Find("L1").gameObject.SetActive(false);
         transform.Find("L2").gameObject.SetActive(false);
     }
