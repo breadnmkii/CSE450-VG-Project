@@ -24,12 +24,15 @@ using MusicNote;
  * then reset the read pointer.
  * 
  */
-public class MusicScore: MonoBehaviour
+public class MusicScore
 {
     /***** Private members ***************************************************/
     private double originTime = 0.0;    // the base absolute reference time
     private int numTotalNotes;          // the length of score in num of notes
     private Difficulty difficulty;
+    private int BPM;
+    private double secondsPerBeat;
+    private int beatDuration;
 
 
     /***** Private Helper Methods ***************************************************/
@@ -37,6 +40,7 @@ public class MusicScore: MonoBehaviour
     private void LoadNote(Note note)
     {
         beatMap.Enqueue(new Tuple<Note, double>(note, originTime));
+        Debug.Log($"(MusicScore) {(NoteType)note.Type}:{note.Length}:{originTime}");
 
         // Update origin time with the note just enqueued's duration
         // (so that the next note played right after is correctly offset)
@@ -55,7 +59,11 @@ public class MusicScore: MonoBehaviour
         // 1. note length + dot
         // 2. projectileType speed
 
-        noteRelativeSpawnTime += MSMUtil.timeFromSpawnToHitzone(note, difficulty);
+        // Add relative note length
+        noteRelativeSpawnTime += secondsPerBeat * beatDuration / note.Length;
+
+        // Subtract advance time due to spawn location
+        noteRelativeSpawnTime -= MSMUtil.timeFromSpawnToHitzone(note, difficulty);
 
         return noteRelativeSpawnTime;
     }
@@ -69,9 +77,18 @@ public class MusicScore: MonoBehaviour
 
     /***** Public methods ***************************************************/
     // Constructor
-    public MusicScore(List<Note> notes, Difficulty songDifficulty)
+    public MusicScore(List<Note> notes, Difficulty songDifficulty, int songBPM, NoteLength songBeatDuration)
     {
         difficulty = songDifficulty;
+        BPM = songBPM;
+        beatDuration = (int)songBeatDuration;
+
+        secondsPerBeat = (double)60 / songBPM;
+
+        Debug.Log("(MusicScore) Creating music score with difficulty " + difficulty
+                    + " at BPM " + BPM
+                    + " and beat duration of " + beatDuration);
+
         beatMap = new();
         foreach (Note note in notes) 
         {

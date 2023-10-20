@@ -168,9 +168,9 @@ public class MusicScoreManager : MonoBehaviour
         _songStartupBeats = 4;
 
         // Process music xml file and level properties to create music score (beatmap)
-        Debug.Log("Processing music score");
+        Debug.Log("(MSM) Processing music score");
         MusicScore _musicScore = MSMUtil.ProcessMusicScore(scoreFile, "P1", difficulty);
-        Debug.Log("Finished processing");
+        Debug.Log("(MSM) Finished processing");
         _songDurationBeats = (BPM/60) * (songDurationMinutes*60 + songDurationSeconds);
 
         /* Post Checks */

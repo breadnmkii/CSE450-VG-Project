@@ -30,7 +30,6 @@ public class MSMUtil : MonoBehaviour
     public GameObject wallObstacle;
 
 
-
     /***** Public Methods ***************************************************/
     /* MusicXML Parser Docs:
      * 
@@ -83,44 +82,43 @@ public class MSMUtil : MonoBehaviour
         Difficulty songDifficulty)
     {
         List<Note> notes = new();
+        int BPM;
 
         XmlDocument doc = new();
-        Debug.Log("loading xml");
+        Debug.Log("(MSMUtil) Loading XML...");
         doc.LoadXml(xmlText.text); // might be super inefficient
         XmlNode root = doc.DocumentElement;
-        Debug.Log("loaded xml");
+        Debug.Log("(MSMUtil) XML Loaded!");
 
         /* HEAD BLOCK PROCESSING */
         // get first measure metadata
-        Debug.Log("head processing xml");
+        Debug.Log("(MSMUtil) XML MUSIC METADATA PROCESSING");
         XmlNode songMetadata = root.SelectSingleNode($"//part[@id='{instrumentPartID}']/measure[@number='1']/attributes");
-        int BPM = 0;
-        Debug.Log("BPM");
-        if (songMetadata.SelectSingleNode("./direction/direction-type/metronome/per-minute").Value != null)
+        XmlNode songDirection = root.SelectSingleNode($"//part[@id='{instrumentPartID}']/measure[@number='1']/direction");
+
+        if (songDirection.SelectSingleNode("./direction-type/metronome/per-minute") != null)
         {
-            BPM = int.Parse(songMetadata.SelectSingleNode("./direction/direction-type/metronome/per-minute").Value);
+            BPM = int.Parse(songDirection.SelectSingleNode("./direction-type/metronome/per-minute").InnerXml);
         }
         else
         {
-            throw new Exception("MSMUtil: Did not process BPM from score");
+            throw new Exception("(MSMUtil) Did not process BPM from score! Please enter manually");
         }
         
-        Debug.Log("beats per measure");
-        int beatsPerMeasure     = int.Parse(songMetadata.SelectSingleNode("./time/beats").Value);
-        Debug.Log("beat duration");
-        NoteLength beatDuration = (NoteLength)int.Parse(songMetadata.SelectSingleNode("./time/beat-type").Value);
-        Debug.Log("single staff");
-        bool isSingleStaff      = int.Parse(songMetadata.SelectSingleNode("./staves").Value) == 1;
+        int beatsPerMeasure     = int.Parse(songMetadata.SelectSingleNode("./time/beats").InnerXml);
+        NoteLength beatDuration = (NoteLength)int.Parse(songMetadata.SelectSingleNode("./time/beat-type").InnerXml);
+        bool isSingleStaff      = int.Parse(songMetadata.SelectSingleNode("./staves").InnerXml) == 1;
 
 
         // DEBUG
-        Debug.Log("BPM is " + BPM 
+        Debug.Log("(MSMUtil) BPM is " + BPM 
                     + ", beats per measure is " + beatsPerMeasure 
                     + ", beat duration is " + beatDuration 
                     + ", and single staff is " + isSingleStaff);
 
 
         /* BODY BLOCK PROCESSING */
+        Debug.Log("(MSMUtil) XML MUSIC BODY PROCESSSING");
         // inject n=beatsPerMeasure startup beats of beat-duration note length (rest notes with metronome sound)
         for (int i=0; i<beatsPerMeasure; i++)
         {
@@ -144,7 +142,7 @@ public class MSMUtil : MonoBehaviour
                 // 4. create and add note to list
 
                 // Get note length
-                NoteLength currNoteLen = MxmlLengthToNoteLength(note.SelectSingleNode("./type").Value);
+                NoteLength currNoteLen = MxmlLengthToNoteLength(note.SelectSingleNode("./type").InnerXml);
                 bool currIsDottedNote = false;
                 if (note.SelectSingleNode("./dot") != null)
                 {
@@ -166,11 +164,15 @@ public class MSMUtil : MonoBehaviour
                 // Add note to list
                 Note currNote = new(currNoteType, currNoteLen, currIsDottedNote, currNoteLoc);
                 notes.Add(currNote);
+
+                // Debug.Log("(MSMUtil) Added note of " + currNoteType 
+                //             + " with length " + currNoteLen + " and dotted " + currIsDottedNote
+                //             + " at " + currNoteLoc);
             }
         }
 
         // Create music score
-        MusicScore msc = new(notes, songDifficulty);
+        MusicScore msc = new(notes, songDifficulty, BPM, beatDuration);
 
         return msc;
     }
@@ -234,7 +236,7 @@ public class MSMUtil : MonoBehaviour
             "128th" => NoteLength.OneTwentyEighth,
             "256th" => NoteLength.TwoFiftySixth,
             "512th" => NoteLength.FiveTwelfth,
-            _ => throw new System.Exception("Invalid MXML Note Type to Note Length!"),
+            _ => throw new Exception("Invalid MXML Note Type to Note Length!"),
         };
     }
 }
