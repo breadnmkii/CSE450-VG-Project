@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LaneTest.unity
     guid: 5236618e23f4d75459a20758dd962564
+  - enabled: 1
+    path: Assets/Scenes/StartScene.unity
+    guid: 0da049fcf2c7b02409ccc342a2dad6f0
   m_configObjects: {}
