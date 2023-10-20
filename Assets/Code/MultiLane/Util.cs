@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 // This is the class holding every util method for other scripts to use.
@@ -18,7 +19,7 @@ public class Util
         action?.Invoke();
     }
 
-    
+
 
     // Usage:To change an obj's position from one to another.
     // Input: obj -- Gameobject to be moved or to change the collision layer;
@@ -49,5 +50,11 @@ public class Util
     public static void SetLayer(GameObject tar, string layername)
     {
         tar.layer = LayerMask.NameToLayer(layername);
+    }
+
+
+    public static void LoadScene(string name)
+    {
+        SceneManager.LoadScene(name);
     }
 }

@@ -35,8 +35,8 @@ public class Player : MonoBehaviour
     // representing current operation type: 0 = right-handed, 1 = left-handed;
     private int operationType;
 
-    private KeyCode[] MoveUpLaneKey;
-    private KeyCode[] MoveDownLaneKey;
+    private KeyCode[,] MoveLaneKeys;
+    
 
     // Gameover UI Object
     public GameObject DeadUI;
@@ -52,12 +52,15 @@ public class Player : MonoBehaviour
         HP = MaxHP;
         myAni = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
-        MoveUpLaneKey = new KeyCode[2];
-        MoveUpLaneKey[0] = KeyCode.W;
-        MoveUpLaneKey[1] = KeyCode.I;
-        MoveDownLaneKey = new KeyCode[2];
-        MoveDownLaneKey[0] = KeyCode.S;
-        MoveDownLaneKey[1] = KeyCode.K;
+        MoveLaneKeys = new KeyCode[2, 4];
+        MoveLaneKeys[0, 0] = KeyCode.A;
+        MoveLaneKeys[0, 1] = KeyCode.S;
+        MoveLaneKeys[0, 2] = KeyCode.D;
+        MoveLaneKeys[0, 3] = KeyCode.F;
+        MoveLaneKeys[1, 0] = KeyCode.Colon;
+        MoveLaneKeys[1, 1] = KeyCode.L;
+        MoveLaneKeys[1, 2] = KeyCode.K;
+        MoveLaneKeys[1, 3] = KeyCode.J;
     }
 
     private void Update()
@@ -70,28 +73,33 @@ public class Player : MonoBehaviour
         }
 
         // Go up lane
-        if ((Input.GetKeyDown(MoveUpLaneKey[operationType]) || Input.GetKeyDown(KeyCode.UpArrow))
-            && lane_No < 3)
+        if (Input.GetKeyDown(MoveLaneKeys[operationType, 0]))
         {
             DisableLane(lane_No);
-            lane_No += 1;
+            lane_No = 3;
             EnableLane(lane_No);
             Util.Move(gameObject, Lanes[lane_No].transform.GetChild(1).gameObject, "Lane" + lane_No.ToString());
         }
-
-        // Go down lane
-        if ((Input.GetKeyDown(MoveDownLaneKey[operationType]) || Input.GetKeyDown(KeyCode.DownArrow))
-            && lane_No > 0)
+        else if (Input.GetKeyDown(MoveLaneKeys[operationType, 1]))
         {
             DisableLane(lane_No);
-            lane_No -= 1;
+            lane_No = 2;
             EnableLane(lane_No);
             Util.Move(gameObject, Lanes[lane_No].transform.GetChild(1).gameObject, "Lane" + lane_No.ToString());
-            /*StartCoroutine(Util.WaitForSec(duration, () =>
-            {
-                Util.Move(CharacterShadow, gameObject);
-            }));*/
-            // Debug.Log(lane_No);
+        }
+        else if (Input.GetKeyDown(MoveLaneKeys[operationType, 2]))
+        {
+            DisableLane(lane_No);
+            lane_No = 1;
+            EnableLane(lane_No);
+            Util.Move(gameObject, Lanes[lane_No].transform.GetChild(1).gameObject, "Lane" + lane_No.ToString());
+        }
+        else if (Input.GetKeyDown(MoveLaneKeys[operationType, 3]))
+        {
+            DisableLane(lane_No);
+            lane_No = 0;
+            EnableLane(lane_No);
+            Util.Move(gameObject, Lanes[lane_No].transform.GetChild(1).gameObject, "Lane" + lane_No.ToString());
         }
 
         // Jump
