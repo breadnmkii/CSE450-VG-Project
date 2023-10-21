@@ -144,7 +144,10 @@ public class MusicScoreManager : MonoBehaviour
     private double _timeSinceLastNote;      // timer for last note time in real-time
     private double _songStartTime;          // actual time that the song started playing
     private double _songTime;               // time within the song
+<<<<<<< HEAD
     private Tuple<Note, double> _nextNote;  // next note in the note queue
+=======
+>>>>>>> a17a8ce15f9aeb60ae8b6676b1aadf6396aed174
 
     /* Unity Loop Methods */
     private void Start()
@@ -198,7 +201,7 @@ public class MusicScoreManager : MonoBehaviour
     {
         /*
         // Play while song is still playing
-        if (_currBeat < _songDurationBeats + _songStartupBeats)
+        /*if (_currBeat < _songDurationBeats + _songStartupBeats)
         {
             // Beat beat-time loop
             _nowTime = Time.timeSinceLevelLoad;
@@ -259,6 +262,28 @@ public class MusicScoreManager : MonoBehaviour
 
                 }
             }
+        }*/
+
+        // Song
+        if (!_songStarted)
+        {
+            _songStarted = true;
+            _as.PlayOneShot(songAudio);
+            _songStartTime = Time.timeSinceLevelLoad;
+            Debug.Log("(MSM) Started music at " + _songStartTime);
+        }
+        // Spawn notes
+        else
+        {
+            _nowTime = Time.timeSinceLevelLoad;
+            _songTime = _nowTime - _songStartTime;
+
+            // Spawn note before it reaches player using the spawn delay
+            if (_songTime >= _musicScore.Peek().SpawnTime - GetSpawnDelay(_musicScore.Peek()))
+            {
+                SpawnNote(_musicScore.Dequeue());
+                Debug.Log("(MSM) Spawned: " + _nowTime);
+            }
         }
         */
 
@@ -309,7 +334,8 @@ public class MusicScoreManager : MonoBehaviour
         {
             score.Enqueue(new(countedBeat,
                           new() { },
-                          NoteType.Rest));
+                          NoteType.Rest,
+                          double.MaxValue));
         }
 
         // Read CSV music map file
@@ -332,7 +358,8 @@ public class MusicScoreManager : MonoBehaviour
 
                 Note note = new(noteLen,
                                 chord,
-                                noteType);
+                                noteType,
+                                double.MaxValue);
                 score.Enqueue(note);
 
                 // Increment number of rests to not count as physical note
