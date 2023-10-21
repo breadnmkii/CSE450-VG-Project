@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
-using System.IO;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
+
+// MusicNote
+using MusicNote;
 
 /* Docs:
  *  Since we want to make note spawning
@@ -133,7 +130,7 @@ public class MusicScoreManager : MonoBehaviour
     private double _spawnToZoneDistance;
 
     // Private members for defining interal song properties
-    private Queue<Note> _musicScore;        // music score containing queue of all notes
+    private MusicScore _musicScore;         // music score containing queue of all notes
     private int _musicNumNotes;             // number of actual notes in score (not counting rests)
     private int _songDurationBeats;         // total number of beats in song
     private int _songStartupBeats;          // number of empty beats prior to starting song
@@ -141,12 +138,13 @@ public class MusicScoreManager : MonoBehaviour
 
     private int _currBeat;                  // counter index to current beat in beat-time
     private double _nowTime;                // var to hold current real-time
-    private double _timeSpawnDelay;            // var to hold delay time from spawn to zone of note travel
+    private double _timeSpawnDelay;         // var to hold delay time from spawn to zone of note travel
     private double _timeDeltaBeat;          // delta time for beat-time
     private double _timeSinceLastBeat;      // timer for last beat time in beat-time
     private double _timeSinceLastNote;      // timer for last note time in real-time
     private double _songStartTime;          // actual time that the song started playing
     private double _songTime;               // time within the song
+    private Tuple<Note, double> _nextNote;  // next note in the note queue
 
     /* Unity Loop Methods */
     private void Start()
@@ -172,209 +170,73 @@ public class MusicScoreManager : MonoBehaviour
         _timeSinceLastNote = 0;
         _songStartupBeats = 4;
 
-        // Process music score and its properties
-        (Queue<Note>, int) musicScoreProcess = ProcessMusicScoreJSON(_songStartupBeats);
-        _musicScore = musicScoreProcess.Item1;
-        _musicNumNotes = musicScoreProcess.Item2;
-        _songDurationBeats = (BPM/60) * (songDurationMinutes*60 + songDurationSeconds);
-
-        // Calculate distance from spawn to note hit zone
+        // Calculate spawn to zone distance
         _spawnToZoneDistance = Math.Abs(collisionChecker.transform.position[0] - lanes[0].transform.position[0]);
 
+        // Process music xml file and level properties to create music score (beatmap)
+        Debug.Log("(MSM) Processing music score");
+        _musicScore = MSMUtil.ProcessMusicScore(scoreFile, "P1", difficulty);
+        Debug.Log("(MSM) Finished processing");
+        _songDurationBeats = (BPM/60) * (songDurationMinutes*60 + songDurationSeconds);
+
         /* Post Checks */
-        // checking that number of worst case (lowest granularity (sixteenth)) notes
-        // can fit within duration
-        if (_musicScore.Count > _songDurationBeats * (int)NoteLength.Sixteenth)
+        if (_musicScore.GetNumTotalNotes() > _songDurationBeats * (int)NoteLength.Sixteenth)
         {
             throw new Exception("Cannot fit all of score's notes into song!");
         }
-
-        /* Calculate first upcoming note's spawn delay */
-        _timeSpawnDelay = GetSpawnDelay(_musicScore.Peek());
 
         /* Prepare playing song audio */
         Debug.Log("(MSM) Playing song at difficulty " + difficulty);
         _songStarted = false;
         _as.Stop();
-        Debug.Log("WTF IS WRONG WIT THIS");
     }
 
     private void Update()
     {
-        // Play while song is still playing
-        /*if (_currBeat < _songDurationBeats + _songStartupBeats)
-        {
-            // Beat beat-time loop
-            _nowTime = Time.timeSinceLevelLoad;
-            if (_nowTime >= _timeSinceLastBeat + _timeDeltaBeat)
-            {
-                _timeSinceLastBeat += _timeDeltaBeat;
-                // Metronome sound
-                if (_currBeat < 4)
-                {
-                    if (_currBeat == 0)
-                    {
-                        _as.PlayOneShot(metroUpAudio);
-                    }
-                    else
-                    {
-                        _as.PlayOneShot(metroAudio);
-                    }
-                }
-
-                // Song
-                if (!_songStarted && _currBeat >= _songStartupBeats)
-                {
-                    _songStarted = true;
-                    _as.PlayOneShot(songAudio);
-                    Debug.Log("(MSM) Started music at " + Time.timeSinceLevelLoad);
-                }
-
-                if (_currBeat % timeSignature[0] == 0)
-                {
-                    Debug.Log("(MSM) Measure " + _currBeat / timeSignature[0]);
-                }
-
-                // print("(MSM) Beat " + _currBeat + ": " + _nowTime);
-                ++_currBeat;
-            }
-            
-
-            // Note real-time loop
-            _nowTime = Time.timeSinceLevelLoad;
-            if (_musicScore.Count > 0) {
-                if ((_nowTime >= _timeSinceLastNote + _timeDeltaBeat - _timeSpawnDelay) || 
-                    (_timeSpawnDelay == -1))
-                {
-                    _timeSinceLastNote += SpawnNote(_musicScore.Dequeue());
-                    if (_musicScore.Count > 1)
-                    {
-                        // Get upcoming note's spawn delay
-                        _timeSpawnDelay = GetSpawnDelay(_musicScore.Peek());
-                        if (_timeSpawnDelay != -1)
-                        {
-                            // Debug info for non-rest notes
-                            Debug.Log("(MSM) Upcoming note spawn advance: " + _timeSpawnDelay + " to arrive at: " + (Time.timeSinceLevelLoad + _timeSpawnDelay));
-                        }
-                    }
-
-                    Debug.Log("(MSM) Spawned: " + _nowTime);
-
-                }
-            }
-        }*/
-
         // Song
         if (!_songStarted)
         {
-            _songStarted = true;
+            _songStarted =true;
             _as.PlayOneShot(songAudio);
             _songStartTime = Time.timeSinceLevelLoad;
             Debug.Log("(MSM) Started music at " + _songStartTime);
         }
+        
         // Spawn notes
         else
         {
             _nowTime = Time.timeSinceLevelLoad;
             _songTime = _nowTime - _songStartTime;
+            _nextNote = _musicScore.peekNote();
 
-            // Spawn note before it reaches player using the spawn delay
-            if (_songTime >= _musicScore.Peek().SpawnTime - GetSpawnDelay(_musicScore.Peek()))
+            // Spawn note before it reaches player using the advance spawn time (re-added subtraction)
+            if (_songTime >= _nextNote.Item2 - MSMUtil.TimeForNoteToTravelDistance(_nextNote.Item1, difficulty, _spawnToZoneDistance))
             {
-                SpawnNote(_musicScore.Dequeue());
-                Debug.Log("(MSM) Spawned: " + _nowTime);
+                // Do this check here to always dequeue the next note even if it should not be spawned
+                _nextNote = _musicScore.readNote();
+                if (_nextNote.Item1.Type != (int)NoteType.Rest)
+                {
+                    SpawnNote(_nextNote.Item1);
+                    Debug.Log("(MSM) Note with spawn time: " + _nextNote.Item2 + " Spawned at: " + _nowTime);
+                }
+                else
+                {
+                    Debug.Log("(MSM) Rest with spawn time: " + _nextNote.Item2);
+                }
             }
         }
     }
 
 
     /* Class Methods */
-    // Obtains the specified value for a difficulty enum type
-    static float GetDifficultyFactor(Difficulty diff)
-    {
-        switch (diff)
-        {
-            case Difficulty.protege:
-                return 1F;
-            case Difficulty.concert:
-                return 2;
-            case Difficulty.virtuoso:
-                return 4;
-            case Difficulty.prodigy:
-                return 6;
-            default:
-                break;
-        }
-        return 0;
-    }
-
-    
     // Getter for number of music notes
     public int GetTotalNumMusicNotes()
     {
-        return _musicNumNotes;
+        return _musicScore.GetNumTotalNotes();
     }
-
-
-    // Reads an input JSON file to process into queue of notes
-    private (Queue<Note>, int) ProcessMusicScoreJSON(int startupBeats)
-    {
-        int numRests = startupBeats;
-
-        // Inject startup beats as rests to "spawn"
-        Queue<Note> score = new();
-        NoteLength countedBeat = (NoteLength)timeSignature[1];
-        for (int i=0; i<startupBeats; ++i)
-        {
-            score.Enqueue(new(countedBeat,
-                          new() { },
-                          NoteType.Rest,
-                          double.MaxValue));
-        }
-
-        // Read CSV music map file
-        var lines = scoreFile.text.Split('\n');
-        foreach (string line in lines)
-        {
-            // Do not parse empty or comment lines
-            if (line.Length > 1 && !line[0].Equals('#'))
-            {
-                Debug.Log(line);
-                // formatted as: type, length, location0(,...,location3)
-                var metadata = line.Split(',');
-                NoteType noteType = (NoteType)int.Parse(metadata[0]);
-                NoteLength noteLen = (NoteLength)int.Parse(metadata[1]);
-                List<NoteLocation> chord = new();
-                for (int i = 2; i < metadata.Length; ++i)
-                {
-                    chord.Add((NoteLocation)int.Parse(metadata[i]));
-                }
-
-                Note note = new(noteLen,
-                                chord,
-                                noteType,
-                                double.MaxValue);
-                score.Enqueue(note);
-
-                // Increment number of rests to not count as physical note
-                if (noteType == NoteType.Rest)
-                {
-                    ++numRests;
-                }
-            }
-        }
-        Debug.Log("Processed music score!");
-
-        // Do not count rests towards number of actual notes
-        int numSongNotes = score.Count - numRests;
-
-        return (score, numSongNotes);
-    }
-
 
     // Method to spawn a note
-    // Returns the amount of delta time to add to timer (based on note length)
-    double SpawnNote(Note currNote)
+    void SpawnNote(Note currNote)
     {
         // Spawn obstacle with given note type
         GameObject songNote;
@@ -401,6 +263,7 @@ public class MusicScoreManager : MonoBehaviour
         // Configure obstacle physics
         if (songNote != null)
         {
+            Debug.Log("(MSM) Spawned note of length " + (NoteLength)currNote.Length);
             // For every note in chord
             foreach (NoteLocation loc in currNote.Location)
             {
@@ -409,41 +272,13 @@ public class MusicScoreManager : MonoBehaviour
 
                 // Move to correct lane and set layer
                 Util.Move(songNoteSpawn, lanes[(int)loc]);
-                songNoteSpawn.layer = MusicNote.GetLayerFromNoteloc(loc);
+                songNoteSpawn.layer = MusicNoteHelper.GetLayerFromNoteloc(loc);
 
                 // Set speed with difficulty factor
                 Util.SetSpeed(songNoteSpawn.GetComponent<Rigidbody2D>(),
-                    GetDifficultyFactor(difficulty) *
+                    MSMUtil.GetDifficultyFactor(difficulty) *
                     songNote.GetComponent<Obstacles>().baseSpeed * Vector2.left);
             }
         }
-
-        // relative len = BPM/60 * countedBeat/Note.NoteLength
-        return _timeDeltaBeat * timeSignature[1] / currNote.Length;
-    }
-
-
-    // Method to calculate the time a Note will take to travel from
-    // a lane spawn to collision checker
-    double GetSpawnDelay(Note songNote)
-    {
-        double songNoteSpeed = songNote.Type switch
-        {
-            (int)NoteType.BallProjectileA => ballProjectileA.GetComponent<Obstacles>().baseSpeed,
-            (int)NoteType.BallProjectileB => ballProjectileB.GetComponent<Obstacles>().baseSpeed,
-            (int)NoteType.WallObstacle => wallObstacle.GetComponent<Obstacles>().baseSpeed,
-            _ => (double)0,
-        };
-
-        double noteVelocity = GetDifficultyFactor(difficulty) * songNoteSpeed;
-        if (noteVelocity == 0)
-        {
-            // case for non-speed notes (i.e. rests)
-            // we want to return a large early spawn to ensure
-            // we get through the rests and calculate the next
-            // physical note spawn time in advance to not miss
-            return -1;
-        }
-        return _spawnToZoneDistance / noteVelocity;
     }
 }
