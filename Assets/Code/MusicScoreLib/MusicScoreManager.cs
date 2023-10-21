@@ -273,10 +273,15 @@ public class MusicScoreManager : MonoBehaviour
             _nextNote = _musicScore.peekNote();
 
             // Spawn note before it reaches player using the spawn delay
-            if (_songTime >= _nextNote.Item2 - MSMUtil.timeFromSpawnToHitzone(_nextNote.Item1, difficulty))
+            if ((_songTime >= _nextNote.Item2))
             {
-                SpawnNote(_musicScore.readNote().Item1);
-                Debug.Log("(MSM) Spawned: " + _nowTime);
+                // Do this check here to always dequeue the next note even if it should not be spawned
+                _nextNote = _musicScore.readNote();
+                if (_nextNote.Item1.Type != (int)NoteType.Rest)
+                {
+                    SpawnNote(_nextNote.Item1);
+                    Debug.Log("(MSM) Note with spawn time: " + _nextNote.Item2 + " Spawned at: " + _nowTime);
+                }
             }
         }
     }
