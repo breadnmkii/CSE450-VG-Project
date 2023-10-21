@@ -176,16 +176,10 @@ public class MusicScoreManager : MonoBehaviour
         _songDurationBeats = (BPM/60) * (songDurationMinutes*60 + songDurationSeconds);
 
         /* Post Checks */
-        // checking that number of worst case (lowest granularity (sixteenth)) notes
-        // can fit within duration
         if (_musicScore.GetNumTotalNotes() > _songDurationBeats * (int)NoteLength.Sixteenth)
         {
             throw new Exception("Cannot fit all of score's notes into song!");
         }
-
-        /* Calculate first upcoming note's spawn delay */
-        // DEPRECATED: this will be encoded in the MusicScore queue
-        // _timeSpawnDelay = GetSpawnDelay(_musicScore.Peek());
 
         /* Prepare playing song audio */
         Debug.Log("(MSM) Playing song at difficulty " + difficulty);
@@ -275,13 +269,14 @@ public class MusicScoreManager : MonoBehaviour
             _songTime = _nowTime - _songStartTime;
 
             // Spawn note before it reaches player using the spawn delay
+            /*
             if (_songTime >= _musicScore.Peek().SpawnTime - GetSpawnDelay(_musicScore.Peek()))
             {
                 SpawnNote(_musicScore.Dequeue());
                 Debug.Log("(MSM) Spawned: " + _nowTime);
             }
+            */
         }
-        */
     }
 
 
@@ -293,67 +288,8 @@ public class MusicScoreManager : MonoBehaviour
     }
 
 
-    /*
-    // Reads an input JSON file to process into queue of notes
-    private (Queue<Note>, int) ProcessMusicScoreJSON(int startupBeats)
-    {
-        int numRests = startupBeats;
-
-        // Inject startup beats as rests to "spawn"
-        Queue<Note> score = new();
-        NoteLength countedBeat = (NoteLength)timeSignature[1];
-        for (int i=0; i<startupBeats; ++i)
-        {
-            score.Enqueue(new(countedBeat,
-                          new() { },
-                          NoteType.Rest,
-                          double.MaxValue));
-        }
-
-        // Read CSV music map file
-        var lines = scoreFile.text.Split('\n');
-        foreach (string line in lines)
-        {
-            // Do not parse empty or comment lines
-            if (line.Length > 1 && !line[0].Equals('#'))
-            {
-                Debug.Log(line);
-                // formatted as: type, length, location0(,...,location3)
-                var metadata = line.Split(',');
-                NoteType noteType = (NoteType)int.Parse(metadata[0]);
-                NoteLength noteLen = (NoteLength)int.Parse(metadata[1]);
-                List<NoteLocation> chord = new();
-                for (int i = 2; i < metadata.Length; ++i)
-                {
-                    chord.Add((NoteLocation)int.Parse(metadata[i]));
-                }
-
-                Note note = new(noteLen,
-                                chord,
-                                noteType,
-                                double.MaxValue);
-                score.Enqueue(note);
-
-                // Increment number of rests to not count as physical note
-                if (noteType == NoteType.Rest)
-                {
-                    ++numRests;
-                }
-            }
-        }
-        Debug.Log("Processed music score!");
-
-        // Do not count rests towards number of actual notes
-        int numSongNotes = score.Count - numRests;
-
-        return (score, numSongNotes);
-    }
-    */
-
-
     // Method to spawn a note
-    // Returns the amount of delta time to add to timer (based on note length)
-    double SpawnNote(Note currNote)
+    void SpawnNote(Note currNote)
     {
         // Spawn obstacle with given note type
         GameObject songNote;
@@ -396,8 +332,5 @@ public class MusicScoreManager : MonoBehaviour
                     songNote.GetComponent<Obstacles>().baseSpeed * Vector2.left);
             }
         }
-
-        // relative len = BPM/60 * countedBeat/Note.NoteLength
-        return _timeDeltaBeat * timeSignature[1] / currNote.Length;
     }
 }
