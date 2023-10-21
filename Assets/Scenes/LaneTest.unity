@@ -1552,7 +1552,7 @@ MonoBehaviour:
   songAudio: {fileID: 8300000, guid: eee7f23b253b45e4e98d386b3b2d50ad, type: 3}
   metroUpAudio: {fileID: 8300000, guid: ac53e0368759edb4f9aeaba4e5038aff, type: 3}
   metroAudio: {fileID: 8300000, guid: 26ba0e0437847d044ab8b34fe9a92bb6, type: 3}
-  scoreFile: {fileID: 4900000, guid: 2535ce776220f470f95c37dee3f26f2d, type: 3}
+  scoreFile: {fileID: 4900000, guid: d6f773f69db537548bc926a14889cf74, type: 3}
   songDurationMinutes: 4
   songDurationSeconds: 10
   BPM: 103
@@ -2942,9 +2942,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lanes: []
   collisionChecker: {fileID: 0}
-  ballProjectileA: {fileID: 0}
-  ballProjectileB: {fileID: 0}
-  wallObstacle: {fileID: 0}
 --- !u!4 &2081715204
 Transform:
   m_ObjectHideFlags: 0
@@ -3814,3 +3811,4 @@ SceneRoots:
   - {fileID: 3079020741442848842}
   - {fileID: 4310420151944234273}
   - {fileID: 1497826032}
+  - {fileID: 2081715204}
