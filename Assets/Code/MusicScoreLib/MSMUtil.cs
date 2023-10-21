@@ -11,9 +11,7 @@ using MusicNote;
 public class MSMUtil : MonoBehaviour
 {
     /***** Private Members ***************************************************/
-    // Distance b/w spawn and hitzone middle
-    // private static double _spawnToZoneDist = Math.Abs(collisionChecker.transform.position[0] - lanes[0].transform.position[0]);
-    private static double _spawnToZoneDist = 0.0;
+    
 
 
     /***** Private Methods ***************************************************/
@@ -24,10 +22,6 @@ public class MSMUtil : MonoBehaviour
     // Outlets
     public GameObject[] lanes;
     public GameObject collisionChecker;
-    // Public obstacle prefabs (Note: must contain Obstacles component)
-    public GameObject ballProjectileA;
-    public GameObject ballProjectileB;
-    public GameObject wallObstacle;
 
 
     /***** Public Methods ***************************************************/
@@ -222,7 +216,8 @@ public class MSMUtil : MonoBehaviour
 
 
     // Calculate the time a Note will take to travel from spawn to hitzone
-    public static double timeFromSpawnToHitzone(Note songNote, Difficulty diff)
+    // Note: distance is a parameter supplied as the distance the note must travel
+    public static double TimeForNoteToTravelDistance(Note songNote, Difficulty diff, double distance)
     {
         // TODO: hardcoded base speed 5, maybe use controller instance for the info
         double songNoteSpeed = songNote.Type switch
@@ -239,7 +234,7 @@ public class MSMUtil : MonoBehaviour
             // Case for rest note, takes 0 additional time to reach hitzone
             return 0;
         }
-        return _spawnToZoneDist / noteVelocity;
+        return distance / noteVelocity;
     }
 
 

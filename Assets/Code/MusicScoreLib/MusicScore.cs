@@ -62,9 +62,6 @@ public class MusicScore
         // Add relative note length
         noteRelativeSpawnTime += secondsPerBeat * beatDuration / note.Length;
 
-        // Subtract advance time due to spawn location
-        noteRelativeSpawnTime -= MSMUtil.timeFromSpawnToHitzone(note, difficulty);
-
         return noteRelativeSpawnTime;
     }
 
@@ -72,12 +69,14 @@ public class MusicScore
     /***** Public members ***************************************************/
     public Queue<Tuple<Note, double>> beatMap;
 
-    // NOTE: maybe have outlets for the projectile prefabs here?
-
 
     /***** Public methods ***************************************************/
     // Constructor
-    public MusicScore(List<Note> notes, Difficulty songDifficulty, int songBPM, NoteLength songBeatDuration)
+    public MusicScore(
+        List<Note> notes, 
+        Difficulty songDifficulty, 
+        int songBPM, 
+        NoteLength songBeatDuration)
     {
         difficulty = songDifficulty;
         BPM = songBPM;

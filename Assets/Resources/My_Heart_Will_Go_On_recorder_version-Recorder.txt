@@ -55,7 +55,7 @@
         <direction-type>
           <metronome parentheses="no">
             <beat-unit>quarter</beat-unit>
-            <per-minute>110</per-minute>
+            <per-minute>103</per-minute>
             </metronome>
           </direction-type>
         <sound tempo="103"/>
