@@ -103,6 +103,12 @@ public class MusicScore
         return beatMap.Dequeue();
     }
 
+    // Method for peeking at a note from map
+    public Tuple<Note, double> peekNote()
+    {
+        return beatMap.Peek();
+    }
+
 
     // Get remaining number of notes in song
     public int GetNumRemainingNotes()

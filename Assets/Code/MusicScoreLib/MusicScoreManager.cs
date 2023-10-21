@@ -130,7 +130,7 @@ public class MusicScoreManager : MonoBehaviour
     private double _spawnToZoneDistance;
 
     // Private members for defining interal song properties
-    private Queue<Note> _musicScore;        // music score containing queue of all notes
+    private MusicScore _musicScore;         // music score containing queue of all notes
     private int _musicNumNotes;             // number of actual notes in score (not counting rests)
     private int _songDurationBeats;         // total number of beats in song
     private int _songStartupBeats;          // number of empty beats prior to starting song
@@ -144,6 +144,7 @@ public class MusicScoreManager : MonoBehaviour
     private double _timeSinceLastNote;      // timer for last note time in real-time
     private double _songStartTime;          // actual time that the song started playing
     private double _songTime;               // time within the song
+    private Tuple<Note, double> _nextNote;  // next note in the note queue
 
     /* Unity Loop Methods */
     private void Start()
@@ -171,7 +172,7 @@ public class MusicScoreManager : MonoBehaviour
 
         // Process music xml file and level properties to create music score (beatmap)
         Debug.Log("(MSM) Processing music score");
-        MusicScore _musicScore = MSMUtil.ProcessMusicScore(scoreFile, "P1", difficulty);
+        _musicScore = MSMUtil.ProcessMusicScore(scoreFile, "P1", difficulty);
         Debug.Log("(MSM) Finished processing");
         _songDurationBeats = (BPM/60) * (songDurationMinutes*60 + songDurationSeconds);
 
@@ -252,30 +253,31 @@ public class MusicScoreManager : MonoBehaviour
 
                 }
             }
-        }*/
+        }
+        */
 
         // Song
         if (!_songStarted)
         {
-            _songStarted = true;
+            _songStarted =true;
             _as.PlayOneShot(songAudio);
             _songStartTime = Time.timeSinceLevelLoad;
             Debug.Log("(MSM) Started music at " + _songStartTime);
         }
+        
         // Spawn notes
         else
         {
             _nowTime = Time.timeSinceLevelLoad;
             _songTime = _nowTime - _songStartTime;
+            _nextNote = _musicScore.peekNote();
 
             // Spawn note before it reaches player using the spawn delay
-            /*
-            if (_songTime >= _musicScore.Peek().SpawnTime - GetSpawnDelay(_musicScore.Peek()))
+            if (_songTime >= _nextNote.Item2 - MSMUtil.timeFromSpawnToHitzone(_nextNote.Item1, difficulty))
             {
-                SpawnNote(_musicScore.Dequeue());
+                SpawnNote(_musicScore.readNote().Item1);
                 Debug.Log("(MSM) Spawned: " + _nowTime);
             }
-            */
         }
     }
 
@@ -286,7 +288,6 @@ public class MusicScoreManager : MonoBehaviour
     {
         return _musicNumNotes;
     }
-
 
     // Method to spawn a note
     void SpawnNote(Note currNote)
