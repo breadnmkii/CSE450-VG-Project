@@ -275,8 +275,9 @@ public class MusicScoreManager : MonoBehaviour
             // Spawn note before it reaches player using the spawn delay
             if (_songTime >= _nextNote.Item2 - MSMUtil.timeFromSpawnToHitzone(_nextNote.Item1, difficulty))
             {
+                
                 SpawnNote(_musicScore.readNote().Item1);
-                Debug.Log("(MSM) Spawned: " + _nowTime);
+                Debug.Log("(MSM) Spawned at: " + _nowTime);
             }
         }
     }
@@ -317,6 +318,7 @@ public class MusicScoreManager : MonoBehaviour
         // Configure obstacle physics
         if (songNote != null)
         {
+            Debug.Log("(MSM) Spawned note of length " + (NoteLength)currNote.Length);
             // For every note in chord
             foreach (NoteLocation loc in currNote.Location)
             {

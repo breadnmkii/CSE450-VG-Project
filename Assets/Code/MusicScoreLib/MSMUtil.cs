@@ -94,11 +94,11 @@ public class MSMUtil : MonoBehaviour
         // get first measure metadata
         Debug.Log("(MSMUtil) XML MUSIC METADATA PROCESSING");
         XmlNode songMetadata = root.SelectSingleNode($"//part[@id='{instrumentPartID}']/measure[@number='1']/attributes");
-        XmlNode songDirection = root.SelectSingleNode($"//part[@id='{instrumentPartID}']/measure[@number='1']/direction");
+        XmlNode songDirection = root.SelectSingleNode($"//metronome");
 
-        if (songDirection.SelectSingleNode("./direction-type/metronome/per-minute") != null)
+        if (songDirection.SelectSingleNode("./per-minute") != null)
         {
-            BPM = int.Parse(songDirection.SelectSingleNode("./direction-type/metronome/per-minute").InnerXml);
+            BPM = int.Parse(songDirection.SelectSingleNode("./per-minute").InnerXml);
         }
         else
         {
@@ -107,28 +107,35 @@ public class MSMUtil : MonoBehaviour
         
         int beatsPerMeasure     = int.Parse(songMetadata.SelectSingleNode("./time/beats").InnerXml);
         NoteLength beatDuration = (NoteLength)int.Parse(songMetadata.SelectSingleNode("./time/beat-type").InnerXml);
-        bool isSingleStaff      = int.Parse(songMetadata.SelectSingleNode("./staves").InnerXml) == 1;
+        bool isMultiStaff = false;
+        if (songMetadata.SelectSingleNode("./staves") != null)
+        {
+            isMultiStaff = int.Parse(songMetadata.SelectSingleNode("./staves").InnerXml) != 1;
+        }
+        
 
 
         // DEBUG
         Debug.Log("(MSMUtil) BPM is " + BPM 
                     + ", beats per measure is " + beatsPerMeasure 
                     + ", beat duration is " + beatDuration 
-                    + ", and single staff is " + isSingleStaff);
+                    + ", and is multi staff?: " + isMultiStaff);
 
 
         /* BODY BLOCK PROCESSING */
         Debug.Log("(MSMUtil) XML MUSIC BODY PROCESSSING");
-        // inject n=beatsPerMeasure startup beats of beat-duration note length (rest notes with metronome sound)
+        // TODO: inject n=beatsPerMeasure startup beats of beat-duration note length (rest notes with metronome sound)
+        /*
         for (int i=0; i<beatsPerMeasure; i++)
         {
             Note startupNote = new(NoteType.Rest, beatDuration, false, NoteLocation.Lane1);
             notes.Add(startupNote);
         }
+        */
 
         // Get every measure of instrument part
-        XmlNodeList pianoMeasures = root.SelectNodes($"//part[@id='{instrumentPartID}']/measure");
-        foreach (XmlNode measure in pianoMeasures)
+        XmlNodeList measures = root.SelectNodes($"//part[@id='{instrumentPartID}']/measure");
+        foreach (XmlNode measure in measures)
         {
             // Get every note of measure
             XmlNodeList measureNotes = measure.SelectNodes("./note");
@@ -141,19 +148,55 @@ public class MSMUtil : MonoBehaviour
                 // 3. determine note location
                 // 4. create and add note to list
 
-                // Get note length
-                NoteLength currNoteLen = MxmlLengthToNoteLength(note.SelectSingleNode("./type").InnerXml);
-                bool currIsDottedNote = false;
-                if (note.SelectSingleNode("./dot") != null)
+                // If is a chord note, ignore (for now)
+                if (note.SelectSingleNode("./chord") != null)
                 {
-                    currIsDottedNote = true;
+                    Debug.Log("(MSMUtil) Skipping chord note...");
+                    continue;
+                }
+
+                // If is non-primary staff note, ignore
+                if (isMultiStaff && note.SelectSingleNode("./staff").InnerXml != "1")
+                {
+                    Debug.Log("(MSMUtil) Skipping non-primary staff note...");
+                    continue;
                 }
 
                 // Determine note projectile type
                 // TODO: idk how we want to automatically determine type,
                 // this is a game-feel thing so maybe we reach out to our
                 // resident game addicts for advice
-                NoteType currNoteType = NoteType.BallProjectileA;
+                NoteType currNoteType;
+                if (note.SelectSingleNode("./rest") != null)
+                {
+                    // Set rest notes as rest notes
+                    currNoteType = NoteType.Rest;
+                }
+                else
+                {
+                    // TODO: hardcoding all notes as ATK_A notes
+                    currNoteType = NoteType.BallProjectileA;
+                }
+
+                // Get note length
+                NoteLength currNoteLen;
+                if (note.SelectSingleNode("./rest[@measure='yes']") != null)
+                {
+                    // If rest measure, set length to one measure
+                    currNoteLen = (NoteLength)((int)beatDuration / beatsPerMeasure);
+                    Debug.Log("(MSMUtil) Rest measure read as " + currNoteLen + " length rest note");
+                }
+                else
+                {
+
+                    currNoteLen = MxmlLengthToNoteLength(note.SelectSingleNode("./type").InnerXml);
+                }
+                // Check if dotted
+                bool currIsDottedNote = false;
+                if (note.SelectSingleNode("./dot") != null)
+                {
+                    currIsDottedNote = true;
+                }
 
                 // Determine note location
                 // TODO: too lazy to implement automatic note location
@@ -165,9 +208,9 @@ public class MSMUtil : MonoBehaviour
                 Note currNote = new(currNoteType, currNoteLen, currIsDottedNote, currNoteLoc);
                 notes.Add(currNote);
 
-                // Debug.Log("(MSMUtil) Added note of " + currNoteType 
-                //             + " with length " + currNoteLen + " and dotted " + currIsDottedNote
-                //             + " at " + currNoteLoc);
+                Debug.Log("(MSMUtil) Added note of " + currNoteType 
+                            + " with length " + currNoteLen + " and dotted " + currIsDottedNote
+                            + " at " + currNoteLoc);
             }
         }
 
