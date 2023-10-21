@@ -1552,7 +1552,7 @@ MonoBehaviour:
   songAudio: {fileID: 8300000, guid: eee7f23b253b45e4e98d386b3b2d50ad, type: 3}
   metroUpAudio: {fileID: 8300000, guid: ac53e0368759edb4f9aeaba4e5038aff, type: 3}
   metroAudio: {fileID: 8300000, guid: 26ba0e0437847d044ab8b34fe9a92bb6, type: 3}
-  scoreFile: {fileID: 4900000, guid: 6fadf97f9855408458248d750a1803bc, type: 3}
+  scoreFile: {fileID: 4900000, guid: 2535ce776220f470f95c37dee3f26f2d, type: 3}
   songDurationMinutes: 4
   songDurationSeconds: 10
   BPM: 103
@@ -2911,6 +2911,55 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2081715202
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2081715204}
+  - component: {fileID: 2081715203}
+  m_Layer: 0
+  m_Name: MSMController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2081715203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081715202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b149376fac45bb04b8d487f862bd8bad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lanes: []
+  collisionChecker: {fileID: 0}
+  ballProjectileA: {fileID: 0}
+  ballProjectileB: {fileID: 0}
+  wallObstacle: {fileID: 0}
+--- !u!4 &2081715204
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081715202}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -11.92, y: -0.06, z: -0.09025619}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2089267436
 PrefabInstance:
   m_ObjectHideFlags: 0
