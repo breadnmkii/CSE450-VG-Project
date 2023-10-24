@@ -106,15 +106,12 @@ public class MSMUtil : MonoBehaviour
         {
             isMultiStaff = int.Parse(songMetadata.SelectSingleNode("./staves").InnerXml) != 1;
         }
-        
-
 
         // DEBUG
         Debug.Log("(MSMUtil) BPM is " + BPM 
                     + ", beats per measure is " + beatsPerMeasure 
                     + ", beat duration is " + beatDuration 
                     + ", and is multi staff?: " + isMultiStaff);
-
 
         /* BODY BLOCK PROCESSING */
         Debug.Log("(MSMUtil) XML MUSIC BODY PROCESSSING");
@@ -126,6 +123,9 @@ public class MSMUtil : MonoBehaviour
             notes.Add(startupNote);
         }
         */
+
+        // TODO: temporary bool to alternate note type
+        bool noteAtkType = false;
 
         // Get every measure of instrument part
         XmlNodeList measures = root.SelectNodes($"//part[@id='{instrumentPartID}']/measure");
@@ -145,21 +145,25 @@ public class MSMUtil : MonoBehaviour
                 // If is a chord note, ignore (for now)
                 if (note.SelectSingleNode("./chord") != null)
                 {
-                    Debug.Log("(MSMUtil) Skipping chord note...");
+                    // Debug.Log("(MSMUtil) Skipping chord note...");
                     continue;
                 }
 
                 // If is non-primary staff note, ignore
                 if (isMultiStaff && note.SelectSingleNode("./staff").InnerXml != "1")
                 {
-                    Debug.Log("(MSMUtil) Skipping non-primary staff note...");
+                    // Debug.Log("(MSMUtil) Skipping non-primary staff note...");
+                    continue;
+                }
+
+                // If is grace note, ignore
+                if (note.SelectSingleNode("./grace") != null)
+                {
+                    // Debug.Log("(MSMUtil) Skipping grace note...");
                     continue;
                 }
 
                 // Determine note projectile type
-                // TODO: idk how we want to automatically determine type,
-                // this is a game-feel thing so maybe we reach out to our
-                // resident game addicts for advice
                 NoteType currNoteType;
                 if (note.SelectSingleNode("./rest") != null)
                 {
@@ -168,8 +172,20 @@ public class MSMUtil : MonoBehaviour
                 }
                 else
                 {
-                    // TODO: hardcoding all notes as ATK_A notes
-                    currNoteType = NoteType.BallProjectileA;
+                    // TODO: idk how we want to automatically determine type,
+                    // this is a game-feel thing so maybe we reach out to our
+                    // resident game addicts for advice
+                    // TODO: hardcoding all notes as ATK_A notes, but can alternate later
+                    if (noteAtkType)
+                    {
+                        currNoteType = NoteType.BallProjectileA;
+                    }
+                    else
+                    {
+                        currNoteType = NoteType.BallProjectileA;
+                    }
+                    noteAtkType = !noteAtkType;
+
                 }
 
                 // Get note length
@@ -178,7 +194,7 @@ public class MSMUtil : MonoBehaviour
                 {
                     // If rest measure, set length to one measure
                     currNoteLen = (NoteLength)((int)beatDuration / beatsPerMeasure);
-                    Debug.Log("(MSMUtil) Rest measure read as " + currNoteLen + " length rest note");
+                    // Debug.Log("(MSMUtil) Rest measure read as " + currNoteLen + " length rest note");
                 }
                 else
                 {
@@ -202,9 +218,9 @@ public class MSMUtil : MonoBehaviour
                 Note currNote = new(currNoteType, currNoteLen, currIsDottedNote, currNoteLoc);
                 notes.Add(currNote);
 
-                Debug.Log("(MSMUtil) Added note of " + currNoteType 
-                            + " with length " + currNoteLen + " and dotted " + currIsDottedNote
-                            + " at " + currNoteLoc);
+                // Debug.Log("(MSMUtil) Added note of " + currNoteType 
+                //             + " with length " + currNoteLen + " and dotted " + currIsDottedNote
+                //             + " at " + currNoteLoc);
             }
         }
 

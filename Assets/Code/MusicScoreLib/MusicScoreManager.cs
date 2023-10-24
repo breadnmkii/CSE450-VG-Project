@@ -131,12 +131,12 @@ public class MusicScoreManager : MonoBehaviour
 
     // Private members for defining interal song properties
     private MusicScore _musicScore;         // music score containing queue of all notes
-    private int _musicNumNotes;             // number of actual notes in score (not counting rests)
-    private int _songDurationBeats;         // total number of beats in song
-    private int _songStartupBeats;          // number of empty beats prior to starting song
+    // private int _musicNumNotes;             // DEPRECATED number of actual notes in score (not counting rests)
+    // private int _songDurationBeats;         // DEPRECATED total number of beats in song
+    // private int _songStartupBeats;          // DEPRECATED number of empty beats prior to starting song
     private bool _songStarted;
 
-    private int _currBeat;                  // counter index to current beat in beat-time
+    // private int _currBeat;                  // DEPRECATED: counter index to current beat in beat-time
     private double _nowTime;                // var to hold current real-time
     private double _timeSpawnDelay;         // var to hold delay time from spawn to zone of note travel
     private double _timeDeltaBeat;          // delta time for beat-time
@@ -164,11 +164,9 @@ public class MusicScoreManager : MonoBehaviour
 
         /* Define private members */
         // Beat-time delta time vars
-        _currBeat = 0;  // Every song begins on beat 0
         _timeDeltaBeat = (double)60 / BPM;
         _timeSinceLastBeat = 0;
         _timeSinceLastNote = 0;
-        _songStartupBeats = 4;
 
         // Calculate spawn to zone distance
         _spawnToZoneDistance = Math.Abs(collisionChecker.transform.position[0] - lanes[0].transform.position[0]);
@@ -177,13 +175,6 @@ public class MusicScoreManager : MonoBehaviour
         Debug.Log("(MSM) Processing music score");
         _musicScore = MSMUtil.ProcessMusicScore(scoreFile, "P1", difficulty);
         Debug.Log("(MSM) Finished processing");
-        _songDurationBeats = (BPM/60) * (songDurationMinutes*60 + songDurationSeconds);
-
-        /* Post Checks */
-        if (_musicScore.GetNumTotalNotes() > _songDurationBeats * (int)NoteLength.Sixteenth)
-        {
-            throw new Exception("Cannot fit all of score's notes into song!");
-        }
 
         /* Prepare playing song audio */
         Debug.Log("(MSM) Playing song at difficulty " + difficulty);

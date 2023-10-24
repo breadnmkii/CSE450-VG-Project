@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 
@@ -31,6 +32,11 @@ public class Obstacles : MonoBehaviour
         // isBreakable = gameObject.CompareTag("Breakable");
     }
 
+    private void OnBecameInvisible()
+    {
+        Destroy(gameObject);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         
@@ -44,7 +50,7 @@ public class Obstacles : MonoBehaviour
         if (other.gameObject.GetComponent<ObstacleChecker>())
         {
             // Debug.Log("Ready for check");
-            Debug.Log("Enter zone at " + Time.timeSinceLevelLoad);
+            // Debug.Log("Enter zone at " + Time.timeSinceLevelLoad);
             if (isBreakable)
             {
                 other.gameObject.GetComponent<ObstacleChecker>().AddObstacle(gameObject);
@@ -57,8 +63,9 @@ public class Obstacles : MonoBehaviour
         if (isBreakable && other.gameObject.GetComponent<ObstacleChecker>())
         {
             // Debug.Log("Out Check");
-            Debug.Log("Exit zone at " + Time.timeSinceLevelLoad);
+            // Debug.Log("Exit zone at " + Time.timeSinceLevelLoad);
             other.gameObject.GetComponent<ObstacleChecker>().RemoveObstacle(gameObject.layer);
         }
     }
+
 }
