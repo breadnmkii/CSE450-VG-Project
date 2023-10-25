@@ -218,9 +218,9 @@ public class MSMUtil : MonoBehaviour
                 Note currNote = new(currNoteType, currNoteLen, currIsDottedNote, currNoteLoc);
                 notes.Add(currNote);
 
-                // Debug.Log("(MSMUtil) Added note of " + currNoteType 
-                //             + " with length " + currNoteLen + " and dotted " + currIsDottedNote
-                //             + " at " + currNoteLoc);
+                Debug.Log("(MSMUtil) Added note of " + currNoteType 
+                            + " with length " + currNoteLen + " and dotted " + currIsDottedNote
+                            + " at " + currNoteLoc);
             }
         }
 

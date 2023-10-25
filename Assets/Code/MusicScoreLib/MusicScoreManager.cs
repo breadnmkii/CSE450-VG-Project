@@ -110,10 +110,10 @@ public class MusicScoreManager : MonoBehaviour
 
     // Public members for song properties (readonly)
     public TextAsset scoreFile;
-    public int songDurationMinutes;
-    public int songDurationSeconds;
-    public int BPM;
-    public List<int> timeSignature;
+    // public int songDurationMinutes; // DEPRECATED
+    // public int songDurationSeconds; // DEPRECATED
+    // public int BPM; // DEPRECATED
+    // public List<int> timeSignature; // DEPRECATED
     public Difficulty difficulty;
 
     // Public lane locations
@@ -138,10 +138,10 @@ public class MusicScoreManager : MonoBehaviour
 
     // private int _currBeat;                  // DEPRECATED: counter index to current beat in beat-time
     private double _nowTime;                // var to hold current real-time
-    private double _timeSpawnDelay;         // var to hold delay time from spawn to zone of note travel
-    private double _timeDeltaBeat;          // delta time for beat-time
-    private double _timeSinceLastBeat;      // timer for last beat time in beat-time
-    private double _timeSinceLastNote;      // timer for last note time in real-time
+    // private double _timeSpawnDelay;         // DEPRECATED: var to hold delay time from spawn to zone of note travel
+    // private double _timeDeltaBeat;          // DEPRECATED: delta time for beat-time
+    // private double _timeSinceLastBeat;      // DEPRECATED: timer for last beat time in beat-time
+    // private double _timeSinceLastNote;      // DEPRECATED: timer for last note time in real-time
     private double _songStartTime;          // actual time that the song started playing
     private double _songTime;               // time within the song
     private Tuple<Note, double> _nextNote;  // next note in the note queue
@@ -149,25 +149,11 @@ public class MusicScoreManager : MonoBehaviour
     /* Unity Loop Methods */
     private void Start()
     {
-        /* Pre Checks */
-        if (timeSignature.Count != 2)
-        {
-            throw new Exception("Invalid time signature!");
-        }
-        if (BPM <= 0)
-        {
-            throw new Exception("BPM must be a positive valued number!");
-        }
 
         // Get attached AudioSource
         _as = gameObject.GetComponent<AudioSource>();
 
         /* Define private members */
-        // Beat-time delta time vars
-        _timeDeltaBeat = (double)60 / BPM;
-        _timeSinceLastBeat = 0;
-        _timeSinceLastNote = 0;
-
         // Calculate spawn to zone distance
         _spawnToZoneDistance = Math.Abs(collisionChecker.transform.position[0] - lanes[0].transform.position[0]);
 
@@ -197,22 +183,34 @@ public class MusicScoreManager : MonoBehaviour
         else
         {
             _nowTime = Time.timeSinceLevelLoad;
-            _songTime = _nowTime - _songStartTime;
+            // _songTime = _nowTime - _songStartTime;
             _nextNote = _musicScore.peekNote();
 
-            // Spawn note before it reaches player using the advance spawn time (re-added subtraction)
-            if (_songTime >= _nextNote.Item2 - MSMUtil.TimeForNoteToTravelDistance(_nextNote.Item1, difficulty, _spawnToZoneDistance))
+            if (_nextNote != null)
             {
-                // Do this check here to always dequeue the next note even if it should not be spawned
-                _nextNote = _musicScore.readNote();
-                if (_nextNote.Item1.Type != (int)NoteType.Rest)
+                double literalSpawnTime = _nextNote.Item2 - MSMUtil.TimeForNoteToTravelDistance(_nextNote.Item1,
+                                                                                                difficulty,
+                                                                                                _spawnToZoneDistance);
+
+                // If Rest note, remove immediately from queue (to see next real note)
+                if (_nextNote.Item1.Type == (int)NoteType.Rest)
                 {
-                    SpawnNote(_nextNote.Item1);
-                    Debug.Log("(MSM) Note with spawn time: " + _nextNote.Item2 + " Spawned at: " + _nowTime);
+                    Debug.Log("(MSM) Removed rest note");
+                    _musicScore.readNote();
                 }
-                else
+
+                // Spawn note before it reaches player using the advance spawn time
+                else if (_nowTime >= literalSpawnTime)
                 {
-                    Debug.Log("(MSM) Rest with spawn time: " + _nextNote.Item2);
+                    // Do this check here to always dequeue the next note even if it should not be 
+                    SpawnNote(_nextNote.Item1);
+                    Debug.Log("(MSM) Note with literal spawn time: " + literalSpawnTime + " Spawned at: " + _nowTime);
+
+                    // Advance noteQueue
+                    _musicScore.readNote();
+
+                    // Print measure debug
+                    Debug.Log("Measure: " + _nowTime * ((double)135 / 60) / 4);
                 }
             }
         }

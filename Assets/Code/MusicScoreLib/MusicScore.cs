@@ -40,7 +40,7 @@ public class MusicScore
     private void LoadNote(Note note)
     {
         beatMap.Enqueue(new Tuple<Note, double>(note, originTime));
-        Debug.Log($"(MusicScore) {(NoteType)note.Type}:{note.Length}:{originTime}");
+        // Debug.Log($"(MusicScore) {(NoteType)note.Type}:{note.Length}:{originTime}");
 
         // Update origin time with the note just enqueued's duration
         // (so that the next note played right after is correctly offset)
@@ -99,13 +99,27 @@ public class MusicScore
     // Method for reading a note from map
     public Tuple<Note, double> readNote()
     {
-        return beatMap.Dequeue();
+        if (beatMap.Count > 0)
+        {
+            return beatMap.Dequeue();
+        }
+        else
+        {
+            return null;
+        } 
     }
 
     // Method for peeking at a note from map
     public Tuple<Note, double> peekNote()
     {
-        return beatMap.Peek();
+        if (beatMap.Count > 0)
+        {
+            return beatMap.Peek();
+        }
+        else
+        {
+            return null;
+        }
     }
 
 
