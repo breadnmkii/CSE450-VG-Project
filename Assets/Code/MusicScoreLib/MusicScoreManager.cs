@@ -155,7 +155,7 @@ public class MusicScoreManager : MonoBehaviour
 
         /* Define private members */
         // Calculate spawn to zone distance
-        _spawnToZoneDistance = Math.Abs(collisionChecker.transform.position[0] - lanes[0].transform.position[0]);
+        _spawnToZoneDistance = Math.Abs(lanes[0].transform.position[0] - collisionChecker.transform.position[0]);
 
         // Process music xml file and level properties to create music score (beatmap)
         Debug.Log("(MSM) Processing music score");
@@ -208,11 +208,10 @@ public class MusicScoreManager : MonoBehaviour
 
                     // Advance noteQueue
                     _musicScore.readNote();
-
-                    // Print measure debug
-                    Debug.Log("Measure: " + _nowTime * ((double)135 / 60) / 4);
                 }
             }
+            // Print measure debug
+            Debug.Log("Measure: " + _nowTime * ((double)137 / 60) / 4);
         }
     }
 

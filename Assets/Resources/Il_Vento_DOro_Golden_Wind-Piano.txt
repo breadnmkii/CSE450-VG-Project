@@ -62,7 +62,7 @@
         <direction-type>
           <metronome parentheses="no">
             <beat-unit>quarter</beat-unit>
-            <per-minute>135</per-minute>
+            <per-minute>137</per-minute>
             </metronome>
           </direction-type>
         <staff>1</staff>
