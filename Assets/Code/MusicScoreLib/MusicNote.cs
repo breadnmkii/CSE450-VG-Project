@@ -32,16 +32,18 @@ namespace MusicNote
     public readonly struct Note
     {
         // Note member variables
-        private readonly NoteType type;
-        private readonly NoteLength len;
-        private readonly bool dotted;
-        private readonly List<NoteLocation> loc;
+        private readonly NoteType type;     // Projectile type of note
+        private readonly NoteLength len;    // Subdivision length of note
+        private readonly bool dotted;       // Whether note is dotted
+        private readonly bool tied;         // Whether note is tied/slurred to previous
+        private readonly List<NoteLocation> loc;    // List of lane locations
 
 
         // Getters
-        public readonly int Type { get { return (int)type; } }
+        public readonly NoteType Type { get { return type; } }
         public readonly int Length { get { return (int)len; } }
         public readonly bool isDotted { get { return dotted; } }
+        public readonly bool isTied {  get { return tied; } }
         public readonly List<NoteLocation> Location { get { return loc; } }
 
 
@@ -50,16 +52,18 @@ namespace MusicNote
             NoteType noteType,
             NoteLength noteLength,
             bool isDottedNote,
+            bool isTiedNote,
             NoteLocation noteLocation)
         {
             List<NoteLocation> noteLoc = new()
-        {
+            {
             noteLocation
-        };
+            };
 
             type = noteType;
             len = noteLength;
             dotted = isDottedNote;
+            tied = isTiedNote;
             loc = noteLoc;
         }
 
@@ -67,11 +71,13 @@ namespace MusicNote
             NoteType noteType,
             NoteLength noteLength,
             bool isDottedNote,
+            bool isTiedNote,
             List<NoteLocation> noteLocation)
         {
             type = noteType;
             len = noteLength;
             dotted = isDottedNote;
+            tied = isTiedNote;
             loc = noteLocation;
         }
     }
@@ -80,8 +86,7 @@ namespace MusicNote
 
 public enum NoteType
 {
-    Rest,            // empty note, will not spawm object
-    WallObstacle,
+    Rest,            // empty note, will spawn wall obstacle
     BallProjectileA,
     BallProjectileB,
 

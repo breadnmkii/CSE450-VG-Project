@@ -188,23 +188,23 @@ public class MusicScoreManager : MonoBehaviour
 
             if (_nextNote != null)
             {
-                double literalSpawnTime = _nextNote.Item2 - MSMUtil.TimeForNoteToTravelDistance(_nextNote.Item1,
-                                                                                                difficulty,
-                                                                                                _spawnToZoneDistance);
+                double actualSpawnTime = _nextNote.Item2 - MSMUtil.TimeForNoteToTravelDistance(_nextNote.Item1,
+                                                                                               difficulty,
+                                                                                               _spawnToZoneDistance);
 
                 // If Rest note, remove immediately from queue (to see next real note)
-                if (_nextNote.Item1.Type == (int)NoteType.Rest)
+                if (_nextNote.Item1.Type == NoteType.Rest)
                 {
                     Debug.Log("(MSM) Removed rest note");
                     _musicScore.readNote();
                 }
 
                 // Spawn note before it reaches player using the advance spawn time
-                else if (_nowTime >= literalSpawnTime)
+                else if (_nowTime >= actualSpawnTime)
                 {
                     // Do this check here to always dequeue the next note even if it should not be 
                     SpawnNote(_nextNote.Item1);
-                    Debug.Log("(MSM) Note with literal spawn time: " + literalSpawnTime + " Spawned at: " + _nowTime);
+                    Debug.Log("(MSM) Note with absolute spawn time: " + _nextNote.Item2 + " actually spawned at: " + actualSpawnTime);
 
                     // Advance noteQueue
                     _musicScore.readNote();
@@ -230,17 +230,14 @@ public class MusicScoreManager : MonoBehaviour
         GameObject songNote;
         switch (currNote.Type)
         {
-            case (int)NoteType.Rest:
+            case NoteType.Rest:
                 songNote = null;
                 break;
-            case (int)NoteType.BallProjectileA:
+            case NoteType.BallProjectileA:
                 songNote = ballProjectileA;
                 break;
-            case (int)NoteType.BallProjectileB:
+            case NoteType.BallProjectileB:
                 songNote = ballProjectileB;
-                break;
-            case (int)NoteType.WallObstacle:
-                songNote = wallObstacle;
                 break;
             default:
                 songNote = null;

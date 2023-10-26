@@ -39,30 +39,33 @@ public class MusicScore
     // Construct beatmap with MusicNotes
     private void LoadNote(Note note)
     {
-        beatMap.Enqueue(new Tuple<Note, double>(note, originTime));
-        // Debug.Log($"(MusicScore) {(NoteType)note.Type}:{note.Length}:{originTime}");
+        // If is a tied note do not enqueue, but still increment originTime
+        if (!note.isTied)
+        {
+            beatMap.Enqueue(new Tuple<Note, double>(note, originTime));
+        }
 
         // Update origin time with the note just enqueued's duration
         // (so that the next note played right after is correctly offset)
-        originTime += CalculateNoteSpawnTime(note);
+        originTime += CalculateNoteRelativeDuration(note);
 
         // Update total num notes count
         ++numTotalNotes;
     }
 
 
-    // Calculate overall absolute spawn time for a note
-    private double CalculateNoteSpawnTime(Note note)
+    // Calculate relative duration of a note from ONLY note properties
+    private double CalculateNoteRelativeDuration(Note note)
     {
-        double noteRelativeSpawnTime = 0.0;
-        // TODO: calculates absolute note spawn time from:
-        // 1. note length + dot
-        // 2. projectileType speed
+        double noteRelativeBeats = (double)beatDuration / note.Length;
+        
+        // If dotted, note length is 1.5 beats longer
+        if (note.isDotted)
+        {
+            noteRelativeBeats *= 1.5;
+        }
 
-        // Add relative note length
-        noteRelativeSpawnTime += secondsPerBeat * beatDuration / note.Length;
-
-        return noteRelativeSpawnTime;
+        return secondsPerBeat * noteRelativeBeats;
     }
 
 

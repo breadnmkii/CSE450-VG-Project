@@ -126,11 +126,16 @@ public class MSMUtil : MonoBehaviour
 
         // TODO: temporary bool to alternate note type
         bool noteAtkType = false;
+        bool openedTiedNotes = false;   // Flag to indicate whether current grouping of notes are tied
 
+        int currMeasureNum = 1;
         // Get every measure of instrument part
         XmlNodeList measures = root.SelectNodes($"//part[@id='{instrumentPartID}']/measure");
         foreach (XmlNode measure in measures)
         {
+            Debug.Log("Processing measure: " + currMeasureNum);
+            ++currMeasureNum;
+
             // Get every note of measure
             XmlNodeList measureNotes = measure.SelectNodes("./note");
             foreach (XmlNode note in measureNotes)
@@ -142,6 +147,7 @@ public class MSMUtil : MonoBehaviour
                 // 3. determine note location
                 // 4. create and add note to list
 
+                /* Note Metadata Parse */
                 // If is a chord note, ignore (for now)
                 if (note.SelectSingleNode("./chord") != null)
                 {
@@ -163,7 +169,33 @@ public class MSMUtil : MonoBehaviour
                     continue;
                 }
 
-                // Determine note projectile type
+                // Check if dotted
+                bool currIsDottedNote = false;
+                if (note.SelectSingleNode("./dot") != null)
+                {
+                    currIsDottedNote = true;
+                }
+                // Check if tied/slur note
+                bool currIsTiedNote = false;
+                if (openedTiedNotes)
+                {
+                    currIsTiedNote = true;
+                }
+                // Note that a note can both end and start a new tie,
+                // so "stop" has lower priority over a "start" tie
+                if (note.SelectSingleNode("./tie[@type='stop']") != null ||
+                    note.SelectSingleNode("./slur[@type='stop']") != null)
+                {
+                    openedTiedNotes = false;
+                }
+                if (note.SelectSingleNode("./tie[@type='start']") != null ||
+                    note.SelectSingleNode("./slur[@type='start']") != null)
+                {
+                    openedTiedNotes = true;
+                }
+                
+
+                /* Note Type Parse */
                 NoteType currNoteType;
                 if (note.SelectSingleNode("./rest") != null)
                 {
@@ -187,8 +219,9 @@ public class MSMUtil : MonoBehaviour
                     noteAtkType = !noteAtkType;
 
                 }
+                
 
-                // Get note length
+                /* Note Length Parse */
                 NoteLength currNoteLen;
                 if (note.SelectSingleNode("./rest[@measure='yes']") != null)
                 {
@@ -198,29 +231,25 @@ public class MSMUtil : MonoBehaviour
                 }
                 else
                 {
-
                     currNoteLen = MxmlLengthToNoteLength(note.SelectSingleNode("./type").InnerXml);
                 }
-                // Check if dotted
-                bool currIsDottedNote = false;
-                if (note.SelectSingleNode("./dot") != null)
-                {
-                    currIsDottedNote = true;
-                }
 
-                // Determine note location
+
+                /* Note Location Parse */
                 // TODO: too lazy to implement automatic note location
                 // placement. for now, just hardcodes lane 0.
                 // Eventually, should implement the "Wrap Around" method
                 NoteLocation currNoteLoc = NoteLocation.Lane1;
 
                 // Add note to list
-                Note currNote = new(currNoteType, currNoteLen, currIsDottedNote, currNoteLoc);
+                Note currNote = new(currNoteType, currNoteLen, currIsDottedNote, currIsTiedNote, currNoteLoc);
                 notes.Add(currNote);
 
-                Debug.Log("(MSMUtil) Added note of " + currNoteType 
-                            + " with length " + currNoteLen + " and dotted " + currIsDottedNote
-                            + " at " + currNoteLoc);
+                Debug.Log("(MSMUtil) Added note. \n Type: " + currNoteType 
+                            + " Len: " + currNoteLen 
+                            + " Dot: " + currIsDottedNote
+                            + " Tie: " + currIsTiedNote
+                            + " Loc: " + currNoteLoc);
             }
         }
 
@@ -238,19 +267,19 @@ public class MSMUtil : MonoBehaviour
         // TODO: hardcoded base speed 5, maybe use controller instance for the info
         double songNoteSpeed = songNote.Type switch
         {
-            (int)NoteType.BallProjectileA => 5, //ballProjectileA.GetComponent<Obstacles>().baseSpeed,
-            (int)NoteType.BallProjectileB => 5, //ballProjectileB.GetComponent<Obstacles>().baseSpeed,
-            (int)NoteType.WallObstacle => 5, //wallObstacle.GetComponent<Obstacles>().baseSpeed,
+            NoteType.BallProjectileA => 5, //ballProjectileA.GetComponent<Obstacles>().baseSpeed,
+            NoteType.BallProjectileB => 5, //ballProjectileB.GetComponent<Obstacles>().baseSpeed,
             _ => (double)0,
         };
 
-        double noteVelocity = GetDifficultyFactor(diff) * songNoteSpeed;
-        if (noteVelocity == 0)
+        double noteSpeed = GetDifficultyFactor(diff) * songNoteSpeed;
+        if (noteSpeed == 0)
         {
             // Case for rest note, takes 0 additional time to reach hitzone
             return 0;
         }
-        return distance / noteVelocity;
+        // TODO: hardcode dist - 1 for buggy offset??
+        return (distance-1) / noteSpeed;
     }
 
 
