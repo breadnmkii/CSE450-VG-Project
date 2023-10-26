@@ -43,6 +43,11 @@ public class Obstacles : MonoBehaviour
         if (other.gameObject.GetComponent<Player>())
         {
             Player player = other.gameObject.GetComponent<Player>();
+            // player animation
+            Animator playerAni = player.GetComponent<Animator>();
+            playerAni.SetTrigger("harm");
+            Destroy(gameObject);
+
             // Debug.Log("Touch Player");
             player.ModifyHP(-1);
             
