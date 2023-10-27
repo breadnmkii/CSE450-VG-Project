@@ -23,6 +23,6 @@ public class GameWin : MonoBehaviour
     public void restart()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("Scenes/DinoBasic");
+        SceneManager.LoadScene("Scenes/StartScene");
     }
 }
