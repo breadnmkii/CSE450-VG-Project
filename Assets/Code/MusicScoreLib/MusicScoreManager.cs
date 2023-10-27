@@ -112,7 +112,7 @@ public class MusicScoreManager : MonoBehaviour
     public TextAsset scoreFile;
     // public int songDurationMinutes; // DEPRECATED
     // public int songDurationSeconds; // DEPRECATED
-    public int BPM;
+    public double BPM;
     // public List<int> timeSignature; // DEPRECATED
     public Difficulty difficulty;
 
@@ -173,7 +173,7 @@ public class MusicScoreManager : MonoBehaviour
         _currStartUpBeat = 0;
         _songStartupBeats = 4;
         _timeSinceLastStartUpBeat = 0;
-        _timeDeltaStartUpBeat = (double)(60 / BPM);
+        _timeDeltaStartUpBeat = 60 / BPM;
 
         // Process music xml file and level properties to create music score (beatmap)
         Debug.Log("(MSM) Processing music score");
@@ -200,18 +200,18 @@ public class MusicScoreManager : MonoBehaviour
                 // Only play the start up metronome beats in intervals of 60/BPM
                 if (_nowTime >= _timeSinceLastStartUpBeat + _timeDeltaStartUpBeat)
                 {
-                    _timeSinceLastStartUpBeat += _timeDeltaStartUpBeat;
-
                     // Play the metronone sound
                     if (_currStartUpBeat == 0)
                     {
-                        _as.PlayOneShot(metroUpAudio);
+                        _timeSinceLastStartUpBeat = _nowTime;
+                        //_as.PlayOneShot(metroUpAudio);
                     }
                     else
                     {
                         _as.PlayOneShot(metroAudio);
                     }
 
+                    _timeSinceLastStartUpBeat += _timeDeltaStartUpBeat;
                     _currStartUpBeat++;
                 }
             }
@@ -233,13 +233,13 @@ public class MusicScoreManager : MonoBehaviour
             {
                 _nowTime = Time.timeSinceLevelLoad;
                 _songTime = _nowTime - _songStartTime;
-                double advanceSpawnTime = MSMUtil.TimeForNoteToTravelDistance(_nextNote.Item1,
-                                                                              difficulty,
-                                                                              _spawnToZoneDistance);
-                double actualSpawnTime = _nextNote.Item2;
-                                        //- avgDelayOffset;
+                
+                double actualSpawnTime = _nextNote.Item2; //- avgDelayOffset;
 
-                double tunedSpawnTimeOffsets = advanceSpawnTime + TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset;
+                double advanceSpawnTime = MSMUtil.TimeForNoteToTravelDistance(_nextNote.Item1,
+                                                                             difficulty,
+                                                                             _spawnToZoneDistance);
+                double tunedSpawnTimeOffsets = TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset;
 
 
                 // If Rest note, remove immediately from queue (to see next real note)
