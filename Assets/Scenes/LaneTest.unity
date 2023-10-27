@@ -1898,7 +1898,9 @@ MonoBehaviour:
   metroUpAudio: {fileID: 8300000, guid: ac53e0368759edb4f9aeaba4e5038aff, type: 3}
   metroAudio: {fileID: 8300000, guid: 26ba0e0437847d044ab8b34fe9a92bb6, type: 3}
   scoreFile: {fileID: 4900000, guid: d6f773f69db537548bc926a14889cf74, type: 3}
+  BPM: 0
   difficulty: 1
+  startUpDelay: 0
   lanes:
   - {fileID: 259612052}
   - {fileID: 1223552115}
@@ -3648,7 +3650,9 @@ MonoBehaviour:
   metroUpAudio: {fileID: 8300000, guid: ac53e0368759edb4f9aeaba4e5038aff, type: 3}
   metroAudio: {fileID: 8300000, guid: 26ba0e0437847d044ab8b34fe9a92bb6, type: 3}
   scoreFile: {fileID: 4900000, guid: ef87331afd9f54944bdcfc28b8c9f9b4, type: 3}
+  BPM: 60
   difficulty: 1
+  startUpDelay: 0
   lanes:
   - {fileID: 259612052}
   - {fileID: 1223552115}

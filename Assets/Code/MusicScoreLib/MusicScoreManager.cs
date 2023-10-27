@@ -112,7 +112,7 @@ public class MusicScoreManager : MonoBehaviour
     public TextAsset scoreFile;
     // public int songDurationMinutes; // DEPRECATED
     // public int songDurationSeconds; // DEPRECATED
-    // public int BPM; // DEPRECATED
+    public int BPM;
     // public List<int> timeSignature; // DEPRECATED
     public Difficulty difficulty;
 
@@ -133,20 +133,23 @@ public class MusicScoreManager : MonoBehaviour
 
     // Private members for defining interal song properties
     private MusicScore _musicScore;         // music score containing queue of all notes
-    // private int _musicNumNotes;             // DEPRECATED number of actual notes in score (not counting rests)
-    // private int _songDurationBeats;         // DEPRECATED total number of beats in song
-    // private int _songStartupBeats;          // DEPRECATED number of empty beats prior to starting song
-    private bool _songStarted;
+    // private int _musicNumNotes;          // DEPRECATED number of actual notes in score (not counting rests)
+    // private int _songDurationBeats;      // DEPRECATED total number of beats in song
+    private int _currStartUpBeat;           // counter of the current start up beat
+    private int _songStartupBeats;          // number of empty beats prior to starting song
+    private bool _songStarted;              // flag indicating whether or not the song has started playing
 
-    // private int _currBeat;                  // DEPRECATED: counter index to current beat in beat-time
-    private double _nowTime;                // var to hold current real-time
-    // private double _timeSpawnDelay;         // DEPRECATED: var to hold delay time from spawn to zone of note travel
-    // private double _timeDeltaBeat;          // DEPRECATED: delta time for beat-time
-    // private double _timeSinceLastBeat;      // DEPRECATED: timer for last beat time in beat-time
-    // private double _timeSinceLastNote;      // DEPRECATED: timer for last note time in real-time
-    private double _songStartTime;          // actual time that the song started playing
-    private double _songTime;               // time within the song
-    private Tuple<Note, double> _nextNote;  // next note in the note queue
+    // private int _currBeat;                   // DEPRECATED: counter index to current beat in beat-time
+    private double _nowTime;                    // var to hold current real-time
+    // private double _timeSpawnDelay;          // DEPRECATED: var to hold delay time from spawn to zone of note travel
+    // private double _timeDeltaBeat;           // DEPRECATED: delta time for beat-time
+    // private double _timeSinceLastBeat;       // DEPRECATED: timer for last beat time in beat-time
+    // private double _timeSinceLastNote;       // DEPRECATED: timer for last note time in real-time
+    private double _timeDeltaStartUpBeat;       // delta time for start-up beats
+    private double _timeSinceLastStartUpBeat;   // timer for last start-up beat in beat-time
+    private double _songStartTime;              // actual time that the song started playing
+    private double _songTime;                   // time within the song
+    private Tuple<Note, double> _nextNote;      // next note in the note queue
 
     // Song note correction variables
     private double avgDelayOffset = 0;          // running average of delay between actual spawn time to correct note spawning
@@ -155,6 +158,11 @@ public class MusicScoreManager : MonoBehaviour
     /* Unity Loop Methods */
     private void Start()
     {
+        // Pre checks
+        if (BPM <= 0)
+        {
+            throw new Exception("BPM must be a positive number!");
+        }
 
         // Get attached AudioSource
         _as = gameObject.GetComponent<AudioSource>();
@@ -162,6 +170,10 @@ public class MusicScoreManager : MonoBehaviour
         /* Define private members */
         // Calculate spawn to zone distance
         _spawnToZoneDistance = Math.Abs(lanes[0].transform.position[0] - collisionChecker.transform.position[0]);
+        _currStartUpBeat = 0;
+        _songStartupBeats = 4;
+        _timeSinceLastStartUpBeat = 0;
+        _timeDeltaStartUpBeat = (double)(60 / BPM);
 
         // Process music xml file and level properties to create music score (beatmap)
         Debug.Log("(MSM) Processing music score");
@@ -176,13 +188,40 @@ public class MusicScoreManager : MonoBehaviour
 
     private void Update()
     {
-        // Song
+        // Start up audio and start of song
         if (!_songStarted)
         {
-            _songStarted = true;
-            _as.PlayOneShot(songAudio);
-            _songStartTime = Time.timeSinceLevelLoad;
-            Debug.Log("(MSM) Started music at " + _songStartTime);
+            // Play the start up audio for the first 4 beats
+            _nowTime = Time.timeSinceLevelLoad;
+
+            // Verify we are still in the start up phase
+            if (_currStartUpBeat < _songStartupBeats)
+            {
+                // Only play the start up metronome beats in intervals of 60/BPM
+                if (_nowTime >= _timeSinceLastStartUpBeat + _timeDeltaStartUpBeat)
+                {
+                    _timeSinceLastStartUpBeat += _timeDeltaStartUpBeat;
+
+                    // Play the metronone sound
+                    if (_currStartUpBeat == 0)
+                    {
+                        _as.PlayOneShot(metroUpAudio);
+                    }
+                    else
+                    {
+                        _as.PlayOneShot(metroAudio);
+                    }
+
+                    _currStartUpBeat++;
+                }
+            }
+            else
+            {
+                _songStarted = true;
+                _as.PlayOneShot(songAudio);
+                _songStartTime = Time.timeSinceLevelLoad;
+                Debug.Log("(MSM) Started music at " + _songStartTime);
+            }
         }
         
         // Spawn notes
