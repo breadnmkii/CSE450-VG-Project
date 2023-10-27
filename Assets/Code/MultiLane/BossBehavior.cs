@@ -48,7 +48,6 @@ public class BossBehavior : MonoBehaviour
             HPCur -= damage;
             dead = HPCur <= 0;
         }
-        anim.SetBool("dead", dead);
     }
 
     IEnumerator deadAnim()

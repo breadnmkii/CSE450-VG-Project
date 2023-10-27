@@ -126,6 +126,8 @@ public class MusicScoreManager : MonoBehaviour
     public GameObject ballProjectileB;
     public GameObject wallObstacle;
 
+    public double TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset;
+
     // Private geometry variables
     private double _spawnToZoneDistance;
 
@@ -195,7 +197,11 @@ public class MusicScoreManager : MonoBehaviour
                 double advanceSpawnTime = MSMUtil.TimeForNoteToTravelDistance(_nextNote.Item1,
                                                                               difficulty,
                                                                               _spawnToZoneDistance);
-                double actualSpawnTime = _nextNote.Item2 - avgDelayOffset; // - advanceSpawnTime;
+                double actualSpawnTime = _nextNote.Item2;
+                                        //- avgDelayOffset;
+
+                double tunedSpawnTimeOffsets = advanceSpawnTime + TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset;
+
 
                 // If Rest note, remove immediately from queue (to see next real note)
                 if (_nextNote.Item1.Type == NoteType.Rest)
@@ -205,18 +211,19 @@ public class MusicScoreManager : MonoBehaviour
                 }
 
                 // Spawn note before it reaches player using the advance spawn time
-                else if (_songTime >= actualSpawnTime)
+                else if (_songTime >= (actualSpawnTime - tunedSpawnTimeOffsets))
                 {
                     // Do this check here to always dequeue the next note even if it should not be 
                     SpawnNote(_nextNote.Item1);
                     
                     Debug.Log("(MSM) Note with relative spawn time: " + _nextNote.Item2
                             + " actually spawned at: " + _songTime
-                            + " with advance of: " + advanceSpawnTime);
+                            + " with advance of: " + tunedSpawnTimeOffsets
+                            + " | Adaptive delay offset: " + avgDelayOffset);
 
                     // Update avgDelay time
-                    avgDelayOffset = ((avgDelayOffset * avgDelayCount) + (_songTime - actualSpawnTime))/(avgDelayCount+1);
-                    ++avgDelayCount;
+                    //avgDelayOffset = ((avgDelayOffset * avgDelayCount) + (_songTime - (actualSpawnTime - tunedSpawnTimeOffsets)))/(avgDelayCount+1);
+                    //++avgDelayCount;
 
                     // Advance noteQueue
                     _musicScore.readNote();

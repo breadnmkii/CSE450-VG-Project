@@ -1908,6 +1908,7 @@ MonoBehaviour:
   ballProjectileA: {fileID: 3469784436352636698, guid: dfa4d91876683a0428d00d77aea3b176, type: 3}
   ballProjectileB: {fileID: 36918871752905147, guid: ccbf882f51dc59149a00124f0bb70751, type: 3}
   wallObstacle: {fileID: 36918871752905147, guid: ccbf882f51dc59149a00124f0bb70751, type: 3}
+  TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 0
 --- !u!4 &814710157
 Transform:
   m_ObjectHideFlags: 0
@@ -3657,6 +3658,7 @@ MonoBehaviour:
   ballProjectileA: {fileID: 3469784436352636698, guid: dfa4d91876683a0428d00d77aea3b176, type: 3}
   ballProjectileB: {fileID: 36918871752905147, guid: ccbf882f51dc59149a00124f0bb70751, type: 3}
   wallObstacle: {fileID: 36918871752905147, guid: ccbf882f51dc59149a00124f0bb70751, type: 3}
+  TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 0.4
 --- !u!4 &1523707881
 Transform:
   m_ObjectHideFlags: 0
@@ -6264,7 +6266,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 4}
+  m_Size: {x: 1.092, y: 4}
   m_EdgeRadius: 0
 --- !u!4 &2139164482
 Transform:
@@ -6276,7 +6278,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.5, y: -2, z: 0}
-  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_LocalScale: {x: 1.5, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -6689,4 +6691,3 @@ SceneRoots:
   - {fileID: 4310420151944234273}
   - {fileID: 1497826032}
   - {fileID: 2081715204}
-  - {fileID: 1401497067}
