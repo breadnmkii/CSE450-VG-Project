@@ -90,8 +90,7 @@ public class ObstacleChecker : MonoBehaviour
         if (Input.GetKeyDown(AttackAKey[operationType]) ||
             Input.GetKeyDown(AttackBKey[operationType]))
         {
-            Player.GetComponent<Animator>().SetBool("atk", true);
-            Player.GetComponent<Animator>().SetBool("atk", false);
+            Player.GetComponent<Animator>().SetTrigger("atkkk");
             
             if (Player.layer == 6 && obs_Lane_0.Count > 0)
             {

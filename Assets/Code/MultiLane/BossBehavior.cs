@@ -15,6 +15,8 @@ public class BossBehavior : MonoBehaviour
     public GameObject WinUI;
     public MusicScoreManager LevelMusicManager;  // music score manager
 
+    Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,17 +25,21 @@ public class BossBehavior : MonoBehaviour
         HPCur = HPMax;
         dead = false;
         sprite = GetComponent<SpriteRenderer>();
-        anim = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (dead)
-        {
-            onDead();
-            
-        }
+        // Gives current number of beats
+        // currBeat = Time.timeSinceLevelLoad() * (BPM/60);
+        // if (currBeat % atkAnimInterval == 0) {
+        //     animator.SetTrigger("atk");
+        // }
+        // if (dead)
+        // {
+        //     animator.SetTrigger("dead");
+        // }
     }
     public void doDamage(int damage)
     {
@@ -43,13 +49,6 @@ public class BossBehavior : MonoBehaviour
             dead = HPCur <= 0;
         }
         anim.SetBool("dead", dead);
-    }
-
-    private void onDead()
-    {
-        sprite.flipY = true;
-        sprite.color = Color.red;
-        StartCoroutine(deadAnim());
     }
 
     IEnumerator deadAnim()
