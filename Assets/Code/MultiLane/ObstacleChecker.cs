@@ -110,8 +110,10 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
-
-                Boss.doDamage(1);
+                if (Boss != null)
+                {
+                    Boss.doDamage(1);
+                }
             }
             else if (Player.layer == 7 && obs_Lane_1.Count > 0)
             {
@@ -127,7 +129,10 @@ public class ObstacleChecker : MonoBehaviour
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
 
-                Boss.doDamage(1);
+                if (Boss != null)
+                {
+                    Boss.doDamage(1);
+                }
             }
             else if (Player.layer == 8 && obs_Lane_2.Count > 0)
             {
@@ -143,7 +148,10 @@ public class ObstacleChecker : MonoBehaviour
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
 
-                Boss.doDamage(1);
+                if (Boss != null)
+                {
+                    Boss.doDamage(1);
+                }
             }
             else if (Player.layer == 9 && obs_Lane_3.Count > 0)
             {
@@ -159,7 +167,10 @@ public class ObstacleChecker : MonoBehaviour
                 PlayHitSound();
 
                 // obs_Lane_3.Peek().GetComponent<Animator>().SetBool("shieldon", true);
-                Boss.doDamage(1);
+                if (Boss != null)
+                {
+                    Boss.doDamage(1);
+                }
             }
 
         }
