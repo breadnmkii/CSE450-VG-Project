@@ -15,6 +15,11 @@ public class Player : MonoBehaviour
     // Outlets
     Rigidbody2D _rb;
 
+    // Sound
+    AudioSource audioSource;
+    public AudioClip damageSound;
+    public float damageSoundVolume;
+
     // A tmp Character to solve possible animation problem.
     // public GameObject CharacterShadow;
     // List of lane pivot point, to hold the positions for player to move.
@@ -52,6 +57,7 @@ public class Player : MonoBehaviour
         HP = MaxHP;
         myAni = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
         MoveLaneKeys = new KeyCode[2, 4];
         MoveLaneKeys[0, 0] = KeyCode.A;
         MoveLaneKeys[0, 1] = KeyCode.S;
@@ -61,6 +67,7 @@ public class Player : MonoBehaviour
         MoveLaneKeys[1, 1] = KeyCode.L;
         MoveLaneKeys[1, 2] = KeyCode.K;
         MoveLaneKeys[1, 3] = KeyCode.J;
+        audioSource.volume = damageSoundVolume;
     }
 
     private void Update()
@@ -192,5 +199,11 @@ public class Player : MonoBehaviour
     public void setOperationType(int type)
     {
         this.operationType = type;
+    }
+
+    // Play the damage sound
+    public void PlayDamageSound()
+    {
+        audioSource.PlayOneShot(damageSound);
     }
 }

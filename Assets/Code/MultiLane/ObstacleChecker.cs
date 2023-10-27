@@ -12,6 +12,11 @@ public class ObstacleChecker : MonoBehaviour
     public GameObject Player;
     public BossBehavior Boss;
 
+    // Sound
+    AudioSource audioSource;
+    public AudioClip hitSound;
+    public float hitSoundVolume;
+
     private KeyCode[] AttackAKey;
     private KeyCode[] AttackBKey;
 
@@ -32,8 +37,8 @@ public class ObstacleChecker : MonoBehaviour
         AttackBKey = new KeyCode[2];
         AttackBKey[0] = KeyCode.K;
         AttackBKey[1] = KeyCode.D;
-
-
+        audioSource = GetComponent<AudioSource>();
+        audioSource.volume = hitSoundVolume;
     }
 
     // Add tar into the queue;
@@ -104,7 +109,8 @@ public class ObstacleChecker : MonoBehaviour
                     Quaternion.identity
                 );
                 Destroy(destroyed, 0.65f);
-                
+                PlayHitSound();
+
                 Boss.doDamage(1);
             }
             else if (Player.layer == 7 && obs_Lane_1.Count > 0)
@@ -119,6 +125,7 @@ public class ObstacleChecker : MonoBehaviour
                     Quaternion.identity
                 );
                 Destroy(destroyed, 0.65f);
+                PlayHitSound();
 
                 Boss.doDamage(1);
             }
@@ -134,6 +141,7 @@ public class ObstacleChecker : MonoBehaviour
                     Quaternion.identity
                 );
                 Destroy(destroyed, 0.65f);
+                PlayHitSound();
 
                 Boss.doDamage(1);
             }
@@ -148,6 +156,7 @@ public class ObstacleChecker : MonoBehaviour
                     Quaternion.identity
                 );
                 Destroy(destroyed, 0.65f);
+                PlayHitSound();
 
                 // obs_Lane_3.Peek().GetComponent<Animator>().SetBool("shieldon", true);
                 Boss.doDamage(1);
@@ -160,6 +169,12 @@ public class ObstacleChecker : MonoBehaviour
     public void setOperationType(int type)
     {
         this.operationType = type;
+    }
+
+    // Play the hit sound
+    public void PlayHitSound()
+    {
+        audioSource.PlayOneShot(hitSound);
     }
 }
 

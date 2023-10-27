@@ -52,6 +52,7 @@ public class Obstacles : MonoBehaviour
 
             // Update health
             player.ModifyHP(-1);
+            player.PlayDamageSound();
             
         }
         if (other.gameObject.GetComponent<ObstacleChecker>())
