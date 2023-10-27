@@ -146,6 +146,10 @@ public class MusicScoreManager : MonoBehaviour
     private double _songTime;               // time within the song
     private Tuple<Note, double> _nextNote;  // next note in the note queue
 
+    // Song note correction variables
+    private double avgDelayOffset = 0;          // running average of delay between actual spawn time to correct note spawning
+    private int avgDelayCount = 0;
+
     /* Unity Loop Methods */
     private void Start()
     {
@@ -173,7 +177,7 @@ public class MusicScoreManager : MonoBehaviour
         // Song
         if (!_songStarted)
         {
-            _songStarted =true;
+            _songStarted = true;
             _as.PlayOneShot(songAudio);
             _songStartTime = Time.timeSinceLevelLoad;
             Debug.Log("(MSM) Started music at " + _songStartTime);
@@ -182,36 +186,42 @@ public class MusicScoreManager : MonoBehaviour
         // Spawn notes
         else
         {
-            _nowTime = Time.timeSinceLevelLoad;
-            // _songTime = _nowTime - _songStartTime;
             _nextNote = _musicScore.peekNote();
 
             if (_nextNote != null)
             {
-                double actualSpawnTime = _nextNote.Item2 - MSMUtil.TimeForNoteToTravelDistance(_nextNote.Item1,
-                                                                                               difficulty,
-                                                                                               _spawnToZoneDistance);
+                _nowTime = Time.timeSinceLevelLoad;
+                _songTime = _nowTime - _songStartTime;
+                double advanceSpawnTime = MSMUtil.TimeForNoteToTravelDistance(_nextNote.Item1,
+                                                                              difficulty,
+                                                                              _spawnToZoneDistance);
+                double actualSpawnTime = _nextNote.Item2 - avgDelayOffset; // - advanceSpawnTime;
 
                 // If Rest note, remove immediately from queue (to see next real note)
                 if (_nextNote.Item1.Type == NoteType.Rest)
                 {
-                    Debug.Log("(MSM) Removed rest note");
+                    // Debug.Log("(MSM) Removed rest note");
                     _musicScore.readNote();
                 }
 
                 // Spawn note before it reaches player using the advance spawn time
-                else if (_nowTime >= actualSpawnTime)
+                else if (_songTime >= actualSpawnTime)
                 {
                     // Do this check here to always dequeue the next note even if it should not be 
                     SpawnNote(_nextNote.Item1);
-                    Debug.Log("(MSM) Note with absolute spawn time: " + _nextNote.Item2 + " actually spawned at: " + actualSpawnTime);
+                    
+                    Debug.Log("(MSM) Note with relative spawn time: " + _nextNote.Item2
+                            + " actually spawned at: " + _songTime
+                            + " with advance of: " + advanceSpawnTime);
+
+                    // Update avgDelay time
+                    avgDelayOffset = ((avgDelayOffset * avgDelayCount) + (_songTime - actualSpawnTime))/(avgDelayCount+1);
+                    ++avgDelayCount;
 
                     // Advance noteQueue
                     _musicScore.readNote();
                 }
             }
-            // Print measure debug
-            Debug.Log("Measure: " + _nowTime * ((double)137 / 60) / 4);
         }
     }
 
@@ -248,7 +258,6 @@ public class MusicScoreManager : MonoBehaviour
         // Configure obstacle physics
         if (songNote != null)
         {
-            Debug.Log("(MSM) Spawned note of length " + (NoteLength)currNote.Length);
             // For every note in chord
             foreach (NoteLocation loc in currNote.Location)
             {

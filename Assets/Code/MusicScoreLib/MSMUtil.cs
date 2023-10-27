@@ -128,13 +128,10 @@ public class MSMUtil : MonoBehaviour
         bool noteAtkType = false;
         bool openedTiedNotes = false;   // Flag to indicate whether current grouping of notes are tied
 
-        int currMeasureNum = 1;
         // Get every measure of instrument part
         XmlNodeList measures = root.SelectNodes($"//part[@id='{instrumentPartID}']/measure");
         foreach (XmlNode measure in measures)
         {
-            Debug.Log("Processing measure: " + currMeasureNum);
-            ++currMeasureNum;
 
             // Get every note of measure
             XmlNodeList measureNotes = measure.SelectNodes("./note");
@@ -244,12 +241,6 @@ public class MSMUtil : MonoBehaviour
                 // Add note to list
                 Note currNote = new(currNoteType, currNoteLen, currIsDottedNote, currIsTiedNote, currNoteLoc);
                 notes.Add(currNote);
-
-                Debug.Log("(MSMUtil) Added note. \n Type: " + currNoteType 
-                            + " Len: " + currNoteLen 
-                            + " Dot: " + currIsDottedNote
-                            + " Tie: " + currIsTiedNote
-                            + " Loc: " + currNoteLoc);
             }
         }
 
@@ -278,8 +269,7 @@ public class MSMUtil : MonoBehaviour
             // Case for rest note, takes 0 additional time to reach hitzone
             return 0;
         }
-        // TODO: hardcode dist - 1 for buggy offset??
-        return (distance-1) / noteSpeed;
+        return (distance) / noteSpeed;
     }
 
 
