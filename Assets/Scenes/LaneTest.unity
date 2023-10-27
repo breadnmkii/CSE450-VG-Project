@@ -3663,7 +3663,7 @@ MonoBehaviour:
   ballProjectileA: {fileID: 3469784436352636698, guid: dfa4d91876683a0428d00d77aea3b176, type: 3}
   ballProjectileB: {fileID: 36918871752905147, guid: ccbf882f51dc59149a00124f0bb70751, type: 3}
   wallObstacle: {fileID: 36918871752905147, guid: ccbf882f51dc59149a00124f0bb70751, type: 3}
-  TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 0.4
+  TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 0.9
 --- !u!4 &1523707881
 Transform:
   m_ObjectHideFlags: 0
