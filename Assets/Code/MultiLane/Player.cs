@@ -63,7 +63,7 @@ public class Player : MonoBehaviour
         MoveLaneKeys[0, 1] = KeyCode.S;
         MoveLaneKeys[0, 2] = KeyCode.D;
         MoveLaneKeys[0, 3] = KeyCode.F;
-        MoveLaneKeys[1, 0] = KeyCode.Colon;
+        MoveLaneKeys[1, 0] = KeyCode.Semicolon;
         MoveLaneKeys[1, 1] = KeyCode.L;
         MoveLaneKeys[1, 2] = KeyCode.K;
         MoveLaneKeys[1, 3] = KeyCode.J;

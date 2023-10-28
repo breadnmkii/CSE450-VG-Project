@@ -25,4 +25,15 @@ public class GameWin : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene("Scenes/StartScene");
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+
+    }
+
+    public void enterDino()
+    {
+        SceneManager.LoadScene("Scenes/DinoBasic");
+    }
 }
