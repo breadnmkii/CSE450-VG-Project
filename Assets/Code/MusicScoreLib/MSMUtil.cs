@@ -133,15 +133,8 @@ public class MSMUtil : MonoBehaviour
         XmlNodeList measures = root.SelectNodes($"//part[@id='{instrumentPartID}']/measure");
         foreach (XmlNode measure in measures)
         {
-            // Update lane index
-            if (laneIndex == 3)
-            {
-                laneIndex = 0;
-            }
-            else
-            {
-                laneIndex++;
-            }
+            // Select random lane index
+            laneIndex = UnityEngine.Random.Range(0, 3);
 
             // Get every note of measure
             XmlNodeList measureNotes = measure.SelectNodes("./note");
