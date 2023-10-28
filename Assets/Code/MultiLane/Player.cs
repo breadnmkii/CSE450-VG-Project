@@ -110,7 +110,7 @@ public class Player : MonoBehaviour
         }
 
         // Jump
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
             if (jumpsLeft > 0)
             {

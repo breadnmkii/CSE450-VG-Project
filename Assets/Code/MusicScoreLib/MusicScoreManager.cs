@@ -247,7 +247,7 @@ public class MusicScoreManager : MonoBehaviour
 
 
                 // If Rest note, remove immediately from queue (to see next real note)
-                if (_nextNote.Item1.Type == NoteType.Rest)
+                if (_nextNote.Item1.Type == NoteType.Rest || _nextNote.Item1.isTied)
                 {
                     // Debug.Log("(MSM) Removed rest note");
                     _musicScore.readNote();
@@ -348,11 +348,11 @@ public class MusicScoreManager : MonoBehaviour
 
     public void pauseSong()
     {
-        _as.Pause();
+        AudioListener.pause = true;
     }
 
     public void resumeSong()
     {
-        _as.UnPause();
+        AudioListener.pause = false;
     }
 }

@@ -124,7 +124,7 @@ public class MSMUtil : MonoBehaviour
         }
         */
 
-        
+        /* Automatic beatmapping property variables */
         bool noteAtkType = false;       // Alternate note type
         bool openedTiedNotes = false;   // Flag to indicate whether current grouping of notes are tied
         string lastNotePitch = "";      // String containing "<octave-num><note-letter>" pitch of last note

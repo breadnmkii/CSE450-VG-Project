@@ -1089,6 +1089,57 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.2243328, y: 22.77575}
   m_EdgeRadius: 0
+--- !u!1 &440785010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 440785012}
+  - component: {fileID: 440785011}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &440785011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440785010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 631c88268848c45d098a4b6756d5d221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lanes:
+  - {fileID: 1826531203}
+  - {fileID: 137389666}
+  - {fileID: 889583103}
+  - {fileID: 982403579}
+  destoryedPrefab: {fileID: 1856961937390044543, guid: 2ee273d92de6b446ab2dc45b6c547f29, type: 3}
+  formingPrefab: {fileID: 2560667235637085830, guid: 15c3b8464907e4994984add225ead1fa, type: 3}
+--- !u!4 &440785012
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440785010}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &549382686
 GameObject:
   m_ObjectHideFlags: 0
@@ -2185,7 +2236,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: -71
     y: -12
-    width: 60
+    width: 77
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -2464,7 +2515,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 22.158539
     y: -13.219513
-    width: 71
+    width: 111
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -2959,7 +3010,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 152.14633
     y: -12.719513
-    width: 74
+    width: 114
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -3024,7 +3075,7 @@ MonoBehaviour:
   sceneNameOLD: 
 --- !u!114 &1481581197
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -3443,3 +3494,4 @@ SceneRoots:
   - {fileID: 1481581176}
   - {fileID: 707420612}
   - {fileID: 1303751119}
+  - {fileID: 440785012}
