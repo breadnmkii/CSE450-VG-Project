@@ -7,9 +7,12 @@ public class BossBehavior : MonoBehaviour
 
     private int HPMax;
     private int HPCur;
+    // TODO: fix hardcoded animation interval vars
+    private int BPM = 135;
+    private int atkAnimInterval = 8;
+    private int currBeat = 0;
+
     private bool dead;
-    private SpriteRenderer sprite;
-    private Animator anim;
 
     // Outlets
     public GameObject WinUI;
@@ -31,11 +34,12 @@ public class BossBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // TODO: correct hardcoded BPM and add death animation
         // Gives current number of beats
-        // currBeat = Time.timeSinceLevelLoad() * (BPM/60);
-        // if (currBeat % atkAnimInterval == 0) {
-        //     animator.SetTrigger("atk");
-        // }
+        currBeat = Mathf.FloorToInt((Time.timeSinceLevelLoad * (BPM/60)));
+        if (currBeat % atkAnimInterval == 0) {
+            animator.SetTrigger("atk");
+        }
         // if (dead)
         // {
         //     animator.SetTrigger("dead");
@@ -48,13 +52,6 @@ public class BossBehavior : MonoBehaviour
             HPCur -= damage;
             dead = HPCur <= 0;
         }
-    }
-
-    IEnumerator deadAnim()
-    {
-        gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.down * 2f;
-        yield return new WaitForSeconds(1f);
-        WinUI.SetActive(true);
     }
 
     public int GetMaxHP()

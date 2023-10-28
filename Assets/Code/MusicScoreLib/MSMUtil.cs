@@ -127,15 +127,19 @@ public class MSMUtil : MonoBehaviour
         /* Automatic beatmapping property variables */
         bool noteAtkType = false;       // Alternate note type
         bool openedTiedNotes = false;   // Flag to indicate whether current grouping of notes are tied
-        string lastNotePitch = "";      // String containing "<octave-num><note-letter>" pitch of last note
-                                        //  to determine if rise or fall in pitch
-        int lastNoteLane = 0;           // In conjunction with `lastNotePitch` to determine to shift lane
-                                        //  up or down
+        int measureCount = 0;
 
         // Get every measure of instrument part
         XmlNodeList measures = root.SelectNodes($"//part[@id='{instrumentPartID}']/measure");
         foreach (XmlNode measure in measures)
         {
+            measureCount++;
+            Debug.Log("Processing measure " + measureCount);
+
+            string lastNotePitch = "";      // String containing "<octave-num><note-letter>" pitch of last note
+                                            //  to determine if rise or fall in pitch
+            int lastNoteLane = 0;           // In conjunction with `lastNotePitch` to determine to shift lane
+                                            //  up or down
 
             // Get every note of measure
             XmlNodeList measureNotes = measure.SelectNodes("./note");
@@ -245,7 +249,7 @@ public class MSMUtil : MonoBehaviour
                     if (SumStringASCII(currNotePitch) > SumStringASCII(lastNotePitch))
                     {
                         lastNotePitch = currNotePitch;      // update last note pitch
-                        lastNoteLane = (lastNoteLane++) % 4; // HARDCODE: 4 lanes
+                        lastNoteLane = (lastNoteLane + 1) % 4; // HARDCODE: 4 lanes
                         Debug.Log("Up pitch at lane " + lastNoteLane);
                     }
                     else if (SumStringASCII(currNotePitch) < SumStringASCII(lastNotePitch))

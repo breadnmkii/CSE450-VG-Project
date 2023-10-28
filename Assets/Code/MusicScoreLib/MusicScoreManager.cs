@@ -244,6 +244,10 @@ public class MusicScoreManager : MonoBehaviour
                                                                              difficulty,
                                                                              _spawnToZoneDistance);
                 double tunedSpawnTimeOffsets = TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset;
+                // protege --> 2
+                // concert --> 0.9
+                // virtuoso --> ??
+                // prodigy --> ????
 
 
                 // If Rest note, remove immediately from queue (to see next real note)

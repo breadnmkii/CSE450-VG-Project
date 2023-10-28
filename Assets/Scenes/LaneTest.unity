@@ -3654,7 +3654,7 @@ MonoBehaviour:
   metroAudio: {fileID: 8300000, guid: 26ba0e0437847d044ab8b34fe9a92bb6, type: 3}
   scoreFile: {fileID: 4900000, guid: ef87331afd9f54944bdcfc28b8c9f9b4, type: 3}
   BPM: 135
-  difficulty: 1
+  difficulty: 0
   lanes:
   - {fileID: 259612052}
   - {fileID: 1223552115}
@@ -3665,7 +3665,7 @@ MonoBehaviour:
   ballProjectileB: {fileID: 36918871752905147, guid: ccbf882f51dc59149a00124f0bb70751, type: 3}
   wallObstacle: {fileID: 36918871752905147, guid: ccbf882f51dc59149a00124f0bb70751, type: 3}
   finalAttack: {fileID: 355395019591000410, guid: d557479b0d78ec649ab40fbabcfdd5e5, type: 3}
-  TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 0.9
+  TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 2
 --- !u!4 &1523707881
 Transform:
   m_ObjectHideFlags: 0
@@ -6401,7 +6401,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 601065269}
   Boss: {fileID: 1619203707}
-  hitSound: {fileID: 8300000, guid: 21ebd40f1ac28a44086c6e2609d4633a, type: 3}
+  hitSound: {fileID: 8300000, guid: 9c6b51244a41a034da0a21476eaa8b33, type: 3}
   hitSoundVolume: 0.75
 --- !u!212 &2139164484
 SpriteRenderer:
