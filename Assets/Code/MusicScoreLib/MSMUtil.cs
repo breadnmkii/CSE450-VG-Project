@@ -124,9 +124,13 @@ public class MSMUtil : MonoBehaviour
         }
         */
 
-        // TODO: temporary bool to alternate note type
-        bool noteAtkType = false;
+        
+        bool noteAtkType = false;       // Alternate note type
         bool openedTiedNotes = false;   // Flag to indicate whether current grouping of notes are tied
+        string lastNotePitch = "";      // String containing "<octave-num><note-letter>" pitch of last note
+                                        //  to determine if rise or fall in pitch
+        int lastNoteLane = 0;           // In conjunction with `lastNotePitch` to determine to shift lane
+                                        //  up or down
 
         // Get every measure of instrument part
         XmlNodeList measures = root.SelectNodes($"//part[@id='{instrumentPartID}']/measure");
@@ -233,10 +237,26 @@ public class MSMUtil : MonoBehaviour
 
 
                 /* Note Location Parse */
-                // TODO: too lazy to implement automatic note location
-                // placement. for now, just hardcodes lane 0.
-                // Eventually, should implement the "Wrap Around" method
-                NoteLocation currNoteLoc = NoteLocation.Lane1;
+                // Get current note pitch as string
+                string currNotePitch = note.SelectSingleNode("./pitch").InnerText;
+                // "Wrap Around" method
+                if (SumStringASCII(currNotePitch) > SumStringASCII(lastNotePitch))
+                {
+                    lastNotePitch = currNotePitch;      // update last note pitch
+                    lastNoteLane = (lastNoteLane++)% 4; // HARDCODE: 4 lanes
+                    Debug.Log("Up pitch at lane " + lastNoteLane);
+                }
+                else if (SumStringASCII(currNotePitch) < SumStringASCII(lastNotePitch))
+                {
+                    lastNotePitch = currNotePitch;
+                    --lastNoteLane;
+                    if (lastNoteLane < 0)
+                    {
+                        lastNoteLane = 3;
+                    }
+                    Debug.Log("Down pitch at lane " + lastNoteLane);
+                }
+                NoteLocation currNoteLoc = (NoteLocation)lastNoteLane;
 
                 // Add note to list
                 Note currNote = new(currNoteType, currNoteLen, currIsDottedNote, currIsTiedNote, currNoteLoc);
@@ -311,6 +331,18 @@ public class MSMUtil : MonoBehaviour
             "512th" => NoteLength.FiveTwelfth,
             _ => throw new Exception("Invalid MXML Note Type to Note Length!"),
         };
+    }
+
+    private static int SumStringASCII(string str)
+    {
+        int sum = 0;
+        foreach (char c in str)
+        {
+            sum *= 10;  // advance base for next char
+            sum += (int)c;
+        }
+
+        return sum;
     }
 }
 
