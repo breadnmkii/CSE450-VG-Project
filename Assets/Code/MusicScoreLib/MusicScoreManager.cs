@@ -348,11 +348,11 @@ public class MusicScoreManager : MonoBehaviour
 
     public void pauseSong()
     {
-        _as.Pause();
+        AudioListener.pause = true;
     }
 
     public void resumeSong()
     {
-        _as.UnPause();
+        AudioListener.pause = false;
     }
 }
