@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossBehavior : MonoBehaviour
 {
-
+    // Member variables
     private int HPMax;
     private int HPCur;
     // TODO: fix hardcoded animation interval vars
@@ -27,7 +27,6 @@ public class BossBehavior : MonoBehaviour
 
         HPCur = HPMax;
         dead = false;
-        sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
     }
 
