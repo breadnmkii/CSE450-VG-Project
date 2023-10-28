@@ -238,23 +238,26 @@ public class MSMUtil : MonoBehaviour
 
                 /* Note Location Parse */
                 // Get current note pitch as string
-                string currNotePitch = note.SelectSingleNode("./pitch").InnerText;
-                // "Wrap Around" method
-                if (SumStringASCII(currNotePitch) > SumStringASCII(lastNotePitch))
+                if (note.SelectSingleNode("./pitch") != null)
                 {
-                    lastNotePitch = currNotePitch;      // update last note pitch
-                    lastNoteLane = (lastNoteLane++)% 4; // HARDCODE: 4 lanes
-                    Debug.Log("Up pitch at lane " + lastNoteLane);
-                }
-                else if (SumStringASCII(currNotePitch) < SumStringASCII(lastNotePitch))
-                {
-                    lastNotePitch = currNotePitch;
-                    --lastNoteLane;
-                    if (lastNoteLane < 0)
+                    string currNotePitch = note.SelectSingleNode("./pitch").InnerText;
+                    // "Wrap Around" method
+                    if (SumStringASCII(currNotePitch) > SumStringASCII(lastNotePitch))
                     {
-                        lastNoteLane = 3;
+                        lastNotePitch = currNotePitch;      // update last note pitch
+                        lastNoteLane = (lastNoteLane++) % 4; // HARDCODE: 4 lanes
+                        Debug.Log("Up pitch at lane " + lastNoteLane);
                     }
-                    Debug.Log("Down pitch at lane " + lastNoteLane);
+                    else if (SumStringASCII(currNotePitch) < SumStringASCII(lastNotePitch))
+                    {
+                        lastNotePitch = currNotePitch;
+                        --lastNoteLane;
+                        if (lastNoteLane < 0)
+                        {
+                            lastNoteLane = 3;
+                        }
+                        Debug.Log("Down pitch at lane " + lastNoteLane);
+                    }
                 }
                 NoteLocation currNoteLoc = (NoteLocation)lastNoteLane;
 
