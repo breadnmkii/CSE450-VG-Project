@@ -77,6 +77,7 @@ public class MSMUtil : MonoBehaviour
     {
         List<Note> notes = new();
         int BPM;
+        int laneIndex = 0;
 
         XmlDocument doc = new();
         Debug.Log("(MSMUtil) Loading XML...");
@@ -132,6 +133,15 @@ public class MSMUtil : MonoBehaviour
         XmlNodeList measures = root.SelectNodes($"//part[@id='{instrumentPartID}']/measure");
         foreach (XmlNode measure in measures)
         {
+            // Update lane index
+            if (laneIndex == 3)
+            {
+                laneIndex = 0;
+            }
+            else
+            {
+                laneIndex++;
+            }
 
             // Get every note of measure
             XmlNodeList measureNotes = measure.SelectNodes("./note");
@@ -236,7 +246,7 @@ public class MSMUtil : MonoBehaviour
                 // TODO: too lazy to implement automatic note location
                 // placement. for now, just hardcodes lane 0.
                 // Eventually, should implement the "Wrap Around" method
-                NoteLocation currNoteLoc = NoteLocation.Lane1;
+                NoteLocation currNoteLoc = (NoteLocation)laneIndex;
 
                 // Add note to list
                 Note currNote = new(currNoteType, currNoteLen, currIsDottedNote, currIsTiedNote, currNoteLoc);
