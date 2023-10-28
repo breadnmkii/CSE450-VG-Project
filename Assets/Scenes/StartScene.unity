@@ -429,8 +429,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 56.696877, y: -48.387085}
-  m_SizeDelta: {x: 130.5937, y: 34.7742}
+  m_AnchoredPosition: {x: 72.85, y: -53.909977}
+  m_SizeDelta: {x: 159.49, y: 42.42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &121983466
 MonoBehaviour:
@@ -855,8 +855,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.8772, y: -17.5029}
-  m_SizeDelta: {x: 1400.9039, y: 839.9344}
+  m_AnchoredPosition: {x: 3.01, y: -16.79}
+  m_SizeDelta: {x: 1716.76, y: 1016.98}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &344873175
 MonoBehaviour:
@@ -896,6 +896,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 344873173}
   m_CullTransparentMesh: 1
+--- !u!1 &367351046
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 367351048}
+  - component: {fileID: 367351047}
+  m_Layer: 0
+  m_Name: _FungusState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &367351047
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367351046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61dddfdc5e0e44ca298d8f46f7f5a915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedFlowchart: {fileID: 0}
+--- !u!4 &367351048
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367351046}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &471420525
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,8 +1312,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -77, y: -50}
-  m_SizeDelta: {x: 92.9585, y: 19}
+  m_AnchoredPosition: {x: -92.09, y: -53.91}
+  m_SizeDelta: {x: 145.23, y: 42.42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &852004040
 MonoBehaviour:
@@ -1318,7 +1363,7 @@ GameObject:
   - component: {fileID: 897714118}
   - component: {fileID: 897714117}
   m_Layer: 5
-  m_Name: Button
+  m_Name: StartGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1341,8 +1386,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.0244, y: 16.5632}
-  m_SizeDelta: {x: 532.5314, y: 42.0585}
+  m_AnchoredPosition: {x: 3.45, y: 25.18}
+  m_SizeDelta: {x: 654.78, y: 59.29}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &897714117
 MonoBehaviour:
@@ -1390,7 +1435,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1352225033}
         m_TargetAssemblyTypeName: GameWin, Assembly-CSharp
-        m_MethodName: restart
+        m_MethodName: enterDino
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1851,10 +1896,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1600, y: 900}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1871,8 +1916,8 @@ Canvas:
   m_GameObject: {fileID: 1267490578}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 533829017}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -2042,7 +2087,7 @@ GameObject:
   - component: {fileID: 1816982137}
   - component: {fileID: 1816982136}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ShutDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2065,7 +2110,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -631, y: 347}
+  m_AnchoredPosition: {x: -772, y: 423}
   m_SizeDelta: {x: 13.8154, y: 13.8154}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1816982136
@@ -2111,7 +2156,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1816982137}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1352225033}
+        m_TargetAssemblyTypeName: GameWin, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1816982137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2259,8 +2316,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -77.9, y: -48.387}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -90.2, y: -54.3}
+  m_SizeDelta: {x: 283.3, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2077479945
 MonoBehaviour:
@@ -2311,8 +2368,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16.2
-  m_fontSizeBase: 16.2
+  m_fontSize: 20.49
+  m_fontSizeBase: 20.49
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2437,3 +2494,4 @@ SceneRoots:
   - {fileID: 1267490582}
   - {fileID: 2114708693}
   - {fileID: 1352225032}
+  - {fileID: 367351048}

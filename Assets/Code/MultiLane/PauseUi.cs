@@ -127,6 +127,6 @@ public class PauseUi : MonoBehaviour
     {
 
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Scenes/DinoBasic");
+        SceneManager.LoadScene("Scenes/StartScene");
     }
 }
