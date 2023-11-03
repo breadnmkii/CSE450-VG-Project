@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading;
 using UnityEngine;
+using TMPro;
 
 
 // Basic manager for multilane scene.
@@ -12,6 +13,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player instance;
+
     // Outlets
     Rigidbody2D _rb;
 
@@ -36,18 +39,30 @@ public class Player : MonoBehaviour
 
     // index of lane that the player is on.
     private int lane_No;
-    
+
     // representing current operation type: 0 = right-handed, 1 = left-handed;
     private int operationType;
 
     private KeyCode[,] MoveLaneKeys;
-    
+
 
     // Gameover UI Object
     public GameObject DeadUI;
 
     // Player's animator
     private Animator myAni;
+
+    // Score Tracking
+    private double score;
+    public double hitReward;
+    public double damagePenalty;
+    public double missPenalty;
+    public TMP_Text scoreUI;
+
+    void Awake()
+    {
+        instance = this;
+    }
 
     //Initialize
     private void Start()
@@ -68,13 +83,17 @@ public class Player : MonoBehaviour
         MoveLaneKeys[1, 2] = KeyCode.K;
         MoveLaneKeys[1, 3] = KeyCode.J;
         audioSource.volume = damageSoundVolume;
+        score = 0;
     }
 
     private void Update()
     {
+        // Update UI
+        scoreUI.text = "Score: " + GetScore().ToString();
+
         myAni.SetBool("isGround", jumpsLeft > 0);
         myAni.SetFloat("HorizontalVelocity", _rb.velocity.y);
-        if ( this.HP <= 0 )
+        if (this.HP <= 0)
         {
             myAni.SetBool("Dead", true);
         }
@@ -157,7 +176,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("LaneGround"))
         {
             // Check what is directly below our character's feet
-            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.down, 1.1f );
+            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.down, 1.1f);
 
             // Debug.DrawRay(transform.position, Vector2.down * 1.1f);
 
@@ -205,5 +224,39 @@ public class Player : MonoBehaviour
     public void PlayDamageSound()
     {
         audioSource.PlayOneShot(damageSound);
+    }
+
+    // Retrieve score
+    public double GetScore()
+    {
+        return score;
+    }
+
+    // Modify score
+    private void ModifyScore(double s)
+    {
+        score += s;
+        if (score < 0)
+        {
+            score = 0;
+        }
+    }
+
+    // Earn points from hitting a note
+    public void EarnPointsFromHit()
+    {
+        ModifyScore(hitReward);
+    }
+
+    // Lose points from taking damage
+    public void LosePointsFromDamage()
+    {
+        ModifyScore(-damagePenalty);
+    }
+
+    // Lose points from missing a note
+    public void LostPointsFromMiss()
+    {
+        ModifyScore(-missPenalty);
     }
 }

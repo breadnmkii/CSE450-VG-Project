@@ -7,7 +7,7 @@ namespace DinoBasic
 {
     public class DinoBasicObstacle : MonoBehaviour
     {
-        
+
 
         // Outlet
         Rigidbody2D _rb;
@@ -27,9 +27,12 @@ namespace DinoBasic
 
         void OnCollisionEnter2D(Collision2D other)
         {
+
             // Reload scene when colliding with obstacle
             if (other.gameObject.GetComponent<DinoBasicController>())
             {
+                other.gameObject.GetComponent<Animator>().SetTrigger("dead");
+
                 other.gameObject.GetComponent<DinoBasicController>().Dead();
             }
 

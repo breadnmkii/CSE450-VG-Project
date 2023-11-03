@@ -9,7 +9,7 @@ public class ObstacleChecker : MonoBehaviour
     public Queue<GameObject> obs_Lane_1;
     public Queue<GameObject> obs_Lane_2;
     public Queue<GameObject> obs_Lane_3;
-    public GameObject Player;
+    public GameObject MyPlayer;
     public BossBehavior Boss;
 
     // Sound
@@ -95,9 +95,9 @@ public class ObstacleChecker : MonoBehaviour
         if (Input.GetKeyDown(AttackAKey[operationType]) ||
             Input.GetKeyDown(AttackBKey[operationType]))
         {
-            Player.GetComponent<Animator>().SetTrigger("atkkk");
+            MyPlayer.GetComponent<Animator>().SetTrigger("atkkk");
             
-            if (Player.layer == 6 && obs_Lane_0.Count > 0)
+            if (MyPlayer.layer == 6 && obs_Lane_0.Count > 0)
             {
 
               
@@ -110,12 +110,14 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
+                Player.instance.EarnPointsFromHit();
+
                 if (Boss != null)
                 {
                     Boss.doDamage(1);
                 }
             }
-            else if (Player.layer == 7 && obs_Lane_1.Count > 0)
+            else if (MyPlayer.layer == 7 && obs_Lane_1.Count > 0)
             {
                 // obs_Lane_1.Peek().GetComponent<Animator>().SetBool("shieldon", true);
 
@@ -128,13 +130,14 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
+                Player.instance.EarnPointsFromHit();
 
                 if (Boss != null)
                 {
                     Boss.doDamage(1);
                 }
             }
-            else if (Player.layer == 8 && obs_Lane_2.Count > 0)
+            else if (MyPlayer.layer == 8 && obs_Lane_2.Count > 0)
             {
                 // obs_Lane_2.Peek().GetComponent<Animator>().SetBool("shieldon", true);
 
@@ -147,13 +150,14 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
+                Player.instance.EarnPointsFromHit();
 
                 if (Boss != null)
                 {
                     Boss.doDamage(1);
                 }
             }
-            else if (Player.layer == 9 && obs_Lane_3.Count > 0)
+            else if (MyPlayer.layer == 9 && obs_Lane_3.Count > 0)
             {
 
                 Destroy(obs_Lane_3.Peek());
@@ -165,6 +169,7 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
+                Player.instance.EarnPointsFromHit();
 
                 // obs_Lane_3.Peek().GetComponent<Animator>().SetBool("shieldon", true);
                 if (Boss != null)
@@ -173,6 +178,11 @@ public class ObstacleChecker : MonoBehaviour
                 }
             }
 
+            // no notes hit, so player loses points for missing
+            else
+            {
+                Player.instance.LostPointsFromMiss();
+            }
         }
     }
 
