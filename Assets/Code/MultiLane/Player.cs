@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
     private Animator myAni;
 
     // Score Tracking
-    private double score;
+    private double score = 0;
     public double hitReward;
     public double damagePenalty;
     public double missPenalty;
@@ -88,8 +88,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        // Update UI
-        scoreUI.text = "Score: " + GetScore().ToString();
+        // Update UI    TODO: add scoreUI to player outlet
+        // scoreUI.text = "Score: " + GetScore().ToString();
 
         myAni.SetBool("isGround", jumpsLeft > 0);
         myAni.SetFloat("HorizontalVelocity", _rb.velocity.y);
