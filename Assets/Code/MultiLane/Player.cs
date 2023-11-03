@@ -12,6 +12,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player instance;
+
     // Outlets
     Rigidbody2D _rb;
 
@@ -49,6 +51,14 @@ public class Player : MonoBehaviour
     // Player's animator
     private Animator myAni;
 
+    // Score Tracking
+    private double score;
+
+    void Awake()
+    {
+        instance = this;
+    }
+
     //Initialize
     private void Start()
     {
@@ -68,6 +78,7 @@ public class Player : MonoBehaviour
         MoveLaneKeys[1, 2] = KeyCode.K;
         MoveLaneKeys[1, 3] = KeyCode.J;
         audioSource.volume = damageSoundVolume;
+        score = 0;
     }
 
     private void Update()
@@ -205,5 +216,21 @@ public class Player : MonoBehaviour
     public void PlayDamageSound()
     {
         audioSource.PlayOneShot(damageSound);
+    }
+
+    // Retrieve score
+    public double GetScore()
+    {
+        return score;
+    }
+
+    // Modify score
+    public void ModifyScore(double s)
+    {
+        score += s;
+        if (score < 0)
+        {
+            score = 0;
+        }
     }
 }

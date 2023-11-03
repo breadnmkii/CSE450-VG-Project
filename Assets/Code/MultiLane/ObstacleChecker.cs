@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ObstacleChecker : MonoBehaviour
 {
@@ -9,8 +10,10 @@ public class ObstacleChecker : MonoBehaviour
     public Queue<GameObject> obs_Lane_1;
     public Queue<GameObject> obs_Lane_2;
     public Queue<GameObject> obs_Lane_3;
-    public GameObject Player;
+    public GameObject MyPlayer;
     public BossBehavior Boss;
+    public double hitScore;
+    public TMP_Text scoreUI;
 
     // Sound
     AudioSource audioSource;
@@ -91,13 +94,16 @@ public class ObstacleChecker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Update UI
+        scoreUI.text = "Score: " + Player.instance.GetScore().ToString();
+
         // Attack
         if (Input.GetKeyDown(AttackAKey[operationType]) ||
             Input.GetKeyDown(AttackBKey[operationType]))
         {
-            Player.GetComponent<Animator>().SetTrigger("atkkk");
+            MyPlayer.GetComponent<Animator>().SetTrigger("atkkk");
             
-            if (Player.layer == 6 && obs_Lane_0.Count > 0)
+            if (MyPlayer.layer == 6 && obs_Lane_0.Count > 0)
             {
 
               
@@ -110,12 +116,14 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
+                Player.instance.ModifyScore(hitScore);
+
                 if (Boss != null)
                 {
                     Boss.doDamage(1);
                 }
             }
-            else if (Player.layer == 7 && obs_Lane_1.Count > 0)
+            else if (MyPlayer.layer == 7 && obs_Lane_1.Count > 0)
             {
                 // obs_Lane_1.Peek().GetComponent<Animator>().SetBool("shieldon", true);
 
@@ -128,13 +136,14 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
+                Player.instance.ModifyScore(hitScore);
 
                 if (Boss != null)
                 {
                     Boss.doDamage(1);
                 }
             }
-            else if (Player.layer == 8 && obs_Lane_2.Count > 0)
+            else if (MyPlayer.layer == 8 && obs_Lane_2.Count > 0)
             {
                 // obs_Lane_2.Peek().GetComponent<Animator>().SetBool("shieldon", true);
 
@@ -147,13 +156,14 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
+                Player.instance.ModifyScore(hitScore);
 
                 if (Boss != null)
                 {
                     Boss.doDamage(1);
                 }
             }
-            else if (Player.layer == 9 && obs_Lane_3.Count > 0)
+            else if (MyPlayer.layer == 9 && obs_Lane_3.Count > 0)
             {
 
                 Destroy(obs_Lane_3.Peek());
@@ -165,6 +175,7 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
+                Player.instance.ModifyScore(hitScore);
 
                 // obs_Lane_3.Peek().GetComponent<Animator>().SetBool("shieldon", true);
                 if (Boss != null)
