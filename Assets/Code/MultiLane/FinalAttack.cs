@@ -32,6 +32,7 @@ public class FinalAttack : MonoBehaviour
             // Update health
             player.ModifyHP(-2 * player.getHP());
             player.PlayDamageSound();
+            player.LosePointsFromDamage();
 
         }
         if (other.gameObject.GetComponent<ObstacleChecker>())

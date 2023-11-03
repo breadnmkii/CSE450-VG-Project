@@ -1559,6 +1559,10 @@ MonoBehaviour:
   MaxHP: 1083
   jumpsLeft: 1
   DeadUI: {fileID: 1718630070}
+  hitReward: 10
+  damagePenalty: 10
+  missPenalty: 5
+  scoreUI: {fileID: 88475552}
 --- !u!95 &601065275
 Animator:
   serializedVersion: 5
@@ -6581,8 +6585,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MyPlayer: {fileID: 601065269}
   Boss: {fileID: 1619203707}
-  hitScore: 10
-  scoreUI: {fileID: 88475552}
   hitSound: {fileID: 8300000, guid: 9c6b51244a41a034da0a21476eaa8b33, type: 3}
   hitSoundVolume: 0.75
 --- !u!212 &2139164484

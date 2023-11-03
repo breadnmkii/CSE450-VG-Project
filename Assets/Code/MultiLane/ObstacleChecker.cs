@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class ObstacleChecker : MonoBehaviour
 {
@@ -12,8 +11,6 @@ public class ObstacleChecker : MonoBehaviour
     public Queue<GameObject> obs_Lane_3;
     public GameObject MyPlayer;
     public BossBehavior Boss;
-    public double hitScore;
-    public TMP_Text scoreUI;
 
     // Sound
     AudioSource audioSource;
@@ -94,9 +91,6 @@ public class ObstacleChecker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Update UI
-        scoreUI.text = "Score: " + Player.instance.GetScore().ToString();
-
         // Attack
         if (Input.GetKeyDown(AttackAKey[operationType]) ||
             Input.GetKeyDown(AttackBKey[operationType]))
@@ -116,7 +110,7 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
-                Player.instance.ModifyScore(hitScore);
+                Player.instance.EarnPointsFromHit();
 
                 if (Boss != null)
                 {
@@ -136,7 +130,7 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
-                Player.instance.ModifyScore(hitScore);
+                Player.instance.EarnPointsFromHit();
 
                 if (Boss != null)
                 {
@@ -156,7 +150,7 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
-                Player.instance.ModifyScore(hitScore);
+                Player.instance.EarnPointsFromHit();
 
                 if (Boss != null)
                 {
@@ -175,7 +169,7 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
-                Player.instance.ModifyScore(hitScore);
+                Player.instance.EarnPointsFromHit();
 
                 // obs_Lane_3.Peek().GetComponent<Animator>().SetBool("shieldon", true);
                 if (Boss != null)
@@ -184,6 +178,11 @@ public class ObstacleChecker : MonoBehaviour
                 }
             }
 
+            // no notes hit, so player loses points for missing
+            else
+            {
+                Player.instance.LostPointsFromMiss();
+            }
         }
     }
 
