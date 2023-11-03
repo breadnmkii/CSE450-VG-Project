@@ -27,7 +27,6 @@ namespace DinoBasic
 
         void OnCollisionEnter2D(Collision2D other)
         {
-            other.gameObject.GetComponent<Animator>().SetTrigger("dead");
 
             // Reload scene when colliding with obstacle
             if (other.gameObject.GetComponent<DinoBasicController>())
