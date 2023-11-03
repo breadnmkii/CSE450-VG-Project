@@ -18,11 +18,16 @@ namespace DinoBasic
         // Lane position
         Vector3 PlayerStartPosition;
 
+        Animator animator;
+
         // Start is called before the first frame update
         void Start()
         {
             _rb = GetComponent<Rigidbody2D>();
             PlayerStartPosition = gameObject.transform.position;
+
+            animator = GetComponent<Animator>();
+
         }
 
         // Update is called once per frame
@@ -31,6 +36,7 @@ namespace DinoBasic
             // Jump
             if(Input.GetKey(KeyCode.Space))
             {
+                animator.SetBool("stand", true);
                 if(jumpsLeft > 0)
                 {
                     jumpsLeft--;
@@ -47,6 +53,8 @@ namespace DinoBasic
 
         public void Dead()
         {
+            animator.SetTrigger("dead");
+            
             DeadUI.SetActive(true);
             Time.timeScale = 0;
         }
@@ -70,6 +78,7 @@ namespace DinoBasic
                     // Check that we collided with ground below our feet
                     if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
                     {
+                        animator.SetBool("stand", false);
                         // Reset jump count
                         jumpsLeft = 1;
                     }
