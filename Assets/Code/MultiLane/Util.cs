@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 // Make sure methods here are for general purpose that might be needed for plural scripts.
 public class Util
 {
+
+    public static string[] Levels = { "Scenes/StartScene", "Scenes/DinoBasic", "Scenes/Tutorial", "Scenes/Level_JOJO", "Scene/Level_2" };
     // Usage: To create a delay in execution some codes.
     // Input: time -- The delay time (in seconds);
     //        action -- Actual codes/methods hope to be executed after the delay.
@@ -18,8 +20,6 @@ public class Util
         yield return new WaitForSeconds(time);
         action?.Invoke();
     }
-
-
 
     // Usage:To change an obj's position from one to another.
     // Input: obj -- Gameobject to be moved or to change the collision layer;
@@ -56,5 +56,10 @@ public class Util
     public static void LoadScene(string name)
     {
         SceneManager.LoadScene(name);
+    }
+
+    public static void LoadScene(int id)
+    {
+        SceneManager.LoadScene(Levels[id]);
     }
 }

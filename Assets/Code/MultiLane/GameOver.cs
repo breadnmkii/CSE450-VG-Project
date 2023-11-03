@@ -23,6 +23,6 @@ public class GameOver : MonoBehaviour
     public void restart()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Util.LoadScene(0);
     }
 }

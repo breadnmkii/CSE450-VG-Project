@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/DinoBasic.unity
     guid: d5c4bf2beb3218043b9061328990d7ae
   - enabled: 1
-    path: Assets/Scenes/LaneTest.unity
+    path: Assets/Scenes/Level_JOJO.unity
     guid: 5236618e23f4d75459a20758dd962564
   - enabled: 1
     path: Assets/Scenes/StartScene.unity
