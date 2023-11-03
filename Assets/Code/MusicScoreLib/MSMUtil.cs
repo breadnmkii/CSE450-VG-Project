@@ -153,6 +153,12 @@ public class MSMUtil : MonoBehaviour
                 // 4. create and add note to list
 
                 /* Note Metadata Parse */
+                // Only take notes on voice 1
+                if (note.SelectSingleNode("./voice").InnerXml != "1")
+                {
+                    // Debug.Log("(MSMUtil) Skip non-primary voice note");
+                    continue;
+                }
                 // If is a chord note, ignore (for now)
                 if (note.SelectSingleNode("./chord") != null)
                 {
@@ -250,7 +256,7 @@ public class MSMUtil : MonoBehaviour
                     {
                         lastNotePitch = currNotePitch;      // update last note pitch
                         lastNoteLane = (lastNoteLane + 1) % 4; // HARDCODE: 4 lanes
-                        Debug.Log("Up pitch at lane " + lastNoteLane);
+                        // Debug.Log("Up pitch at lane " + lastNoteLane);
                     }
                     else if (SumStringASCII(currNotePitch) < SumStringASCII(lastNotePitch))
                     {
@@ -260,7 +266,7 @@ public class MSMUtil : MonoBehaviour
                         {
                             lastNoteLane = 3;
                         }
-                        Debug.Log("Down pitch at lane " + lastNoteLane);
+                        // Debug.Log("Down pitch at lane " + lastNoteLane);
                     }
                 }
                 NoteLocation currNoteLoc = (NoteLocation)lastNoteLane;

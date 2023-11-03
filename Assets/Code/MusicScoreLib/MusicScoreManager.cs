@@ -111,11 +111,13 @@ public class MusicScoreManager : MonoBehaviour
 
     // Public members for song properties (readonly)
     public TextAsset scoreFile;
-    // public int songDurationMinutes; // DEPRECATED
-    // public int songDurationSeconds; // DEPRECATED
     public double BPM;
-    // public List<int> timeSignature; // DEPRECATED
     public Difficulty difficulty;
+    // DIFFICULTY ON TIME OFFSET DIFFERENCE
+    // protege --> 2    (0)
+    // concert --> 0.9  (-1.1)
+    // virtuoso --> ??
+    // prodigy --> ????
 
     // Public lane locations
     public GameObject[] lanes;
@@ -135,28 +137,18 @@ public class MusicScoreManager : MonoBehaviour
 
     // Private members for defining interal song properties
     private MusicScore _musicScore;         // music score containing queue of all notes
-    // private int _musicNumNotes;          // DEPRECATED number of actual notes in score (not counting rests)
-    // private int _songDurationBeats;      // DEPRECATED total number of beats in song
     private int _currStartUpBeat;           // counter of the current start up beat
     private int _songStartupBeats;          // number of empty beats prior to starting song
-    private bool _songStarted;              // flag indicating whether or not the song has started playing
+    private bool _gameStarted;              // flag indicating whether or not the game's level has begun
+    private bool _musicStarted;             // flag indicating whether or not the actual audio song has started
     private bool _finalAttackSpawned;       // flag indicating whether or not the final attack has been spawned
 
-    // private int _currBeat;                   // DEPRECATED: counter index to current beat in beat-time
     private double _nowTime;                    // var to hold current real-time
-    // private double _timeSpawnDelay;          // DEPRECATED: var to hold delay time from spawn to zone of note travel
-    // private double _timeDeltaBeat;           // DEPRECATED: delta time for beat-time
-    // private double _timeSinceLastBeat;       // DEPRECATED: timer for last beat time in beat-time
-    // private double _timeSinceLastNote;       // DEPRECATED: timer for last note time in real-time
     private double _timeDeltaStartUpBeat;       // delta time for start-up beats
     private double _timeSinceLastStartUpBeat;   // timer for last start-up beat in beat-time
     private double _songStartTime;              // actual time that the song started playing
     private double _songTime;                   // time within the song
     private Tuple<Note, double> _nextNote;      // next note in the note queue
-
-    // Song note correction variables
-    private double avgDelayOffset = 0;          // running average of delay between actual spawn time to correct note spawning
-    private int avgDelayCount = 0;
 
     /* Unity Loop Methods */
     private void Start()
@@ -184,105 +176,105 @@ public class MusicScoreManager : MonoBehaviour
         _musicScore = MSMUtil.ProcessMusicScore(scoreFile, "P1", difficulty);
         Debug.Log("(MSM) Finished processing");
 
-        /* Prepare playing song audio */
+        /* Prepare playing level */
         Debug.Log("(MSM) Playing song at difficulty " + difficulty);
-        _songStarted = false;
+        _gameStarted = false;
+        _musicStarted = false;
         _as.Stop();
     }
 
     private void Update()
     {
-        // Start up audio and start of song
-        if (!_songStarted)
+        // Play the start up audio for the first 4 beats
+        _nowTime = Time.timeSinceLevelLoad;
+
+        // Verify we are still in the start up phase to play metronome
+        if (_currStartUpBeat < _songStartupBeats)
         {
-            // Play the start up audio for the first 4 beats
-            _nowTime = Time.timeSinceLevelLoad;
-
-            // Verify we are still in the start up phase
-            if (_currStartUpBeat < _songStartupBeats)
+            // Only play the start up metronome beats in intervals of 60/BPM
+            if (_nowTime >= _timeSinceLastStartUpBeat + _timeDeltaStartUpBeat)
             {
-                // Only play the start up metronome beats in intervals of 60/BPM
-                if (_nowTime >= _timeSinceLastStartUpBeat + _timeDeltaStartUpBeat)
+                // Play the metronone sound
+                if (_currStartUpBeat == 0)
                 {
-                    // Play the metronone sound
-                    if (_currStartUpBeat == 0)
-                    {
-                        _timeSinceLastStartUpBeat = _nowTime;
-                        //_as.PlayOneShot(metroUpAudio);
-                    }
-                    else
-                    {
-                        _as.PlayOneShot(metroAudio);
-                    }
-
-                    _timeSinceLastStartUpBeat += _timeDeltaStartUpBeat;
-                    _currStartUpBeat++;
+                    _as.PlayOneShot(metroUpAudio);
                 }
+                else
+                {
+                    _as.PlayOneShot(metroAudio);
+                }
+
+                _timeSinceLastStartUpBeat += _timeDeltaStartUpBeat;
+                _currStartUpBeat++;
+            }
+        }
+        else
+        {
+            // Begin with actual song start time (reset origintime to post startup beats time)
+            if (!_gameStarted)
+            {
+                _gameStarted = true;
+                _songStartTime = Time.timeSinceLevelLoad;
+                Debug.Log("(MSM) Started game. Resetting origin time to " + _songStartTime);
             }
             else
             {
-                _songStarted = true;
-                _as.PlayOneShot(songAudio);
-                _songStartTime = Time.timeSinceLevelLoad;
-                Debug.Log("(MSM) Started music at " + _songStartTime);
-            }
-        }
-        
-        // Spawn notes
-        else
-        {
-            _nextNote = _musicScore.peekNote();
-
-            if (_nextNote != null)
-            {
+                // Compute song time
                 _nowTime = Time.timeSinceLevelLoad;
                 _songTime = _nowTime - _songStartTime;
+
+                // Delay oneshot audio by PROGRAMMATIC_OFFSET delay to "shift"
+                // song backwards to account for constant note travel delay
+                if (!_musicStarted && _songTime >= TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset)
+                {
+                    _as.PlayOneShot(songAudio);
+                    _musicStarted = true;
+                    Debug.Log("(MSM) Started music at " + _songTime);
+                }
+
+                // Spawn notes
+                _nextNote = _musicScore.peekNote();
+
+                if (_nextNote != null)
+                {
+                    double actualSpawnTime = _nextNote.Item2; //- avgDelayOffset;
+
+                    double advanceSpawnTime = MSMUtil.TimeForNoteToTravelDistance(_nextNote.Item1,
+                                                                                    difficulty,
+                                                                                    _spawnToZoneDistance);
+
+
+                    // If Rest note, remove immediately from queue (to see next real note)
+                    if (_nextNote.Item1.Type == NoteType.Rest || _nextNote.Item1.isTied)
+                    {
+                        // Debug.Log("(MSM) Removed rest note");
+                        _musicScore.readNote();
+                    }
+
+                    // Spawn based on note actual spawn time
+                    else if (_songTime >= actualSpawnTime) // - advanceSpawnTime)
+                    {
+                        // Do this check here to always dequeue the next note even if it should not be 
+                        SpawnNote(_nextNote.Item1);
+
+                        Debug.Log("(MSM) Note with demanded spawn time: " + _nextNote.Item2
+                                + " actually spawned at: " + _songTime);
+
+                        // Advance noteQueue
+                        _musicScore.readNote();
+                    }
+                }
+
+                // next note is null, so the song is over
+                else if (!_finalAttackSpawned)
+                {
+                    SpawnFinalAttack();
+                    _finalAttackSpawned = true;
+                }
+
+            }
+
                 
-                double actualSpawnTime = _nextNote.Item2; //- avgDelayOffset;
-
-                double advanceSpawnTime = MSMUtil.TimeForNoteToTravelDistance(_nextNote.Item1,
-                                                                             difficulty,
-                                                                             _spawnToZoneDistance);
-                double tunedSpawnTimeOffsets = TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset;
-                // protege --> 2
-                // concert --> 0.9
-                // virtuoso --> ??
-                // prodigy --> ????
-
-
-                // If Rest note, remove immediately from queue (to see next real note)
-                if (_nextNote.Item1.Type == NoteType.Rest || _nextNote.Item1.isTied)
-                {
-                    // Debug.Log("(MSM) Removed rest note");
-                    _musicScore.readNote();
-                }
-
-                // Spawn note before it reaches player using the advance spawn time
-                else if (_songTime >= (actualSpawnTime - tunedSpawnTimeOffsets))
-                {
-                    // Do this check here to always dequeue the next note even if it should not be 
-                    SpawnNote(_nextNote.Item1);
-                    
-                    Debug.Log("(MSM) Note with relative spawn time: " + _nextNote.Item2
-                            + " actually spawned at: " + _songTime
-                            + " with advance of: " + tunedSpawnTimeOffsets
-                            + " | Adaptive delay offset: " + avgDelayOffset);
-
-                    // Update avgDelay time
-                    //avgDelayOffset = ((avgDelayOffset * avgDelayCount) + (_songTime - (actualSpawnTime - tunedSpawnTimeOffsets)))/(avgDelayCount+1);
-                    //++avgDelayCount;
-
-                    // Advance noteQueue
-                    _musicScore.readNote();
-                }
-            }
-
-            // next note is null, so the song is over
-            else if (!_finalAttackSpawned)
-            {
-                SpawnFinalAttack();
-                _finalAttackSpawned = true;
-            }
         }
     }
 
