@@ -88,8 +88,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        // Update UI    TODO: add scoreUI to player outlet
-        // scoreUI.text = "Score: " + GetScore().ToString();
+        // Update UI
+        scoreUI.text = "Score: " + GetScore().ToString();
 
         myAni.SetBool("isGround", jumpsLeft > 0);
         myAni.SetFloat("HorizontalVelocity", _rb.velocity.y);
