@@ -125,7 +125,7 @@ public class MSMUtil : MonoBehaviour
         */
 
         /* Automatic beatmapping property variables */
-        bool noteAtkType = false;       // Alternate note type
+        bool noteAtkType = false;       // "Alternate note type" method
         bool inTiedGroup = false;   // Flag to indicate whether current group of notes are tied
         bool inTupletGroup = false;     // Flag to indicate whether current group is triplet
         int measureCount = 0;
@@ -245,7 +245,7 @@ public class MSMUtil : MonoBehaviour
                     }
                     else
                     {
-                        currNoteType = NoteType.BallProjectileA;
+                        currNoteType = NoteType.BallProjectileB;
                     }
                     noteAtkType = !noteAtkType;
 

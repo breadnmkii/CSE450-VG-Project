@@ -3675,10 +3675,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc326ff1cf7b3c2468ba961951d2f420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  songAudio: {fileID: 8300000, guid: 6dc0903aabc312942b6cf44add8b6f25, type: 3}
+  songAudio: {fileID: 8300000, guid: 98366839fed54d34499d101d2ba078eb, type: 3}
   metroUpAudio: {fileID: 8300000, guid: ac53e0368759edb4f9aeaba4e5038aff, type: 3}
   metroAudio: {fileID: 8300000, guid: 26ba0e0437847d044ab8b34fe9a92bb6, type: 3}
-  scoreFile: {fileID: 4900000, guid: 6036afe1e35354c46926f2e24757b23c, type: 3}
+  scoreFile: {fileID: 4900000, guid: ef87331afd9f54944bdcfc28b8c9f9b4, type: 3}
   BPM: 164
   difficulty: 0
   lanes:
@@ -3688,7 +3688,7 @@ MonoBehaviour:
   - {fileID: 906827272}
   collisionChecker: {fileID: 2139164480}
   ballProjectileA: {fileID: 3469784436352636698, guid: dfa4d91876683a0428d00d77aea3b176, type: 3}
-  ballProjectileB: {fileID: 36918871752905147, guid: ccbf882f51dc59149a00124f0bb70751, type: 3}
+  ballProjectileB: {fileID: 3469784436352636698, guid: cc37c37dbf2e7434592f324270e69206, type: 3}
   wallObstacle: {fileID: 36918871752905147, guid: ccbf882f51dc59149a00124f0bb70751, type: 3}
   finalAttack: {fileID: 355395019591000410, guid: d557479b0d78ec649ab40fbabcfdd5e5, type: 3}
   TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 2.1
