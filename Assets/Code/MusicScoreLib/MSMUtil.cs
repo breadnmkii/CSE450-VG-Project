@@ -126,7 +126,8 @@ public class MSMUtil : MonoBehaviour
 
         /* Automatic beatmapping property variables */
         bool noteAtkType = false;       // Alternate note type
-        bool openedTiedNotes = false;   // Flag to indicate whether current grouping of notes are tied
+        bool inTiedGroup = false;   // Flag to indicate whether current group of notes are tied
+        bool inTupletGroup = false;     // Flag to indicate whether current group is triplet
         int measureCount = 0;
 
         // Get every measure of instrument part
@@ -140,6 +141,8 @@ public class MSMUtil : MonoBehaviour
                                             //  to determine if rise or fall in pitch
             int lastNoteLane = 0;           // In conjunction with `lastNotePitch` to determine to shift lane
                                             //  up or down
+            // "Same random lane" note location method
+            lastNoteLane = UnityEngine.Random.Range(0, 3);
 
             // Get every note of measure
             XmlNodeList measureNotes = measure.SelectNodes("./note");
@@ -186,25 +189,42 @@ public class MSMUtil : MonoBehaviour
                 {
                     currIsDottedNote = true;
                 }
+
                 // Check if tied/slur note
                 bool currIsTiedNote = false;
-                if (openedTiedNotes)
+                if (inTiedGroup)
                 {
                     currIsTiedNote = true;
                 }
-                // Note that a note can both end and start a new tie,
+                // Note that a note can have both end and start a new tie,
                 // so "stop" has lower priority over a "start" tie
                 if (note.SelectSingleNode("./tie[@type='stop']") != null ||
                     note.SelectSingleNode("./slur[@type='stop']") != null)
                 {
-                    openedTiedNotes = false;
+                    inTiedGroup = false;
                 }
                 if (note.SelectSingleNode("./tie[@type='start']") != null ||
                     note.SelectSingleNode("./slur[@type='start']") != null)
                 {
-                    openedTiedNotes = true;
+                    inTiedGroup = true;
                 }
-                
+
+                // Check if tuplet group
+                bool currIsTupletNote = false;
+                if (inTupletGroup)
+                {
+                    currIsTupletNote = true;
+                }
+                // If <tuplet> type is 'open', beginning triplet group. Else, 'stop' is last triplet
+                if (note.SelectSingleNode("./notations/tuplet[@type='start']") != null)
+                {
+                    inTupletGroup = true;
+                    currIsTupletNote = true;
+                }
+                else if (note.SelectSingleNode("./notations/tuplet[@type='stop']") != null) {
+                    inTupletGroup = false;
+                }
+
 
                 /* Note Type Parse */
                 NoteType currNoteType;
@@ -242,7 +262,15 @@ public class MSMUtil : MonoBehaviour
                 }
                 else
                 {
-                    currNoteLen = MxmlLengthToNoteLength(note.SelectSingleNode("./type").InnerXml);
+                    // If is a triplet, set to triplet
+                    if (currIsTupletNote)
+                    {
+                        currNoteLen = NoteLength.Triplet;
+                    }
+                    else
+                    {
+                        currNoteLen = MxmlLengthToNoteLength(note.SelectSingleNode("./type").InnerXml);
+                    }
                 }
 
 
@@ -251,23 +279,22 @@ public class MSMUtil : MonoBehaviour
                 if (note.SelectSingleNode("./pitch") != null)
                 {
                     string currNotePitch = note.SelectSingleNode("./pitch").InnerText;
-                    // "Wrap Around" method
-                    if (SumStringASCII(currNotePitch) > SumStringASCII(lastNotePitch))
-                    {
-                        lastNotePitch = currNotePitch;      // update last note pitch
-                        lastNoteLane = (lastNoteLane + 1) % 4; // HARDCODE: 4 lanes
-                        // Debug.Log("Up pitch at lane " + lastNoteLane);
-                    }
-                    else if (SumStringASCII(currNotePitch) < SumStringASCII(lastNotePitch))
-                    {
-                        lastNotePitch = currNotePitch;
-                        --lastNoteLane;
-                        if (lastNoteLane < 0)
-                        {
-                            lastNoteLane = 3;
-                        }
-                        // Debug.Log("Down pitch at lane " + lastNoteLane);
-                    }
+                    //// "Wrap Around" method
+                    //if (SumStringASCII(currNotePitch) > SumStringASCII(lastNotePitch))
+                    //{
+                    //    lastNoteLane = (lastNoteLane + 1) % 4; // HARDCODE: 4 lanes
+                    //    // Debug.Log("Up pitch at lane " + lastNoteLane);
+                    //}
+                    //else if (SumStringASCII(currNotePitch) < SumStringASCII(lastNotePitch))
+                    //{
+                    //    --lastNoteLane;
+                    //    if (lastNoteLane < 0)
+                    //    {
+                    //        lastNoteLane = 3;
+                    //    }
+                    //    // Debug.Log("Down pitch at lane " + lastNoteLane);
+                    //}
+                    //lastNotePitch = currNotePitch;      // update last note pitch
                 }
                 NoteLocation currNoteLoc = (NoteLocation)lastNoteLane;
 

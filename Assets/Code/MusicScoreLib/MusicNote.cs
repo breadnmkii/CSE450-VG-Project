@@ -102,6 +102,7 @@ public enum NoteLength
     Half = 2,
     Quarter = 4,
     Eighth = 8,
+    Triplet = 12,
     Sixteenth = 16,
     Thirtysecond = 32,
     Sixtyfourth = 64,
