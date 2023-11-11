@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 public class Util
 {
 
-    public static string[] Levels = { "Scenes/StartScene", "Scenes/DinoBasic", "Scenes/Tutorial", "Scenes/Level_JOJO", "Scene/Level_2" };
+    public static string[] Levels = { "Scenes/StartScene", "Scenes/DinoBasic", "Scenes/Tutorial", "Scenes/Level_JOJO", "Scenes/Level_SHELTSHELT", "Scenes/MainMenu" };
     // Usage: To create a delay in execution some codes.
     // Input: time -- The delay time (in seconds);
     //        action -- Actual codes/methods hope to be executed after the delay.
