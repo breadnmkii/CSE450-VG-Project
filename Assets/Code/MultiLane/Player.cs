@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     AudioSource audioSource;
     public AudioClip damageSound;
     public float damageSoundVolume;
+    public AudioClip jumpSound;
+    public AudioClip slamSound;
 
     // A tmp Character to solve possible animation problem.
     // public GameObject CharacterShadow;
@@ -137,6 +139,7 @@ public class Player : MonoBehaviour
             {
                 jumpsLeft--;
                 _rb.AddForce(Vector2.up * 25f, ForceMode2D.Impulse);
+                audioSource.PlayOneShot(jumpSound);
             }
         }
 
@@ -144,6 +147,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && (jumpsLeft == 0))
         {
             Util.Move(gameObject, Lanes[lane_No].transform.GetChild(1).gameObject, "Lane" + lane_No.ToString());
+            audioSource.PlayOneShot(slamSound);
         }
     }
 
