@@ -54,7 +54,9 @@ public class Player : MonoBehaviour
 
     // Score Tracking
     private double score = 0;
-    public double hitReward;
+    public double goodHitReward;
+    public double greatHitReward;
+    public double perfHitReward;
     public double damagePenalty;
     public double missPenalty;
     public TMP_Text scoreUI;
@@ -242,10 +244,22 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Earn points from hitting a note
-    public void EarnPointsFromHit()
+    // Earn points from hitting a note in the "good" zone
+    public void EarnPointsFromGoodHit()
     {
-        ModifyScore(hitReward);
+        ModifyScore(goodHitReward);
+    }
+
+    // Earn points from hitting a note in the "great" zone
+    public void EarnPointsFromGreatHit()
+    {
+        ModifyScore(greatHitReward);
+    }
+
+    // Earn points from hitting a note in the "perfect" zone
+    public void EarnPointsFromPerfHit()
+    {
+        ModifyScore(perfHitReward);
     }
 
     // Lose points from taking damage

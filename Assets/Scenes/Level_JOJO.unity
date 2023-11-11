@@ -1559,7 +1559,9 @@ MonoBehaviour:
   MaxHP: 1083
   jumpsLeft: 1
   DeadUI: {fileID: 1718630070}
-  hitReward: 10
+  goodHitReward: 10
+  greatHitReward: 20
+  perfHitReward: 30
   damagePenalty: 10
   missPenalty: 5
   scoreUI: {fileID: 88475552}
