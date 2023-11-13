@@ -9,6 +9,12 @@ namespace DinoBasic
         // Outlet
         Rigidbody2D _rb;
 
+        // Sound
+        AudioSource audioSource;
+        public AudioClip jumpSound;
+        public AudioClip slamSound;
+        public float volume;
+
         // State tracking
         public int jumpsLeft;
 
@@ -27,6 +33,8 @@ namespace DinoBasic
             PlayerStartPosition = gameObject.transform.position;
 
             animator = GetComponent<Animator>();
+            audioSource = GetComponent<AudioSource>();
+            audioSource.volume = volume;
 
         }
 
@@ -41,6 +49,7 @@ namespace DinoBasic
                 {
                     jumpsLeft--;
                     _rb.AddForce(Vector2.up * 25f, ForceMode2D.Impulse);
+                    audioSource.PlayOneShot(jumpSound);
                 }
             }
 
@@ -48,6 +57,7 @@ namespace DinoBasic
             if (Input.GetKeyDown(KeyCode.S))
             {
                 gameObject.transform.position = PlayerStartPosition;
+                audioSource.PlayOneShot(slamSound);
             }
         }
 

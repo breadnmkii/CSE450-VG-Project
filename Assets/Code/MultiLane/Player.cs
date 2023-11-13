@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     AudioSource audioSource;
     public AudioClip damageSound;
     public float damageSoundVolume;
+    public AudioClip jumpSound;
+    public AudioClip slamSound;
 
     // A tmp Character to solve possible animation problem.
     // public GameObject CharacterShadow;
@@ -54,7 +56,9 @@ public class Player : MonoBehaviour
 
     // Score Tracking
     private double score = 0;
-    public double hitReward;
+    public double goodHitReward;
+    public double greatHitReward;
+    public double perfHitReward;
     public double damagePenalty;
     public double missPenalty;
     public TMP_Text scoreUI;
@@ -135,6 +139,7 @@ public class Player : MonoBehaviour
             {
                 jumpsLeft--;
                 _rb.AddForce(Vector2.up * 25f, ForceMode2D.Impulse);
+                audioSource.PlayOneShot(jumpSound);
             }
         }
 
@@ -142,6 +147,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && (jumpsLeft == 0))
         {
             Util.Move(gameObject, Lanes[lane_No].transform.GetChild(1).gameObject, "Lane" + lane_No.ToString());
+            audioSource.PlayOneShot(slamSound);
         }
     }
 
@@ -242,10 +248,22 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Earn points from hitting a note
-    public void EarnPointsFromHit()
+    // Earn points from hitting a note in the "good" zone
+    public void EarnPointsFromGoodHit()
     {
-        ModifyScore(hitReward);
+        ModifyScore(goodHitReward);
+    }
+
+    // Earn points from hitting a note in the "great" zone
+    public void EarnPointsFromGreatHit()
+    {
+        ModifyScore(greatHitReward);
+    }
+
+    // Earn points from hitting a note in the "perfect" zone
+    public void EarnPointsFromPerfHit()
+    {
+        ModifyScore(perfHitReward);
     }
 
     // Lose points from taking damage

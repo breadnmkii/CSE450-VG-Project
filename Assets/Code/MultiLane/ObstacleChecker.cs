@@ -22,6 +22,11 @@ public class ObstacleChecker : MonoBehaviour
 
     private int operationType;
 
+    // Bounds for good, great, and perfect hit zones
+    private double goodHitUpperBound;
+    private double goodHitLowerBound;
+    private double perfHitLowerBound;
+    private double perfHitUpperBound;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +44,10 @@ public class ObstacleChecker : MonoBehaviour
         AttackBKey[1] = KeyCode.D;
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = hitSoundVolume;
+        goodHitUpperBound = -5.95;
+        goodHitLowerBound = -5.05;
+        perfHitLowerBound = -5.65;
+        perfHitUpperBound = -5.35;
     }
 
     // Add tar into the queue;
@@ -99,8 +108,8 @@ public class ObstacleChecker : MonoBehaviour
             
             if (MyPlayer.layer == 6 && obs_Lane_0.Count > 0)
             {
+                EarnPointsFromHit(obs_Lane_0.Peek().transform.position.x);
 
-              
                 Destroy(obs_Lane_0.Peek());
                 GameObject destroyed = Instantiate(
                     GameController.instance.destoryedPrefab,
@@ -110,7 +119,6 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
-                Player.instance.EarnPointsFromHit();
 
                 if (Boss != null)
                 {
@@ -120,6 +128,7 @@ public class ObstacleChecker : MonoBehaviour
             else if (MyPlayer.layer == 7 && obs_Lane_1.Count > 0)
             {
                 // obs_Lane_1.Peek().GetComponent<Animator>().SetBool("shieldon", true);
+                EarnPointsFromHit(obs_Lane_1.Peek().transform.position.x);
 
                 Destroy(obs_Lane_1.Peek());
                 GameObject destroyed = Instantiate(
@@ -130,7 +139,6 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
-                Player.instance.EarnPointsFromHit();
 
                 if (Boss != null)
                 {
@@ -140,6 +148,7 @@ public class ObstacleChecker : MonoBehaviour
             else if (MyPlayer.layer == 8 && obs_Lane_2.Count > 0)
             {
                 // obs_Lane_2.Peek().GetComponent<Animator>().SetBool("shieldon", true);
+                EarnPointsFromHit(obs_Lane_2.Peek().transform.position.x);
 
                 Destroy(obs_Lane_2.Peek());
                 GameObject destroyed = Instantiate(
@@ -150,7 +159,6 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
-                Player.instance.EarnPointsFromHit();
 
                 if (Boss != null)
                 {
@@ -159,6 +167,7 @@ public class ObstacleChecker : MonoBehaviour
             }
             else if (MyPlayer.layer == 9 && obs_Lane_3.Count > 0)
             {
+                EarnPointsFromHit(obs_Lane_3.Peek().transform.position.x);
 
                 Destroy(obs_Lane_3.Peek());
                 GameObject destroyed = Instantiate(
@@ -169,7 +178,6 @@ public class ObstacleChecker : MonoBehaviour
                 );
                 Destroy(destroyed, 0.65f);
                 PlayHitSound();
-                Player.instance.EarnPointsFromHit();
 
                 // obs_Lane_3.Peek().GetComponent<Animator>().SetBool("shieldon", true);
                 if (Boss != null)
@@ -196,6 +204,31 @@ public class ObstacleChecker : MonoBehaviour
     public void PlayHitSound()
     {
         audioSource.PlayOneShot(hitSound);
+    }
+
+    // Earn points for hitting a note
+    private void EarnPointsFromHit(double xPos)
+    {
+        if (xPos > goodHitLowerBound)
+        {
+            Player.instance.EarnPointsFromGoodHit();
+        }
+        else if (xPos > perfHitUpperBound && xPos <= goodHitLowerBound)
+        {
+            Player.instance.EarnPointsFromGreatHit();
+        }
+        else if (xPos >= perfHitLowerBound && xPos <= perfHitUpperBound)
+        {
+            Player.instance.EarnPointsFromPerfHit();
+        }
+        else if (xPos >= goodHitUpperBound && xPos < perfHitLowerBound)
+        {
+            Player.instance.EarnPointsFromGreatHit();
+        }
+        else // same as xPos < goodHitUpperBound
+        {
+            Player.instance.EarnPointsFromGoodHit();
+        }
     }
 }
 

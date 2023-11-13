@@ -1550,6 +1550,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageSound: {fileID: 8300000, guid: 9a57a14901322514baba9e891fdda232, type: 3}
   damageSoundVolume: 0.25
+  jumpSound: {fileID: 8300000, guid: 391201bf9ec43a743be1a4713304b94d, type: 3}
+  slamSound: {fileID: 8300000, guid: a7971854bb141754d8a1a4df51d94677, type: 3}
   Lanes:
   - {fileID: 857067235}
   - {fileID: 757460947}
@@ -1559,7 +1561,9 @@ MonoBehaviour:
   MaxHP: 1083
   jumpsLeft: 1
   DeadUI: {fileID: 1718630070}
-  hitReward: 10
+  goodHitReward: 10
+  greatHitReward: 20
+  perfHitReward: 30
   damagePenalty: 10
   missPenalty: 5
   scoreUI: {fileID: 88475552}
@@ -6805,7 +6809,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5534582101825696389, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7023367175606557524, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
       propertyPath: m_AnchorMax.x
