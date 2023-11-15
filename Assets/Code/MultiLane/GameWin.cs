@@ -8,7 +8,7 @@ public class GameWin : MonoBehaviour
 {
     //private RawImage img;
 
-    public int curLevel = 0;
+    private int curLevel;
 
     public GameObject ButtonRestart;
 
@@ -18,6 +18,7 @@ public class GameWin : MonoBehaviour
     void Start()
     {
         //img = GetComponent<RawImage>();
+        curLevel = SceneManager.GetActiveScene().buildIndex;
     }
 
     void OnEnable()
@@ -25,14 +26,14 @@ public class GameWin : MonoBehaviour
         Time.timeScale = 0;
         if (curLevel != Util.Levels.Length - 1)
         {
-            ButtonRestart.SetActive(false);
+            
             ButtonNextL.SetActive(true);
         }
         else
         {
-            ButtonRestart.SetActive(true);
             ButtonNextL.SetActive(false);
         }
+        ButtonRestart.SetActive(true);
     }
 
     public void restart()
@@ -47,10 +48,9 @@ public class GameWin : MonoBehaviour
 
     }
 
-    public void NextLevel()
+    public void toLevel(int i)
     {
-        curLevel++;
-        Util.LoadScene(curLevel);
+        Util.LoadScene(i);
     }
 
     public void enterDino()

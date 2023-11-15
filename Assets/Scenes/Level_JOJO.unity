@@ -3684,7 +3684,6 @@ MonoBehaviour:
   metroAudio: {fileID: 8300000, guid: 26ba0e0437847d044ab8b34fe9a92bb6, type: 3}
   scoreFile: {fileID: 4900000, guid: ef87331afd9f54944bdcfc28b8c9f9b4, type: 3}
   BPM: 164
-  difficulty: 0
   lanes:
   - {fileID: 259612052}
   - {fileID: 1223552115}
@@ -6809,7 +6808,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5534582101825696389, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7023367175606557524, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
       propertyPath: m_AnchorMax.x
@@ -6917,7 +6916,7 @@ PrefabInstance:
       objectReference: {fileID: 8836651016567889505}
     - target: {fileID: 3458201348733290218, guid: f47436b586874124aadec71769b5e8a4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: NextLevel
+      value: toLevel
       objectReference: {fileID: 0}
     - target: {fileID: 3458201348733290218, guid: f47436b586874124aadec71769b5e8a4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
