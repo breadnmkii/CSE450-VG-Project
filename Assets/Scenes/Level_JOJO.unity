@@ -3841,8 +3841,8 @@ MonoBehaviour:
   metroUpAudio: {fileID: 8300000, guid: ac53e0368759edb4f9aeaba4e5038aff, type: 3}
   metroAudio: {fileID: 8300000, guid: 26ba0e0437847d044ab8b34fe9a92bb6, type: 3}
   scoreFile: {fileID: 4900000, guid: ef87331afd9f54944bdcfc28b8c9f9b4, type: 3}
-  BPM: 135
   difficulty: 0
+  BPM: 164
   lanes:
   - {fileID: 259612052}
   - {fileID: 1223552115}
@@ -6965,6 +6965,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 5534582101825696389, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7023367175606557524, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -7065,6 +7069,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3458201348733290218, guid: f47436b586874124aadec71769b5e8a4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8836651016567889505}
+    - target: {fileID: 3458201348733290218, guid: f47436b586874124aadec71769b5e8a4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: toLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458201348733290218, guid: f47436b586874124aadec71769b5e8a4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameWin, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986496495095914699, guid: f47436b586874124aadec71769b5e8a4, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 519420031}
+    - target: {fileID: 6108958247924355316, guid: f47436b586874124aadec71769b5e8a4, type: 3}
+      propertyPath: curLevel
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6975362712036875636, guid: f47436b586874124aadec71769b5e8a4, type: 3}
       propertyPath: m_Name
       value: Win UI
