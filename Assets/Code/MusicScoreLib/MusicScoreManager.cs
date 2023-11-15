@@ -112,7 +112,7 @@ public class MusicScoreManager : MonoBehaviour
     // Public members for song properties (readonly)
     public TextAsset scoreFile;
     public double BPM;
-    public Difficulty difficulty;
+    public static Difficulty difficulty;
     // DIFFICULTY ON TIME OFFSET DIFFERENCE
     // protege --> 2    (0)
     // concert --> 0.9  (-1.1)
@@ -173,11 +173,11 @@ public class MusicScoreManager : MonoBehaviour
 
         // Process music xml file and level properties to create music score (beatmap)
         Debug.Log("(MSM) Processing music score");
-        _musicScore = MSMUtil.ProcessMusicScore(scoreFile, "P1", difficulty);
+        _musicScore = MSMUtil.ProcessMusicScore(scoreFile, "P1", MusicScoreManager.difficulty);
         Debug.Log("(MSM) Finished processing");
 
         /* Prepare playing level */
-        Debug.Log("(MSM) Playing song at difficulty " + difficulty);
+        Debug.Log("(MSM) Playing song at difficulty " + MusicScoreManager.difficulty);
         _gameStarted = false;
         _musicStarted = false;
         _as.Stop();
