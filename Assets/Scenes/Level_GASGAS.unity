@@ -1550,6 +1550,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageSound: {fileID: 8300000, guid: 9a57a14901322514baba9e891fdda232, type: 3}
   damageSoundVolume: 0.25
+  jumpSound: {fileID: 0}
+  slamSound: {fileID: 0}
   Lanes:
   - {fileID: 857067235}
   - {fileID: 757460947}
@@ -1559,7 +1561,9 @@ MonoBehaviour:
   MaxHP: 1083
   jumpsLeft: 1
   DeadUI: {fileID: 1718630070}
-  hitReward: 10
+  goodHitReward: 0
+  greatHitReward: 0
+  perfHitReward: 0
   damagePenalty: 10
   missPenalty: 5
   scoreUI: {fileID: 88475552}
@@ -3680,7 +3684,6 @@ MonoBehaviour:
   metroAudio: {fileID: 8300000, guid: 26ba0e0437847d044ab8b34fe9a92bb6, type: 3}
   scoreFile: {fileID: 4900000, guid: bd5454fa818dfe64eb0573b8954551fc, type: 3}
   BPM: 154
-  difficulty: 0
   lanes:
   - {fileID: 259612052}
   - {fileID: 1223552115}
@@ -3688,10 +3691,10 @@ MonoBehaviour:
   - {fileID: 906827272}
   collisionChecker: {fileID: 2139164480}
   ballProjectileA: {fileID: 3469784436352636698, guid: dfa4d91876683a0428d00d77aea3b176, type: 3}
-  ballProjectileB: {fileID: 3469784436352636698, guid: cc37c37dbf2e7434592f324270e69206, type: 3}
+  ballProjectileB: {fileID: 3469784436352636698, guid: dfa4d91876683a0428d00d77aea3b176, type: 3}
   wallObstacle: {fileID: 36918871752905147, guid: ccbf882f51dc59149a00124f0bb70751, type: 3}
   finalAttack: {fileID: 355395019591000410, guid: d557479b0d78ec649ab40fbabcfdd5e5, type: 3}
-  TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 2.1
+  TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 4.5
 --- !u!4 &1523707881
 Transform:
   m_ObjectHideFlags: 0

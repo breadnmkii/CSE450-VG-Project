@@ -171,13 +171,18 @@ public class MusicScoreManager : MonoBehaviour
         _timeDeltaStartUpBeat = 60 / BPM;
         _finalAttackSpawned = false;
 
+        // DEBUG: HARDCODE DIFFICULTY
+        difficulty = Difficulty.concert;
+
         // Process music xml file and level properties to create music score (beatmap)
         Debug.Log("(MSM) Processing music score");
-        _musicScore = MSMUtil.ProcessMusicScore(scoreFile, "P1", MusicScoreManager.difficulty);
+        _musicScore = MSMUtil.ProcessMusicScore(scoreFile, "P1", difficulty);
         Debug.Log("(MSM) Finished processing");
 
         /* Prepare playing level */
-        Debug.Log("(MSM) Playing song at difficulty " + MusicScoreManager.difficulty);
+        Debug.Log("(MSM) Playing song at difficulty " + difficulty);
+
+
         _gameStarted = false;
         _musicStarted = false;
         _as.Stop();
@@ -225,7 +230,12 @@ public class MusicScoreManager : MonoBehaviour
 
                 // Delay oneshot audio by PROGRAMMATIC_OFFSET delay to "shift"
                 // song backwards to account for constant note travel delay
-                if (!_musicStarted && _songTime >= TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset)
+
+                double spawnDelay = TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset;
+
+                spawnDelay /= Math.Pow(2,(double)difficulty); // scale offset by difficuly factor
+
+                if (!_musicStarted && _songTime >= spawnDelay)
                 {
                     _as.PlayOneShot(songAudio);
                     _musicStarted = true;

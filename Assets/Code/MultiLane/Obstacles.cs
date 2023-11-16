@@ -47,13 +47,14 @@ public class Obstacles : MonoBehaviour
             // player animation
             Animator playerAni = player.GetComponent<Animator>();
             playerAni.SetTrigger("harm");
-            
-            // Destroy(gameObject);     // maybe we want note to stay as cue that they missed
 
             // Update health
             player.ModifyHP(-1);
             player.PlayDamageSound();
             player.LosePointsFromDamage();
+
+            // Destroy projectile on hitting player
+            Destroy(gameObject);
             
         }
         if (other.gameObject.GetComponent<ObstacleChecker>())

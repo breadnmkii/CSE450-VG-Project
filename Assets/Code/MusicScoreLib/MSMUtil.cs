@@ -141,9 +141,11 @@ public class MSMUtil : MonoBehaviour
                                             //  to determine if rise or fall in pitch
             int lastNoteLane = 0;           // In conjunction with `lastNotePitch` to determine to shift lane
                                             //  up or down
-            // "Same random lane" note location method
-            lastNoteLane = UnityEngine.Random.Range(0, 3);
-
+             // "Same random lane" note location method
+            if (MusicScoreManager.difficulty != Difficulty.prodigy)
+            {
+                lastNoteLane = UnityEngine.Random.Range(0, 4);
+            }
             // Get every note of measure
             XmlNodeList measureNotes = measure.SelectNodes("./note");
             foreach (XmlNode note in measureNotes)
@@ -275,27 +277,31 @@ public class MSMUtil : MonoBehaviour
 
 
                 /* Note Location Parse */
+                // "Wrap Around" method (only on prodigy)
                 // Get current note pitch as string
-                if (note.SelectSingleNode("./pitch") != null)
+                if (MusicScoreManager.difficulty == Difficulty.prodigy && 
+                    note.SelectSingleNode("./pitch") != null)
                 {
+
                     string currNotePitch = note.SelectSingleNode("./pitch").InnerText;
-                    //// "Wrap Around" method
-                    //if (SumStringASCII(currNotePitch) > SumStringASCII(lastNotePitch))
-                    //{
-                    //    lastNoteLane = (lastNoteLane + 1) % 4; // HARDCODE: 4 lanes
-                    //    // Debug.Log("Up pitch at lane " + lastNoteLane);
-                    //}
-                    //else if (SumStringASCII(currNotePitch) < SumStringASCII(lastNotePitch))
-                    //{
-                    //    --lastNoteLane;
-                    //    if (lastNoteLane < 0)
-                    //    {
-                    //        lastNoteLane = 3;
-                    //    }
-                    //    // Debug.Log("Down pitch at lane " + lastNoteLane);
-                    //}
-                    //lastNotePitch = currNotePitch;      // update last note pitch
+
+                    if (SumStringASCII(currNotePitch) > SumStringASCII(lastNotePitch))
+                    {
+                        lastNoteLane = (lastNoteLane + 1) % 4; // HARDCODE: 4 lanes
+                        // Debug.Log("Up pitch at lane " + lastNoteLane);
+                    }
+                    else if (SumStringASCII(currNotePitch) < SumStringASCII(lastNotePitch))
+                    {
+                        --lastNoteLane;
+                        if (lastNoteLane < 0)
+                        {
+                            lastNoteLane = 3;
+                        }
+                        // Debug.Log("Down pitch at lane " + lastNoteLane);
+                    }
+                    lastNotePitch = currNotePitch;      // update last note pitch
                 }
+                // Else, simple random lane location
                 NoteLocation currNoteLoc = (NoteLocation)lastNoteLane;
 
                 // Add note to list
@@ -339,13 +345,13 @@ public class MSMUtil : MonoBehaviour
         switch (diff)
         {
             case Difficulty.protege:
-                return 1F;
+                return 0.5F;
             case Difficulty.concert:
-                return 2;
+                return 1;
             case Difficulty.virtuoso:
-                return 4;
+                return 2;
             case Difficulty.prodigy:
-                return 6;
+                return 3;
             default:
                 break;
         }
