@@ -69,6 +69,11 @@ public class Player : MonoBehaviour
     public double damagePenalty;
     public double missPenalty;
     public TMP_Text scoreUI;
+    public int numGoodHits;
+    public int numGreatHits;
+    public int numPerfectHits;
+    public int numMisses;
+    public int numNotesDamaged;
 
     // Hit Indications
     public GameObject[] hitIndications;
@@ -102,6 +107,11 @@ public class Player : MonoBehaviour
         MoveLaneKeys[1, 3] = KeyCode.J;
         audioSource.volume = damageSoundVolume;
         score = 0;
+        numGoodHits = 0;
+        numGreatHits = 0;
+        numPerfectHits = 0;
+        numMisses = 0;
+        numNotesDamaged = 0;
         _hitIndicationActive = false;
         _hitIndicationDisplayStartTime = 0;
     }
@@ -280,6 +290,7 @@ public class Player : MonoBehaviour
     {
         DisplayHitIndication(HitIndication.Good);
         ModifyScore(goodHitReward);
+        numGoodHits++;
     }
 
     // Earn points from hitting a note in the "great" zone
@@ -287,6 +298,7 @@ public class Player : MonoBehaviour
     {
         DisplayHitIndication(HitIndication.Great);
         ModifyScore(greatHitReward);
+        numGreatHits++;
     }
 
     // Earn points from hitting a note in the "perfect" zone
@@ -294,18 +306,21 @@ public class Player : MonoBehaviour
     {
         DisplayHitIndication(HitIndication.Perfect);
         ModifyScore(perfHitReward);
+        numPerfectHits++;
     }
 
     // Lose points from taking damage
     public void LosePointsFromDamage()
     {
         ModifyScore(-damagePenalty);
+        numNotesDamaged++;
     }
 
     // Lose points from missing a note
     public void LostPointsFromMiss()
     {
         ModifyScore(-missPenalty);
+        numMisses++;
     }
 
     // Display a hit indication
