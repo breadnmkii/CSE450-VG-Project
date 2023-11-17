@@ -11,6 +11,13 @@ using TMPro;
 // Not involving actuall character behaviors.
 // Todo: figure out whether need to do the rhythm check part in this class or not. Need to discuss detailed control.
 
+public enum HitIndication
+{
+    Good = 0,
+    Great = 1,
+    Perfect = 2
+}
+
 public class Player : MonoBehaviour
 {
     public static Player instance;
@@ -63,6 +70,13 @@ public class Player : MonoBehaviour
     public double missPenalty;
     public TMP_Text scoreUI;
 
+    // Hit Indications
+    public GameObject[] hitIndications;
+    private double _nowTime;
+    private bool _hitIndicationActive;
+    private double _hitIndicationDisplayStartTime;
+    private const double _hitIndicationDisplayDuration = 0.5;
+
     void Awake()
     {
         instance = this;
@@ -88,10 +102,23 @@ public class Player : MonoBehaviour
         MoveLaneKeys[1, 3] = KeyCode.J;
         audioSource.volume = damageSoundVolume;
         score = 0;
+        _hitIndicationActive = false;
+        _hitIndicationDisplayStartTime = 0;
     }
 
     private void Update()
     {
+        _nowTime = Time.timeSinceLevelLoad;
+
+        // Update hit indication
+        if (_hitIndicationActive)
+        {
+            if (_nowTime >= (_hitIndicationDisplayStartTime + _hitIndicationDisplayDuration))
+            {
+                HideHitIndications();
+            }
+        }
+
         // Update UI
         scoreUI.text = "Score: " + GetScore().ToString();
 
@@ -251,18 +278,21 @@ public class Player : MonoBehaviour
     // Earn points from hitting a note in the "good" zone
     public void EarnPointsFromGoodHit()
     {
+        DisplayHitIndication(HitIndication.Good);
         ModifyScore(goodHitReward);
     }
 
     // Earn points from hitting a note in the "great" zone
     public void EarnPointsFromGreatHit()
     {
+        DisplayHitIndication(HitIndication.Great);
         ModifyScore(greatHitReward);
     }
 
     // Earn points from hitting a note in the "perfect" zone
     public void EarnPointsFromPerfHit()
     {
+        DisplayHitIndication(HitIndication.Perfect);
         ModifyScore(perfHitReward);
     }
 
@@ -276,5 +306,26 @@ public class Player : MonoBehaviour
     public void LostPointsFromMiss()
     {
         ModifyScore(-missPenalty);
+    }
+
+    // Display a hit indication
+    private void DisplayHitIndication(HitIndication type)
+    {
+        HideHitIndications();
+
+        hitIndications[(int)type].SetActive(true);
+        _hitIndicationActive = true;
+        _hitIndicationDisplayStartTime = _nowTime;
+    }
+
+    // Hide a hit indication
+    private void HideHitIndications()
+    {
+        for (int i = 0; i < hitIndications.Length; i++)
+        {
+            hitIndications[i].SetActive(false);
+        }
+
+        _hitIndicationActive = false;
     }
 }
