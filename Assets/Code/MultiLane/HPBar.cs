@@ -14,24 +14,46 @@ public class HPBar: MonoBehaviour
 {
     public Player player;
 
-    Slider slider;
+    public GameObject[] plots;
 
     bool init;
+
+    int maxHP;
+
+    int curHP;
 
     private void Start()
     {
         init = false;
-        slider = gameObject.GetComponent<Slider>();
     }
 
     private void Update()
     {
         if (!init)
         {
-            slider.maxValue = player.MaxHP;
-            slider.value = player.MaxHP;
-            slider.minValue = 0;
+            maxHP = player.MaxHP;
+            curHP = player.getHP();
+            initialize();
+            init = true;
         }
-        slider.value = player.getHP();
+        curHP = player.getHP();
+        for (int i = curHP; i < maxHP; i++)
+        {
+            plots[i].GetComponent<SpriteRenderer>().color = Color.black;
+        }
+
+    }
+
+    void initialize()
+    {
+        for (int i = 0; i < maxHP; i++)
+        {
+            plots[i].SetActive(true);
+            plots[i].GetComponent<SpriteRenderer>().color = Color.white;
+        }
+        for (int i = maxHP; i < plots.Length; i++)
+        {
+            plots[i].SetActive(false);
+        }
     }
 }
