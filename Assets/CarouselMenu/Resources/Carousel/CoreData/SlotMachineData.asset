@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02d3406f375964851854402ab8b11615, type: 3}
+  m_Name: SlotMachineData
+  m_EditorClassIdentifier: 
+  FocusCenter: 1
+  CenterSelect: 1
+  AutoCreateCells: 0
+  BoundaryUpdateType: 0
+  Loop: 1
+  InstantUpdate: 1
+  TotalCells: 3
+  CellGap: 0
+  FocusSpeed: 5
+  ScaleSpeed: 5
+  RotateSpeed: 5
+  MoveSpeed: 50
+  FocusCenterVelocityThreshold: 50
+  FocusCenterDistanceThreshold: 0.1
+  ScaleRatio: {x: 1, y: 1, z: 1}
+  CoverflowAngles: {x: 0, y: 80, z: 0}
+  Axes: {x: 0, y: 1, z: 0}
+  MinScaleRange: 0.1
+  MaxScaleRange: 100
+  ShowBoundaryRect: 0
+  BoundaryRectOutlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
