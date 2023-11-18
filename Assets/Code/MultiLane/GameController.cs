@@ -8,7 +8,8 @@ public class GameController : MonoBehaviour
 
     //outlets
     public GameObject[] lanes;
-    public GameObject destoryedPrefab;
+    public GameObject destroyedPrefabA;
+    public GameObject destroyedPrefabB;
     public GameObject formingPrefab; 
 
 

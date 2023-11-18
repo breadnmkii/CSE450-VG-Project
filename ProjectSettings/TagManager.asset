@@ -8,6 +8,7 @@ TagManager:
   - Breakable
   - UnBreakable
   - Boss
+  - ProjectileB
   layers:
   - Default
   - TransparentFX

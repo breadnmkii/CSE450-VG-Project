@@ -110,14 +110,29 @@ public class ObstacleChecker : MonoBehaviour
             {
                 EarnPointsFromHit(obs_Lane_0.Peek().transform.position.x);
 
-                Destroy(obs_Lane_0.Peek());
-                GameObject destroyed = Instantiate(
-                    GameController.instance.destoryedPrefab,
-                    GameController.instance.lanes[0].transform
-                        .GetChild(1).gameObject.transform.position,
-                    Quaternion.identity
-                );
-                Destroy(destroyed, 0.65f);
+                GameObject laneProjectile = obs_Lane_0.Peek();
+                Destroy(laneProjectile);
+
+                GameObject destroyedAnimation;
+                if (laneProjectile.CompareTag("ProjectileB"))
+                {
+                    destroyedAnimation = Instantiate(
+                        GameController.instance.destroyedPrefabB,
+                        GameController.instance.lanes[0].transform
+                            .GetChild(1).gameObject.transform.position,
+                        Quaternion.identity
+                    );
+                }
+                else
+                {
+                    destroyedAnimation = Instantiate(
+                        GameController.instance.destroyedPrefabA,
+                        GameController.instance.lanes[0].transform
+                            .GetChild(1).gameObject.transform.position,
+                        Quaternion.identity
+                    );
+                }
+                Destroy(destroyedAnimation, 0.65f);
                 PlayHitSound();
 
                 if (Boss != null)
@@ -130,14 +145,29 @@ public class ObstacleChecker : MonoBehaviour
                 // obs_Lane_1.Peek().GetComponent<Animator>().SetBool("shieldon", true);
                 EarnPointsFromHit(obs_Lane_1.Peek().transform.position.x);
 
-                Destroy(obs_Lane_1.Peek());
-                GameObject destroyed = Instantiate(
-                    GameController.instance.destoryedPrefab,
-                    GameController.instance.lanes[1].transform
-                        .GetChild(1).gameObject.transform.position,
-                    Quaternion.identity
-                );
-                Destroy(destroyed, 0.65f);
+                GameObject laneProjectile = obs_Lane_1.Peek();
+                Destroy(laneProjectile);
+
+                GameObject destroyedAnimation;
+                if (laneProjectile.CompareTag("ProjectileB"))
+                {
+                    destroyedAnimation = Instantiate(
+                        GameController.instance.destroyedPrefabB,
+                        GameController.instance.lanes[1].transform
+                            .GetChild(1).gameObject.transform.position,
+                        Quaternion.identity
+                    );
+                }
+                else
+                {
+                    destroyedAnimation = Instantiate(
+                        GameController.instance.destroyedPrefabA,
+                        GameController.instance.lanes[1].transform
+                            .GetChild(1).gameObject.transform.position,
+                        Quaternion.identity
+                    );
+                }
+                Destroy(destroyedAnimation, 0.65f);
                 PlayHitSound();
 
                 if (Boss != null)
@@ -150,14 +180,29 @@ public class ObstacleChecker : MonoBehaviour
                 // obs_Lane_2.Peek().GetComponent<Animator>().SetBool("shieldon", true);
                 EarnPointsFromHit(obs_Lane_2.Peek().transform.position.x);
 
-                Destroy(obs_Lane_2.Peek());
-                GameObject destroyed = Instantiate(
-                    GameController.instance.destoryedPrefab,
-                    GameController.instance.lanes[2].transform
-                        .GetChild(1).gameObject.transform.position,
-                    Quaternion.identity
-                );
-                Destroy(destroyed, 0.65f);
+                GameObject laneProjectile = obs_Lane_2.Peek();
+                Destroy(laneProjectile);
+
+                GameObject destroyedAnimation;
+                if (laneProjectile.CompareTag("ProjectileB"))
+                {
+                    destroyedAnimation = Instantiate(
+                        GameController.instance.destroyedPrefabB,
+                        GameController.instance.lanes[2].transform
+                            .GetChild(1).gameObject.transform.position,
+                        Quaternion.identity
+                    );
+                }
+                else
+                {
+                    destroyedAnimation = Instantiate(
+                        GameController.instance.destroyedPrefabA,
+                        GameController.instance.lanes[2].transform
+                            .GetChild(1).gameObject.transform.position,
+                        Quaternion.identity
+                    );
+                }
+                Destroy(destroyedAnimation, 0.65f);
                 PlayHitSound();
 
                 if (Boss != null)
@@ -169,14 +214,29 @@ public class ObstacleChecker : MonoBehaviour
             {
                 EarnPointsFromHit(obs_Lane_3.Peek().transform.position.x);
 
-                Destroy(obs_Lane_3.Peek());
-                GameObject destroyed = Instantiate(
-                    GameController.instance.destoryedPrefab,
-                    GameController.instance.lanes[3].transform
-                        .GetChild(1).gameObject.transform.position,
-                    Quaternion.identity
-                );
-                Destroy(destroyed, 0.65f);
+                GameObject laneProjectile = obs_Lane_3.Peek();
+                Destroy(laneProjectile);
+
+                GameObject destroyedAnimation;
+                if (laneProjectile.CompareTag("ProjectileB"))
+                {
+                    destroyedAnimation = Instantiate(
+                        GameController.instance.destroyedPrefabB,
+                        GameController.instance.lanes[3].transform
+                            .GetChild(1).gameObject.transform.position,
+                        Quaternion.identity
+                    );
+                }
+                else
+                {
+                    destroyedAnimation = Instantiate(
+                        GameController.instance.destroyedPrefabA,
+                        GameController.instance.lanes[3].transform
+                            .GetChild(1).gameObject.transform.position,
+                        Quaternion.identity
+                    );
+                }
+                Destroy(destroyedAnimation, 0.65f);
                 PlayHitSound();
 
                 // obs_Lane_3.Peek().GetComponent<Animator>().SetBool("shieldon", true);

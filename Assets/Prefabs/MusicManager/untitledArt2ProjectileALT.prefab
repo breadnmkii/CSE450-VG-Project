@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8207868074068579770}
   m_Layer: 6
   m_Name: untitledArt2ProjectileALT
-  m_TagString: Breakable
+  m_TagString: ProjectileB
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -174,7 +174,7 @@ Animator:
   m_GameObject: {fileID: 3469784436352636698}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9d20a316b06cc4fc1b7c15214fad4c9e, type: 2}
+  m_Controller: {fileID: 9100000, guid: ca10a99ac7bc94200aca4637b9a15f93, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

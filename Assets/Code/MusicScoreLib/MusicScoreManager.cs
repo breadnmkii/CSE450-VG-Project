@@ -327,7 +327,7 @@ public class MusicScoreManager : MonoBehaviour
                 // Spawn note
                 GameObject songNoteSpawn = Instantiate(songNote);
               
-                songNoteSpawn.GetComponent<Animator>().SetBool("start", true);
+                songNoteSpawn.GetComponent<Animator>().SetTrigger("start");
 
                 // Move to correct lane and set layer
                 Util.Move(songNoteSpawn, lanes[(int)loc]);
