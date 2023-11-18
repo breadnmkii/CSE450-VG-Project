@@ -3812,7 +3812,8 @@ MonoBehaviour:
   - {fileID: 757460947}
   - {fileID: 190301535}
   - {fileID: 498739604}
-  destoryedPrefab: {fileID: 1856961937390044543, guid: 2ee273d92de6b446ab2dc45b6c547f29, type: 3}
+  destroyedPrefabA: {fileID: 1856961937390044543, guid: 2ee273d92de6b446ab2dc45b6c547f29, type: 3}
+  destroyedPrefabB: {fileID: 654370852330695252, guid: bd41a14eda7386849939257333a059f9, type: 3}
   formingPrefab: {fileID: 2560667235637085830, guid: 15c3b8464907e4994984add225ead1fa, type: 3}
 --- !u!4 &1497826032
 Transform:
@@ -3871,7 +3872,7 @@ MonoBehaviour:
   - {fileID: 906827272}
   collisionChecker: {fileID: 2139164480}
   ballProjectileA: {fileID: 3469784436352636698, guid: dfa4d91876683a0428d00d77aea3b176, type: 3}
-  ballProjectileB: {fileID: 3469784436352636698, guid: dfa4d91876683a0428d00d77aea3b176, type: 3}
+  ballProjectileB: {fileID: 3469784436352636698, guid: 9d2424f9e4f124c109fe1c5705df3483, type: 3}
   wallObstacle: {fileID: 36918871752905147, guid: ccbf882f51dc59149a00124f0bb70751, type: 3}
   finalAttack: {fileID: 355395019591000410, guid: d557479b0d78ec649ab40fbabcfdd5e5, type: 3}
   TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 4.5
@@ -6053,7 +6054,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lanes: []
-  collisionChecker: {fileID: 0}
 --- !u!4 &2081715204
 Transform:
   m_ObjectHideFlags: 0
