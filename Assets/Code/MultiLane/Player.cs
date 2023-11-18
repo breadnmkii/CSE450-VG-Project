@@ -92,6 +92,14 @@ public class Player : MonoBehaviour
     {
         operationType = 0;
         lane_No = 0;
+        if (MaxHP > 8)
+        {
+            MaxHP = 8;
+        }
+        if (MaxHP < 1)
+        {
+            MaxHP = 1;
+        }
         HP = MaxHP;
         myAni = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
@@ -137,6 +145,8 @@ public class Player : MonoBehaviour
         if (this.HP <= 0)
         {
             myAni.SetBool("Dead", true);
+            GetComponent<Rigidbody2D>().gravityScale = 0f ;
+            GetComponent<CapsuleCollider2D>().enabled = false;
         }
 
         // Go up lane
