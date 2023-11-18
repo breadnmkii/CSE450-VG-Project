@@ -21,7 +21,6 @@ public class MSMUtil : MonoBehaviour
     /***** Public Members ***************************************************/
     // Outlets
     public GameObject[] lanes;
-    public GameObject collisionChecker;
 
 
     /***** Public Methods ***************************************************/
