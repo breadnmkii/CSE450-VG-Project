@@ -100,155 +100,119 @@ public class ObstacleChecker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Attack
-        if (Input.GetKeyDown(AttackAKey[operationType]) ||
-            Input.GetKeyDown(AttackBKey[operationType]))
+        // A Attack
+        if (Input.GetKeyDown(AttackAKey[operationType]))
         {
             MyPlayer.GetComponent<Animator>().SetTrigger("atkkk");
-            
+
+            GameObject laneProjectile = null;
+            int laneAttackedIn = -1;
+
             if (MyPlayer.layer == 6 && obs_Lane_0.Count > 0)
             {
-                EarnPointsFromHit(obs_Lane_0.Peek().transform.position.x);
-
-                GameObject laneProjectile = obs_Lane_0.Peek();
-                Destroy(laneProjectile);
-
-                GameObject destroyedAnimation;
-                if (laneProjectile.CompareTag("ProjectileB"))
-                {
-                    destroyedAnimation = Instantiate(
-                        GameController.instance.destroyedPrefabB,
-                        GameController.instance.lanes[0].transform
-                            .GetChild(1).gameObject.transform.position,
-                        Quaternion.identity
-                    );
-                }
-                else
-                {
-                    destroyedAnimation = Instantiate(
-                        GameController.instance.destroyedPrefabA,
-                        GameController.instance.lanes[0].transform
-                            .GetChild(1).gameObject.transform.position,
-                        Quaternion.identity
-                    );
-                }
-                Destroy(destroyedAnimation, 0.65f);
-                PlayHitSound();
-
-                if (Boss != null)
-                {
-                    Boss.doDamage(1);
-                }
+                // Verify is not a B projectile
+                laneProjectile = obs_Lane_0.Peek();
+                laneAttackedIn = 0;
             }
             else if (MyPlayer.layer == 7 && obs_Lane_1.Count > 0)
             {
-                // obs_Lane_1.Peek().GetComponent<Animator>().SetBool("shieldon", true);
-                EarnPointsFromHit(obs_Lane_1.Peek().transform.position.x);
-
-                GameObject laneProjectile = obs_Lane_1.Peek();
-                Destroy(laneProjectile);
-
-                GameObject destroyedAnimation;
-                if (laneProjectile.CompareTag("ProjectileB"))
-                {
-                    destroyedAnimation = Instantiate(
-                        GameController.instance.destroyedPrefabB,
-                        GameController.instance.lanes[1].transform
-                            .GetChild(1).gameObject.transform.position,
-                        Quaternion.identity
-                    );
-                }
-                else
-                {
-                    destroyedAnimation = Instantiate(
-                        GameController.instance.destroyedPrefabA,
-                        GameController.instance.lanes[1].transform
-                            .GetChild(1).gameObject.transform.position,
-                        Quaternion.identity
-                    );
-                }
-                Destroy(destroyedAnimation, 0.65f);
-                PlayHitSound();
-
-                if (Boss != null)
-                {
-                    Boss.doDamage(1);
-                }
+                laneProjectile = obs_Lane_1.Peek();
+                laneAttackedIn = 1;
             }
             else if (MyPlayer.layer == 8 && obs_Lane_2.Count > 0)
             {
-                // obs_Lane_2.Peek().GetComponent<Animator>().SetBool("shieldon", true);
-                EarnPointsFromHit(obs_Lane_2.Peek().transform.position.x);
-
-                GameObject laneProjectile = obs_Lane_2.Peek();
-                Destroy(laneProjectile);
-
-                GameObject destroyedAnimation;
-                if (laneProjectile.CompareTag("ProjectileB"))
-                {
-                    destroyedAnimation = Instantiate(
-                        GameController.instance.destroyedPrefabB,
-                        GameController.instance.lanes[2].transform
-                            .GetChild(1).gameObject.transform.position,
-                        Quaternion.identity
-                    );
-                }
-                else
-                {
-                    destroyedAnimation = Instantiate(
-                        GameController.instance.destroyedPrefabA,
-                        GameController.instance.lanes[2].transform
-                            .GetChild(1).gameObject.transform.position,
-                        Quaternion.identity
-                    );
-                }
-                Destroy(destroyedAnimation, 0.65f);
-                PlayHitSound();
-
-                if (Boss != null)
-                {
-                    Boss.doDamage(1);
-                }
+                laneProjectile = obs_Lane_2.Peek();
+                laneAttackedIn = 2;
             }
             else if (MyPlayer.layer == 9 && obs_Lane_3.Count > 0)
             {
-                EarnPointsFromHit(obs_Lane_3.Peek().transform.position.x);
+                laneProjectile = obs_Lane_3.Peek();
+                laneAttackedIn = 3;
+            }
 
-                GameObject laneProjectile = obs_Lane_3.Peek();
+            if (laneProjectile != null && !laneProjectile.CompareTag("ProjectileB"))
+            {
+                // Did hit an A note with attack A, apply score
+                EarnPointsFromHit(laneProjectile.transform.position.x);
+
                 Destroy(laneProjectile);
 
-                GameObject destroyedAnimation;
-                if (laneProjectile.CompareTag("ProjectileB"))
-                {
-                    destroyedAnimation = Instantiate(
-                        GameController.instance.destroyedPrefabB,
-                        GameController.instance.lanes[3].transform
-                            .GetChild(1).gameObject.transform.position,
-                        Quaternion.identity
-                    );
-                }
-                else
-                {
-                    destroyedAnimation = Instantiate(
+                GameObject destroyedAnimation = Instantiate(
                         GameController.instance.destroyedPrefabA,
-                        GameController.instance.lanes[3].transform
+                        GameController.instance.lanes[laneAttackedIn].transform
                             .GetChild(1).gameObject.transform.position,
                         Quaternion.identity
                     );
-                }
+
                 Destroy(destroyedAnimation, 0.65f);
                 PlayHitSound();
 
-                // obs_Lane_3.Peek().GetComponent<Animator>().SetBool("shieldon", true);
                 if (Boss != null)
                 {
                     Boss.doDamage(1);
                 }
             }
-
-            // no notes hit, so player loses points for missing
             else
             {
+                // No notes hit, penalize score
+                Player.instance.LostPointsFromMiss();
+            }
+        }
+
+        // B Attack
+        if (Input.GetKeyDown(AttackBKey[operationType])) {
+            MyPlayer.GetComponent<Animator>().SetTrigger("atkkk");
+
+            GameObject laneProjectile = null;
+            int laneAttackedIn = -1;
+
+            if (MyPlayer.layer == 6 && obs_Lane_0.Count > 0)
+            {
+                // Verify is not a B projectile
+                laneProjectile = obs_Lane_0.Peek();
+                laneAttackedIn = 0;
+            }
+            else if (MyPlayer.layer == 7 && obs_Lane_1.Count > 0)
+            {
+                laneProjectile = obs_Lane_1.Peek();
+                laneAttackedIn = 1;
+            }
+            else if (MyPlayer.layer == 8 && obs_Lane_2.Count > 0)
+            {
+                laneProjectile = obs_Lane_2.Peek();
+                laneAttackedIn = 2;
+            }
+            else if (MyPlayer.layer == 9 && obs_Lane_3.Count > 0)
+            {
+                laneProjectile = obs_Lane_3.Peek();
+                laneAttackedIn = 3;
+            }
+
+            if (laneProjectile != null && laneProjectile.CompareTag("ProjectileB"))
+            {
+                // Did hit an A note with attack A, apply score
+                EarnPointsFromHit(laneProjectile.transform.position.x);
+
+                Destroy(laneProjectile);
+
+                GameObject destroyedAnimation = Instantiate(
+                        GameController.instance.destroyedPrefabB,
+                        GameController.instance.lanes[laneAttackedIn].transform
+                            .GetChild(1).gameObject.transform.position,
+                        Quaternion.identity
+                    );
+
+                Destroy(destroyedAnimation, 0.65f);
+                PlayHitSound();
+
+                if (Boss != null)
+                {
+                    Boss.doDamage(1);
+                }
+            }
+            else
+            {
+                // No notes hit, penalize score
                 Player.instance.LostPointsFromMiss();
             }
         }
