@@ -3890,7 +3890,11 @@ MonoBehaviour:
   collisionChecker: {fileID: 2139164480}
   ballProjectileA: {fileID: 3469784436352636698, guid: dfa4d91876683a0428d00d77aea3b176, type: 3}
   ballProjectileB: {fileID: 3469784436352636698, guid: 9d2424f9e4f124c109fe1c5705df3483, type: 3}
-  wallObstacle: {fileID: 36918871752905147, guid: ccbf882f51dc59149a00124f0bb70751, type: 3}
+  wallObstacles:
+  - {fileID: 3725294205672520400, guid: 19a445cb94f7ec240b1bf482d5401559, type: 3}
+  - {fileID: 1934890866547492867, guid: d3c8a8d6dc82b6249afc2b4147861835, type: 3}
+  - {fileID: 4426215571676826967, guid: cfeba5b50496b224891e5b6a3d961eab, type: 3}
+  - {fileID: 8253162692230657669, guid: ebfc921b7687449409ddb6bcab67733a, type: 3}
   finalAttack: {fileID: 355395019591000410, guid: d557479b0d78ec649ab40fbabcfdd5e5, type: 3}
   TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 4.6
 --- !u!4 &1523707881
@@ -6138,7 +6142,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lanes: []
-  collisionChecker: {fileID: 0}
 --- !u!4 &2081715204
 Transform:
   m_ObjectHideFlags: 0
@@ -7441,6 +7444,4 @@ SceneRoots:
   - {fileID: 1497826032}
   - {fileID: 2081715204}
   - {fileID: 1107620620}
-  - {fileID: 1219429368}
-  - {fileID: 2060104171}
   - {fileID: 804821813}

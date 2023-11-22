@@ -163,7 +163,7 @@ public class MSMUtil : MonoBehaviour
                     // Debug.Log("(MSMUtil) Skip non-primary voice note");
                     continue;
                 }
-                // If is a chord note, ignore (for now)
+                // If is a chord note, ignore
                 if (note.SelectSingleNode("./chord") != null)
                 {
                     // Debug.Log("(MSMUtil) Skipping chord note...");

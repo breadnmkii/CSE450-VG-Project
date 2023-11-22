@@ -127,13 +127,10 @@ public class MusicScoreManager : MonoBehaviour
     // (Note: must contain Obstacles component)
     public GameObject ballProjectileA;
     public GameObject ballProjectileB;
-    public GameObject wallObstacle;
+    public GameObject[] wallObstacles;
     public GameObject finalAttack;
 
     public double TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset;
-
-    // Private geometry variables
-    private double _spawnToZoneDistance;
 
     // Private members for defining interal song properties
     private MusicScore _musicScore;         // music score containing queue of all notes
@@ -163,8 +160,6 @@ public class MusicScoreManager : MonoBehaviour
         _as = gameObject.GetComponent<AudioSource>();
 
         /* Define private members */
-        // Calculate spawn to zone distance
-        _spawnToZoneDistance = Math.Abs(lanes[0].transform.position[0] - collisionChecker.transform.position[0]);
         _currStartUpBeat = 0;
         _songStartupBeats = 4;
         _timeSinceLastStartUpBeat = 0;
@@ -249,20 +244,20 @@ public class MusicScoreManager : MonoBehaviour
                 {
                     double actualSpawnTime = _nextNote.Item2; //- avgDelayOffset;
 
-                    double advanceSpawnTime = MSMUtil.TimeForNoteToTravelDistance(_nextNote.Item1,
-                                                                                    difficulty,
-                                                                                    _spawnToZoneDistance);
+                    //double advanceSpawnTime = MSMUtil.TimeForNoteToTravelDistance(_nextNote.Item1,
+                    //                                                                difficulty,
+                    //                                                                _spawnToZoneDistance);
 
 
                     // If Rest note, remove immediately from queue (to see next real note)
-                    if (_nextNote.Item1.Type == NoteType.Rest || _nextNote.Item1.isTied)
-                    {
-                        // Debug.Log("(MSM) Removed rest note");
-                        _musicScore.readNote();
-                    }
+                    //if (_nextNote.Item1.Type == NoteType.Rest || _nextNote.Item1.isTied)
+                    //{
+                    //    // Debug.Log("(MSM) Removed rest note");
+                    //    _musicScore.readNote();
+                    //}
 
                     // Spawn based on note actual spawn time
-                    else if (_songTime >= actualSpawnTime) // - advanceSpawnTime)
+                    if (_songTime >= actualSpawnTime) // - advanceSpawnTime)
                     {
                         // Do this check here to always dequeue the next note even if it should not be 
                         SpawnNote(_nextNote.Item1);
@@ -304,7 +299,8 @@ public class MusicScoreManager : MonoBehaviour
         switch (currNote.Type)
         {
             case NoteType.Rest:
-                songNote = null;
+                // Determine random wall projectile sprite object to spawn
+                songNote = wallObstacles[UnityEngine.Random.Range(0, 4)];
                 break;
             case NoteType.BallProjectileA:
                 songNote = ballProjectileA;
@@ -326,8 +322,11 @@ public class MusicScoreManager : MonoBehaviour
             {
                 // Spawn note
                 GameObject songNoteSpawn = Instantiate(songNote);
-              
-                songNoteSpawn.GetComponent<Animator>().SetTrigger("start");
+
+                if (currNote.Type != NoteType.Rest)
+                {
+                    songNoteSpawn.GetComponent<Animator>().SetTrigger("start");
+                }
 
                 // Move to correct lane and set layer
                 Util.Move(songNoteSpawn, lanes[(int)loc]);
