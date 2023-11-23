@@ -124,7 +124,10 @@ public class MSMUtil : MonoBehaviour
         */
 
         /* Automatic beatmapping property variables */
-        bool noteAtkType = false;       // "Alternate note type" method
+        //bool noteAtkType = false;       // "Alternate note type" method
+        int noteAtkTypeCounter_max = 4;     // Maximum number of bits in counter (n = 3 bits)
+        int noteAtkTypeCounter_mid = 2;            // Middle threshold value for switching between note atk type
+        int noteAtkTypeCounter = noteAtkTypeCounter_mid;             // "Random n-bit Saturating counter" method
         bool inTiedGroup = false;   // Flag to indicate whether current group of notes are tied
         bool inTupletGroup = false;     // Flag to indicate whether current group is triplet
         int measureCount = 0;
@@ -240,7 +243,27 @@ public class MSMUtil : MonoBehaviour
                     // this is a game-feel thing so maybe we reach out to our
                     // resident game addicts for advice
                     // TODO: hardcoding all notes as ATK_A notes, but can alternate later
-                    if (noteAtkType)
+
+                    // Update random notetype saturating counter
+                    int rand = UnityEngine.Random.Range(0, 2);
+                    int change = (rand) * -1 + (1 - rand) * 1;
+                    noteAtkTypeCounter += change;
+                    //Debug.Log("Random result: " + rand);
+                    //Debug.Log("Addition result: " + change);
+                    //Debug.Log("Note counter now: " + noteAtkTypeCounter);
+
+                    // Clamping
+                    if (noteAtkTypeCounter >= noteAtkTypeCounter_max)
+                    {
+                        noteAtkTypeCounter = noteAtkTypeCounter_max - 1;
+                    }
+                    else if (noteAtkTypeCounter < 0)
+                    {
+                        noteAtkTypeCounter = 0;
+                    }
+
+                    // Determine note atk type
+                    if (noteAtkTypeCounter <= noteAtkTypeCounter_mid)
                     {
                         currNoteType = NoteType.BallProjectileA;
                     }
@@ -248,8 +271,6 @@ public class MSMUtil : MonoBehaviour
                     {
                         currNoteType = NoteType.BallProjectileB;
                     }
-                    noteAtkType = !noteAtkType;
-
                 }
                 
 
