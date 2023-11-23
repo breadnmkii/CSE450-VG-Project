@@ -14,13 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FocusCenter: 1
   CenterSelect: 1
-  AutoCreateCells: 0
   BoundaryUpdateType: 1
   Loop: 1
   InstantUpdate: 0
-  UpdateCellDesc: 1
-  TotalCells: 10
-  CellGap: 0
+  CellGap: 15
   FocusSpeed: 20
   ScaleSpeed: 5
   RotateSpeed: 5

@@ -336,8 +336,10 @@ public class Player : MonoBehaviour
     // Display a hit indication
     private void DisplayHitIndication(HitIndication type)
     {
+        if (hitIndications.Length == 0) { return; }
         HideHitIndications();
 
+        
         hitIndications[(int)type].SetActive(true);
         _hitIndicationActive = true;
         _hitIndicationDisplayStartTime = _nowTime;
@@ -346,6 +348,7 @@ public class Player : MonoBehaviour
     // Hide a hit indication
     private void HideHitIndications()
     {
+        if (hitIndications.Length == 0) { return; }
         for (int i = 0; i < hitIndications.Length; i++)
         {
             hitIndications[i].SetActive(false);

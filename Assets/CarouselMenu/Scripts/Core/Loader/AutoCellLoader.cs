@@ -6,17 +6,17 @@ namespace MS.Carousel.Core
 {
   public class AutoCellLoader : CarouselLoaderBase
   {
-    [SerializeField] private GameObject _cell;
+    [SerializeField] private GameObject[] _cells;
     [SerializeField] private int _totalCells;
 
     public override void Load(CarouselController controller)
     {
       // Auto create cells
-      if (_cell != null)
+      if (_cells.Length>0)
       {
-        for (int i = 0; i < _totalCells; ++i)
+        for (int i = 0; i < _cells.Length; ++i)
         {
-          GameObject go = Instantiate(_cell, controller.CellRoot);
+          GameObject go = Instantiate(_cells[i], controller.CellRoot);
           controller.AddCell(i, go);
           go.name = "" + controller.CellContainer.Count;
           var cellController = go.GetComponent<ScriptableEventCellController>();

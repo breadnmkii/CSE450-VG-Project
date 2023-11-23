@@ -55,6 +55,9 @@ namespace MS.Carousel.Core
     private float _lastCellGap;
     private float _lastMinScaleRange;
     private float _lastMaxScaleRange;
+    private int defaultCell = 1;
+
+    private int targetScene;
 
     #region Event Callbacks 
 
@@ -212,7 +215,8 @@ namespace MS.Carousel.Core
         }
         
       }
-      
+
+      //Debug.Log(_data.SelectedCell.name);
       _data.LastDragPos = _scroll.content.localPosition;
     }
 
@@ -281,6 +285,7 @@ namespace MS.Carousel.Core
       }
 
       _data.CenterCellIndex = _finalAutoSnapIndex;
+
     }
 
     public virtual void UpdateDistance()
@@ -772,6 +777,25 @@ namespace MS.Carousel.Core
       }
       return true;
     }
+
+    public void onStartBtn()
+        {
+            if (_data.SelectedCell)
+            {
+                Util.LoadScene(int.Parse(_data.SelectedCell.name)+4);
+                return;
+            }
+            else
+            {
+                Util.LoadScene(defaultCell+4);
+            }
+            
+        }
+
+    public void onBackBtn()
+        {
+            Util.LoadScene(0);
+        }
 
     #endregion
 

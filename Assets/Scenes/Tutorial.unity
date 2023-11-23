@@ -1476,7 +1476,8 @@ MonoBehaviour:
   - {fileID: 137389666}
   - {fileID: 889583103}
   - {fileID: 982403579}
-  destoryedPrefab: {fileID: 1856961937390044543, guid: 2ee273d92de6b446ab2dc45b6c547f29, type: 3}
+  destroyedPrefabA: {fileID: 1856961937390044543, guid: 2ee273d92de6b446ab2dc45b6c547f29, type: 3}
+  destroyedPrefabB: {fileID: 654370852330695252, guid: bd41a14eda7386849939257333a059f9, type: 3}
   formingPrefab: {fileID: 2560667235637085830, guid: 15c3b8464907e4994984add225ead1fa, type: 3}
 --- !u!4 &440785012
 Transform:
@@ -2172,8 +2173,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageSound: {fileID: 8300000, guid: 9a57a14901322514baba9e891fdda232, type: 3}
   damageSoundVolume: 0
-  jumpSound: {fileID: 0}
-  slamSound: {fileID: 0}
+  jumpSound: {fileID: 8300000, guid: 391201bf9ec43a743be1a4713304b94d, type: 3}
+  slamSound: {fileID: 8300000, guid: a7971854bb141754d8a1a4df51d94677, type: 3}
   Lanes:
   - {fileID: 1826531203}
   - {fileID: 137389666}
@@ -4272,7 +4273,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: -71
     y: -12
-    width: 60
+    width: 77
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -4299,7 +4300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 23.467316, y: 249.21951}
+  scrollPos: {x: 280.46732, y: 236.21951}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
   blockViewHeight: 621
@@ -4551,7 +4552,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 22.158539
     y: -13.219513
-    width: 71
+    width: 111
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -5044,9 +5045,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 152.14633
-    y: -12.719513
-    width: 74
+    x: 154.14633
+    y: -9.719513
+    width: 114
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -5106,7 +5107,7 @@ MonoBehaviour:
   indentLevel: 0
   _sceneName:
     stringRef: {fileID: 0}
-    stringVal: Scenes/Level_JOJO
+    stringVal: Scenes/mainmenu
   loadingImage: {fileID: 0}
   sceneNameOLD: 
 --- !u!114 &1481581197

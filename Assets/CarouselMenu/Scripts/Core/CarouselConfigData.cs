@@ -38,7 +38,7 @@ namespace MS.Carousel.Core
 
     [Header("Debug Editor")]
     [Tooltip("Show boundary rect for debugger purpose")]
-    public bool ShowBoundaryRect = false;
+    public bool ShowBoundaryRect = true;
     public Color BoundaryRectOutlineColor = Color.yellow;
   }
 }

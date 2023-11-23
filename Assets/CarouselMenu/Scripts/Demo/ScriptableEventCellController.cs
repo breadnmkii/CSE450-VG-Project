@@ -10,11 +10,17 @@ public class ScriptableEventCellController : MonoBehaviour
   [SerializeField] ListEvent _cellEvent;
   [SerializeField] int _index;
 
+    public int targetScene { get; set; }
+
   public void UpdateCell(string desc, int index)
   {
     if (_desc == null)
+    {
       return;
-    _desc.text = desc;
+    }
+
+    _desc.text = "";
+    //_desc.text = desc;
     _index = index;
   }
 
