@@ -3896,7 +3896,7 @@ MonoBehaviour:
   - {fileID: 4426215571676826967, guid: cfeba5b50496b224891e5b6a3d961eab, type: 3}
   - {fileID: 8253162692230657669, guid: ebfc921b7687449409ddb6bcab67733a, type: 3}
   finalAttack: {fileID: 355395019591000410, guid: d557479b0d78ec649ab40fbabcfdd5e5, type: 3}
-  TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 4.6
+  TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 5
 --- !u!4 &1523707881
 Transform:
   m_ObjectHideFlags: 0

@@ -6955,7 +6955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9881cf01b765f994a9db3e0a907fc052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyPlayer: {fileID: 0}
+  MyPlayer: {fileID: 601065269}
   Boss: {fileID: 1619203707}
   hitSound: {fileID: 8300000, guid: 9c6b51244a41a034da0a21476eaa8b33, type: 3}
   hitSoundVolume: 0.75
