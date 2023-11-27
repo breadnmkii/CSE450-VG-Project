@@ -58,6 +58,7 @@ public class UIController : MonoBehaviour
     {
         MusicScoreManager.difficulty = (Difficulty)tar_difficulty;
         ShowMenu();
+        Debug.Log("Set difficulty!");
     }
 
     public void test()

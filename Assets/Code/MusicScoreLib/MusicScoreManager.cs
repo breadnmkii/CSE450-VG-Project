@@ -166,9 +166,6 @@ public class MusicScoreManager : MonoBehaviour
         _timeDeltaStartUpBeat = 60 / BPM;
         _finalAttackSpawned = false;
 
-        // DEBUG: HARDCODE DIFFICULTY
-        difficulty = Difficulty.concert;
-
         // Process music xml file and level properties to create music score (beatmap)
         Debug.Log("(MSM) Processing music score");
         _musicScore = MSMUtil.ProcessMusicScore(scoreFile, "P1", difficulty);
