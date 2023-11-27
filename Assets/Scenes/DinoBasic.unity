@@ -1960,7 +1960,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3489458415680652917}
         m_TargetAssemblyTypeName: GameOver, Assembly-CSharp
-        m_MethodName: restart
+        m_MethodName: restartDino
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level_COCO.unity
     guid: fe64815c9a257dc4d9c54355716ff50f
+  - enabled: 1
+    path: Assets/Scenes/TransitionScene.unity
+    guid: a5b9ab18c3bd6400bb373ed38612521a
   m_configObjects: {}

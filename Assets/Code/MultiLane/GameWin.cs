@@ -55,6 +55,6 @@ public class GameWin : MonoBehaviour
 
     public void enterDino()
     {
-        Util.LoadScene(1);
+        Util.LoadScene(3);
     }
 }
