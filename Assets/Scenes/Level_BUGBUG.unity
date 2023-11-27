@@ -3924,14 +3924,14 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.667
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -6800,8 +6800,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MyPlayer: {fileID: 601065269}
   Boss: {fileID: 1619203707}
-  hitSound: {fileID: 8300000, guid: 9c6b51244a41a034da0a21476eaa8b33, type: 3}
-  hitSoundVolume: 0.75
+  hitSound: {fileID: 8300000, guid: 438550589ee0e7a4abaa15bcfa3507d1, type: 3}
+  hitSoundVolume: 1
 --- !u!212 &2139164484
 SpriteRenderer:
   m_ObjectHideFlags: 0

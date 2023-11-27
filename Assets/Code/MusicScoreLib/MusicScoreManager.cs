@@ -112,7 +112,7 @@ public class MusicScoreManager : MonoBehaviour
     // Public members for song properties (readonly)
     public TextAsset scoreFile;
     public double BPM;
-    public static Difficulty difficulty;
+    public static Difficulty difficulty = Difficulty.concert;   // Default concert difficulty
     // DIFFICULTY ON TIME OFFSET DIFFERENCE
     // protege --> 2    (0)
     // concert --> 0.9  (-1.1)
