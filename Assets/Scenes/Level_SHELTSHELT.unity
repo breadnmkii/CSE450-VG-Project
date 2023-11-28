@@ -3995,7 +3995,7 @@ MonoBehaviour:
   songAudio: {fileID: 8300000, guid: 2afb61819312c2d40bad4ae824816e99, type: 3}
   metroUpAudio: {fileID: 8300000, guid: ac53e0368759edb4f9aeaba4e5038aff, type: 3}
   metroAudio: {fileID: 8300000, guid: 26ba0e0437847d044ab8b34fe9a92bb6, type: 3}
-  scoreFile: {fileID: 4900000, guid: 499e12b938c0b4440aca8e0c351030aa, type: 3}
+  scoreFile: {fileID: 4900000, guid: 730a4b922b8b4024e9a7798f7643fc9e, type: 3}
   BPM: 100
   lanes:
   - {fileID: 259612052}
@@ -4010,7 +4010,7 @@ MonoBehaviour:
   - {fileID: 1934890866547492867, guid: d3c8a8d6dc82b6249afc2b4147861835, type: 3}
   - {fileID: 4426215571676826967, guid: cfeba5b50496b224891e5b6a3d961eab, type: 3}
   - {fileID: 8253162692230657669, guid: ebfc921b7687449409ddb6bcab67733a, type: 3}
-  TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 5
+  TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 4.6
 --- !u!4 &1523707881
 Transform:
   m_ObjectHideFlags: 0
@@ -6962,7 +6962,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8254c159d5ccdbd48a30ad0c0c50e029, type: 3}
-  m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.36078432}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
