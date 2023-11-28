@@ -9,6 +9,7 @@ TagManager:
   - UnBreakable
   - Boss
   - ProjectileB
+  - PowerupHP
   layers:
   - Default
   - TransparentFX
