@@ -147,6 +147,16 @@ public class MusicScoreManager : MonoBehaviour
     private double _songTime;                   // time within the song
     private Tuple<Note, double> _nextNote;      // next note in the note queue
 
+    public int GetTotalNotes()
+    {
+        return this._musicScore.GetNumTotalNotes();
+    }
+
+    public int GetRemainingNotes()
+    {
+        return this._musicScore.GetNumRemainingNotes();
+    }
+
     /* Unity Loop Methods */
     private void Start()
     {
