@@ -3924,14 +3924,14 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.667
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -6165,6 +6165,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 968617932354493173, guid: 46e7ab2f5bd9e2d4e8247778800eeb54, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: home
+      objectReference: {fileID: 0}
     - target: {fileID: 4689215499920810266, guid: 46e7ab2f5bd9e2d4e8247778800eeb54, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -6800,8 +6804,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MyPlayer: {fileID: 601065269}
   Boss: {fileID: 1619203707}
-  hitSound: {fileID: 8300000, guid: 9c6b51244a41a034da0a21476eaa8b33, type: 3}
-  hitSoundVolume: 0.75
+  hitSound: {fileID: 8300000, guid: 438550589ee0e7a4abaa15bcfa3507d1, type: 3}
+  hitSoundVolume: 1
 --- !u!212 &2139164484
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7178,7 +7182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5534582101825696389, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7023367175606557524, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
       propertyPath: m_AnchorMax.x

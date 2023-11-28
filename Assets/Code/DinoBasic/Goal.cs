@@ -29,7 +29,7 @@ namespace DinoBasic
             // Load next scene when colliding with goal
             if (other.gameObject.GetComponent<DinoBasicController>())
             {
-                Util.LoadScene(5);
+                Util.LoadScene(10);
             }
         }
     }

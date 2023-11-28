@@ -37,7 +37,11 @@ public class HPBar: MonoBehaviour
             init = true;
         }
         curHP = player.getHP();
-        for (int i = curHP; i < maxHP; i++)
+        for (int i = 0; i < curHP; ++i)
+        {
+            plots[i].GetComponent<SpriteRenderer>().color = Color.white;
+        }
+        for (int i = curHP; i < maxHP; ++i)
         {
             plots[i].GetComponent<SpriteRenderer>().color = Color.black;
         }

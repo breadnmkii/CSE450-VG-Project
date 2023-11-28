@@ -112,7 +112,7 @@ public class MusicScoreManager : MonoBehaviour
     // Public members for song properties (readonly)
     public TextAsset scoreFile;
     public double BPM;
-    public static Difficulty difficulty;
+    public static Difficulty difficulty = Difficulty.concert;   // Default concert difficulty
     // DIFFICULTY ON TIME OFFSET DIFFERENCE
     // protege --> 2    (0)
     // concert --> 0.9  (-1.1)
@@ -165,9 +165,6 @@ public class MusicScoreManager : MonoBehaviour
         _timeSinceLastStartUpBeat = 0;
         _timeDeltaStartUpBeat = 60 / BPM;
         _finalAttackSpawned = false;
-
-        // DEBUG: HARDCODE DIFFICULTY
-        difficulty = Difficulty.concert;
 
         // Process music xml file and level properties to create music score (beatmap)
         Debug.Log("(MSM) Processing music score");

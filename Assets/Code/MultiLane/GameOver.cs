@@ -23,6 +23,18 @@ public class GameOver : MonoBehaviour
     public void restart()
     {
         Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void restartDino()
+    {
+        Time.timeScale = 1;
+        Util.LoadScene(3);
+    }
+
+    public void home()
+    {
+        Time.timeScale = 1;
         Util.LoadScene(0);
     }
 }

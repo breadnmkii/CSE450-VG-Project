@@ -42,15 +42,21 @@ public class Obstacles : MonoBehaviour
         if (other.gameObject.GetComponent<Player>())
         {
             Player player = other.gameObject.GetComponent<Player>();
-
-            // player animation
             Animator playerAni = player.GetComponent<Animator>();
-            playerAni.SetTrigger("harm");
 
-            // Update health
-            player.ModifyHP(-1);
-            player.PlayDamageSound();
-            player.LosePointsFromDamage();
+            // Update health based on obstacle hit (projectile vs HP powerup)
+            if (CompareTag("PowerupHP"))
+            {
+                player.ModifyHP(1);
+            }
+            else
+            {
+                player.ModifyHP(-1);
+                player.PlayDamageSound();
+                player.LosePointsFromDamage();
+                playerAni.SetTrigger("harm");
+            }
+            
 
             // Destroy projectile on hitting player
             Destroy(gameObject);
