@@ -125,8 +125,8 @@ public class MSMUtil : MonoBehaviour
 
         /* Automatic beatmapping property variables */
         //bool noteAtkType = false;       // "Alternate note type" method
-        int noteAtkTypeCounter_max = 4;     // Maximum number of bits in counter (n = 3 bits)
-        int noteAtkTypeCounter_mid = 2;            // Middle threshold value for switching between note atk type
+        int noteAtkTypeCounter_max = 3;     // Maximum number
+        int noteAtkTypeCounter_mid = 1;     // Middle threshold value for switching between note atk type
         int noteAtkTypeCounter = noteAtkTypeCounter_mid;             // "Random n-bit Saturating counter" method
         bool inTiedGroup = false;   // Flag to indicate whether current group of notes are tied
         bool inTupletGroup = false;     // Flag to indicate whether current group is triplet
@@ -265,9 +265,9 @@ public class MSMUtil : MonoBehaviour
                     //Debug.Log("Note counter now: " + noteAtkTypeCounter);
 
                     // Clamping
-                    if (noteAtkTypeCounter >= noteAtkTypeCounter_max)
+                    if (noteAtkTypeCounter > noteAtkTypeCounter_max)
                     {
-                        noteAtkTypeCounter = noteAtkTypeCounter_max - 1;
+                        noteAtkTypeCounter = noteAtkTypeCounter_max;
                     }
                     else if (noteAtkTypeCounter < 0)
                     {
