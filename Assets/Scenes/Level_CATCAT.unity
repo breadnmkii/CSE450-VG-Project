@@ -3996,7 +3996,7 @@ MonoBehaviour:
   songAudio: {fileID: 8300000, guid: 6dc0903aabc312942b6cf44add8b6f25, type: 3}
   metroUpAudio: {fileID: 8300000, guid: ac53e0368759edb4f9aeaba4e5038aff, type: 3}
   metroAudio: {fileID: 8300000, guid: 26ba0e0437847d044ab8b34fe9a92bb6, type: 3}
-  scoreFile: {fileID: 4900000, guid: 6036afe1e35354c46926f2e24757b23c, type: 3}
+  scoreFile: {fileID: 4900000, guid: 81eaa37ee865a8b4496bee3230e2f1fa, type: 3}
   BPM: 160
   lanes:
   - {fileID: 259612052}
@@ -4011,7 +4011,7 @@ MonoBehaviour:
   - {fileID: 1934890866547492867, guid: d3c8a8d6dc82b6249afc2b4147861835, type: 3}
   - {fileID: 4426215571676826967, guid: cfeba5b50496b224891e5b6a3d961eab, type: 3}
   - {fileID: 8253162692230657669, guid: ebfc921b7687449409ddb6bcab67733a, type: 3}
-  TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 4.95
+  TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 4.3
 --- !u!4 &1523707881
 Transform:
   m_ObjectHideFlags: 0
