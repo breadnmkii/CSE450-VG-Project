@@ -128,7 +128,7 @@ public class MusicScoreManager : MonoBehaviour
     public GameObject ballProjectileA;
     public GameObject ballProjectileB;
     public GameObject[] wallObstacles;
-    public GameObject finalAttack;
+    //public GameObject finalAttack;
 
     public double TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset;
 
@@ -138,7 +138,7 @@ public class MusicScoreManager : MonoBehaviour
     private int _songStartupBeats;          // number of empty beats prior to starting song
     private bool _gameStarted;              // flag indicating whether or not the game's level has begun
     private bool _musicStarted;             // flag indicating whether or not the actual audio song has started
-    private bool _finalAttackSpawned;       // flag indicating whether or not the final attack has been spawned
+    //private bool _finalAttackSpawned;       // flag indicating whether or not the final attack has been spawned
 
     private double _nowTime;                    // var to hold current real-time
     private double _timeDeltaStartUpBeat;       // delta time for start-up beats
@@ -164,7 +164,7 @@ public class MusicScoreManager : MonoBehaviour
         _songStartupBeats = 4;
         _timeSinceLastStartUpBeat = 0;
         _timeDeltaStartUpBeat = 60 / BPM;
-        _finalAttackSpawned = false;
+        //_finalAttackSpawned = false;
 
         // Process music xml file and level properties to create music score (beatmap)
         Debug.Log("(MSM) Processing music score");
@@ -268,11 +268,11 @@ public class MusicScoreManager : MonoBehaviour
                 }
 
                 // next note is null, so the song is over
-                else if (!_finalAttackSpawned)
-                {
-                    SpawnFinalAttack();
-                    _finalAttackSpawned = true;
-                }
+                //else if (!_finalAttackSpawned)
+                //{
+                //    SpawnFinalAttack();
+                //    _finalAttackSpawned = true;
+                //}
 
             }
 
@@ -338,15 +338,15 @@ public class MusicScoreManager : MonoBehaviour
     }
 
     // Spawn the final attack in each lane
-    public void SpawnFinalAttack()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            GameObject attack = Instantiate(finalAttack);
-            Util.Move(attack, lanes[i]);
-            attack.layer = MusicNoteHelper.GetLayerFromNoteloc((NoteLocation)i);
-        }
-    }
+    //public void SpawnFinalAttack()
+    //{
+    //    for (int i = 0; i < 4; i++)
+    //    {
+    //        GameObject attack = Instantiate(finalAttack);
+    //        Util.Move(attack, lanes[i]);
+    //        attack.layer = MusicNoteHelper.GetLayerFromNoteloc((NoteLocation)i);
+    //    }
+    //}
 
     public void pauseSong()
     {
