@@ -12,10 +12,9 @@ using UnityEngine;
 
 public class BossHPBar : MonoBehaviour
 {
-    public BossBehavior Boss;
+    public MusicScoreManager MSM;
 
     Slider slider;
-
     bool init;
 
     private void Start()
@@ -28,10 +27,13 @@ public class BossHPBar : MonoBehaviour
     {
         if (!init)
         {
-            slider.maxValue = Boss.GetMaxHP();
-            slider.value = Boss.GetMaxHP();
-            slider.minValue = 0;
+            slider.maxValue = MSM.GetTotalNotes() ;
+            slider.value = MSM.GetTotalNotes() - MSM.GetRemainingNotes();
+            slider.minValue = MSM.GetTotalNotes() - MSM.GetRemainingNotes();
+            init = true;
+            Debug.Log("Total: "+ slider.maxValue.ToString());
+            Debug.Log("Remain: "+ MSM.GetRemainingNotes().ToString());
         }
-        slider.value = Boss.getHP();
+        slider.value = MSM.GetTotalNotes() - MSM.GetRemainingNotes();
     }
 }
