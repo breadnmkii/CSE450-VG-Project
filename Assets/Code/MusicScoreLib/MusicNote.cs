@@ -89,7 +89,7 @@ public enum NoteType
     Rest,            // empty note, will spawn wall obstacle
     BallProjectileA,
     BallProjectileB,
-
+    Null,
     // Add additional obstacle types
     // as we develop
 }

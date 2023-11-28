@@ -235,7 +235,7 @@ public class MusicScoreManager : MonoBehaviour
 
                 double spawnDelay = TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset;
 
-                spawnDelay /= Math.Pow(2,(double)difficulty); // scale offset by difficuly factor
+                spawnDelay /= Math.Pow(2,MSMUtil.GetDifficultyFactor(difficulty)); // scale offset by difficuly factor
 
                 if (!_musicStarted && _songTime >= spawnDelay)
                 {
@@ -317,16 +317,17 @@ public class MusicScoreManager : MonoBehaviour
                 break;
             default:
                 songNote = null;
-                Debug.Log("(MSM - Warn) Unknown note type!");
+                Debug.Log("(MSM - Warn) Reading NULL note (is it an ignored rest?)!");
                 break;
         }
 
-        // Configure obstacle physics
-        if (songNote != null)
+        // Configure obstacle physics AND Do not spawn rest powerups on harder difficulties
+        if (songNote != null && !(currNote.Type == NoteType.Rest && difficulty > Difficulty.concert))
         {
             // For every note in chord
             foreach (NoteLocation loc in currNote.Location)
             {
+                int noteLocation = (int)loc;
                 // Spawn note
                 GameObject songNoteSpawn = Instantiate(songNote);
 
@@ -335,9 +336,13 @@ public class MusicScoreManager : MonoBehaviour
                     songNoteSpawn.GetComponent<Animator>().SetTrigger("start");
                 }
 
-                // Move to correct lane and set layer
-                Util.Move(songNoteSpawn, lanes[(int)loc]);
-                songNoteSpawn.layer = MusicNoteHelper.GetLayerFromNoteloc(loc);
+                // Move to correct lane and set layer, randomize rest note location
+                if (currNote.Type == NoteType.Rest)
+                {
+                    noteLocation = UnityEngine.Random.Range(0, 4);
+                }
+                Util.Move(songNoteSpawn, lanes[noteLocation]);
+                songNoteSpawn.layer = MusicNoteHelper.GetLayerFromNoteloc((NoteLocation)noteLocation);
 
                 // Set speed with difficulty factor
                 Util.SetSpeed(songNoteSpawn.GetComponent<Rigidbody2D>(),

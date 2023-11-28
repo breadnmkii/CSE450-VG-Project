@@ -130,6 +130,8 @@ public class MSMUtil : MonoBehaviour
         int noteAtkTypeCounter = noteAtkTypeCounter_mid;             // "Random n-bit Saturating counter" method
         bool inTiedGroup = false;   // Flag to indicate whether current group of notes are tied
         bool inTupletGroup = false;     // Flag to indicate whether current group is triplet
+        bool firstRestOfMeasureSeen = false;    // Flag to limit "seen" (spawned) rest note powerups to one per
+                                                // measure (if they occur)
         int measureCount = 0;
 
         // Get every measure of instrument part
@@ -138,11 +140,12 @@ public class MSMUtil : MonoBehaviour
         {
             measureCount++;
             Debug.Log("Processing measure " + measureCount);
-
+            firstRestOfMeasureSeen = false;
             string lastNotePitch = "";      // String containing "<octave-num><note-letter>" pitch of last note
                                             //  to determine if rise or fall in pitch
             int lastNoteLane = 0;           // In conjunction with `lastNotePitch` to determine to shift lane
                                             //  up or down
+
              // "Same random lane" note location method
             if (MusicScoreManager.difficulty != Difficulty.prodigy)
             {
@@ -234,8 +237,17 @@ public class MSMUtil : MonoBehaviour
                 NoteType currNoteType;
                 if (note.SelectSingleNode("./rest") != null)
                 {
-                    // Set rest notes as rest notes
-                    currNoteType = NoteType.Rest;
+                    if (!firstRestOfMeasureSeen)
+                    {
+                        // Set as rest note
+                        currNoteType = NoteType.Rest;
+                        firstRestOfMeasureSeen = true;
+                    }
+                    else
+                    {
+                        // Disregard further rest ntoes
+                        currNoteType = NoteType.Null;
+                    }
                 }
                 else
                 {
@@ -371,7 +383,7 @@ public class MSMUtil : MonoBehaviour
             case Difficulty.virtuoso:
                 return 2;
             case Difficulty.prodigy:
-                return 3;
+                return 1;           // difficulty comes from "wrap around" note spawn method
             default:
                 break;
         }
