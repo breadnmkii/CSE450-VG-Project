@@ -151,12 +151,12 @@ public class MusicScoreManager : MonoBehaviour
 
     public int GetTotalNotes()
     {
-        return this._musicScore.GetNumTotalNotes();
+        return _musicScore.GetNumTotalNotes();
     }
 
     public int GetRemainingNotes()
     {
-        return this._musicScore.GetNumRemainingNotes();
+        return _musicScore.GetNumRemainingNotes();
     }
 
     /* Unity Loop Methods */
@@ -304,6 +304,13 @@ public class MusicScoreManager : MonoBehaviour
     public int GetTotalNumMusicNotes()
     {
         return _musicScore.GetNumTotalNotes();
+    }
+
+    // Method to determine if the player passed level or not
+    public bool DidPassLevel()
+    {
+        double passingGradePercentInCSE450 = 0.7;
+        return (Player.instance.GetScore() / (GetTotalNotes() * Player.instance.perfHitReward)) > passingGradePercentInCSE450;
     }
 
     // Method to spawn a note
