@@ -44,4 +44,9 @@ public class GameWin : MonoBehaviour
     {
         Util.LoadScene(3);
     }
+
+    public void SHUTGAME()
+    {
+        Application.Quit();
+    }
 }
