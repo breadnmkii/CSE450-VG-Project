@@ -6,6 +6,7 @@ using UnityEngine;
 using MusicNote;
 using System.Collections;
 using UnityEditor.Experimental.GraphView;
+using TMPro;
 
 /* Docs:
  *  Since we want to make note spawning
