@@ -1668,8 +1668,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageSound: {fileID: 8300000, guid: 9a57a14901322514baba9e891fdda232, type: 3}
   damageSoundVolume: 0.25
-  jumpSound: {fileID: 0}
-  slamSound: {fileID: 0}
+  jumpSound: {fileID: 8300000, guid: b3d5b45dc5ce24ddfb742503d9074c88, type: 3}
+  slamSound: {fileID: 8300000, guid: b3d5b45dc5ce24ddfb742503d9074c88, type: 3}
   Lanes:
   - {fileID: 857067235}
   - {fileID: 757460947}
