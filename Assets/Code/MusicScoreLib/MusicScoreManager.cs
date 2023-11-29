@@ -130,7 +130,7 @@ public class MusicScoreManager : MonoBehaviour
     public GameObject ballProjectileA;
     public GameObject ballProjectileB;
     public GameObject[] wallObstacles;
-    //public GameObject finalAttack;
+    public GameObject boss;
 
     public double TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset;
 
@@ -285,7 +285,13 @@ public class MusicScoreManager : MonoBehaviour
                 else if (!_gameWon)
                 {
                     _gameWon = true;
-                    onWin();
+                    if (DidPassLevel())
+                    {
+                        //Debug.Log("YAYY YOU PASSED LEVEL");
+                        boss.GetComponent<Animator>().SetTrigger("dead");
+                    }
+                    //Debug.Log("Begin onWin() coroutine...");
+                    StartCoroutine(onWin());
                 }
                 //else if (!_finalAttackSpawned)
                 //{
@@ -311,6 +317,8 @@ public class MusicScoreManager : MonoBehaviour
     public bool DidPassLevel()
     {
         double passingGradePercentInCSE450 = 0.7;
+        Debug.Log("Did pass score: ");
+        Debug.Log(Player.instance.GetScore() / (GetTotalNotes() * Player.instance.perfHitReward));
         return (Player.instance.GetScore() / (GetTotalNotes() * Player.instance.perfHitReward)) > passingGradePercentInCSE450;
     }
 
@@ -390,8 +398,10 @@ public class MusicScoreManager : MonoBehaviour
     }
 
     // Show win screen
-    public void onWin()
+    IEnumerator onWin()
     {
+        yield return new WaitForSeconds(3);
+
         // calculate stats
         int totalNotes = GetTotalNotes();
         int goodHits = Player.instance.numGoodHits;
@@ -405,6 +415,7 @@ public class MusicScoreManager : MonoBehaviour
         Destroy(Player.instance.scoreUI);
 
         // display stats
+
         Player.instance.WinUI.SetActive(true);
         Player.instance.WinUI.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = Player.instance.GetScore().ToString();
         Player.instance.WinUI.transform.GetChild(4).GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = totalNotesHit + " / " + totalNotes;
@@ -415,7 +426,7 @@ public class MusicScoreManager : MonoBehaviour
         Player.instance.WinUI.transform.GetChild(4).GetChild(6).GetChild(0).GetComponent<TMP_Text>().text = Player.instance.numNotesDamaged.ToString() + " Notes";
 
         // display grade
-        double maxScore = GetTotalNotes() * Player.instance.perfHitReward;
+        double maxScore = GetTotalNotes() * Player.instance.goodHitReward;
         double myScore = Player.instance.GetScore();
         double grade = myScore / maxScore;
         Player.instance.WinUI.transform.GetChild(1).GetComponent<TMP_Text>().text = "Grade: " + getLetterGrade(grade);
@@ -426,19 +437,19 @@ public class MusicScoreManager : MonoBehaviour
     {
         String retGrade = "";
 
-        if (grade < 60)
+        if (grade < 0.6)
         {
             retGrade = "F";
         }
-        else if (grade < 70)
+        else if (grade < 0.7)
         {
             retGrade = "D";
         }
-        else if (grade < 80)
+        else if (grade < 0.8)
         {
             retGrade = "C";
         }
-        else if (grade < 90)
+        else if (grade < 0.9)
         {
             retGrade = "B";
         }
