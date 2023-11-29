@@ -58,6 +58,9 @@ public class Player : MonoBehaviour
     // Gameover UI Object
     public GameObject DeadUI;
 
+    // Win UI Object
+    public GameObject WinUI;
+
     // Player's animator
     private Animator myAni;
 
@@ -265,6 +268,12 @@ public class Player : MonoBehaviour
     {
         // Destroy(CharacterShadow);
         DeadUI.SetActive(true);
+    }
+
+    // Show win screen
+    public void onWin()
+    {
+        WinUI.SetActive(true);
     }
 
     //Change Operation Type;

@@ -5,6 +5,7 @@ using UnityEngine;
 // MusicNote
 using MusicNote;
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
 
 /* Docs:
  *  Since we want to make note spawning
@@ -139,6 +140,7 @@ public class MusicScoreManager : MonoBehaviour
     private bool _gameStarted;              // flag indicating whether or not the game's level has begun
     private bool _musicStarted;             // flag indicating whether or not the actual audio song has started
     //private bool _finalAttackSpawned;       // flag indicating whether or not the final attack has been spawned
+    private bool _gameWon;                  // flag indicating whether or not the player has won
 
     private double _nowTime;                    // var to hold current real-time
     private double _timeDeltaStartUpBeat;       // delta time for start-up beats
@@ -175,6 +177,7 @@ public class MusicScoreManager : MonoBehaviour
         _timeSinceLastStartUpBeat = 0;
         _timeDeltaStartUpBeat = 60 / BPM;
         //_finalAttackSpawned = false;
+        _gameWon = false;
 
         // Process music xml file and level properties to create music score (beatmap)
         Debug.Log("(MSM) Processing music score");
@@ -278,6 +281,11 @@ public class MusicScoreManager : MonoBehaviour
                 }
 
                 // next note is null, so the song is over
+                else if (!_gameWon)
+                {
+                    _gameWon = true;
+                    Player.instance.onWin();
+                }
                 //else if (!_finalAttackSpawned)
                 //{
                 //    SpawnFinalAttack();

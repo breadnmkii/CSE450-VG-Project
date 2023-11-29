@@ -1565,6 +1565,7 @@ MonoBehaviour:
   MaxHP: 1083
   jumpsLeft: 1
   DeadUI: {fileID: 1718630070}
+  WinUI: {fileID: 3439563716554906415}
   goodHitReward: 10
   greatHitReward: 20
   perfHitReward: 30
