@@ -2175,6 +2175,7 @@ MonoBehaviour:
   damageSoundVolume: 0
   jumpSound: {fileID: 8300000, guid: 391201bf9ec43a743be1a4713304b94d, type: 3}
   slamSound: {fileID: 8300000, guid: a7971854bb141754d8a1a4df51d94677, type: 3}
+  isImmune: 0
   Lanes:
   - {fileID: 1826531203}
   - {fileID: 137389666}
@@ -2184,6 +2185,7 @@ MonoBehaviour:
   MaxHP: 2468
   jumpsLeft: 1
   DeadUI: {fileID: 1861456845}
+  WinUI: {fileID: 0}
   goodHitReward: 0
   greatHitReward: 0
   perfHitReward: 0
@@ -4201,6 +4203,7 @@ GameObject:
   - component: {fileID: 1481581196}
   - component: {fileID: 1481581197}
   - component: {fileID: 1481581198}
+  - component: {fileID: 1481581199}
   m_Layer: 0
   m_Name: Flowchart
   m_TagString: Untagged
@@ -4222,15 +4225,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 1
   indentLevel: 0
-  storyText: 'Use A, S, D, F to move from top to the bottom
-
-    For left handers,
-    use ;(colon),  L, K, J to move;
-
-    You can adjust right/left hand in pausing
-    menu.
-
-'
+  storyText: "Use A, S, D, F to move from top to bottom\nFor left handers, use ;
+    (semicolon),  L, K, J to move \nYou can adjust right/left hand in pausing menu\n"
   description: 
   character: {fileID: 0}
   portrait: {fileID: 0}
@@ -4301,10 +4297,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 280.46732, y: 236.21951}
+  scrollPos: {x: 50.467316, y: 182.21951}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
-  blockViewHeight: 280
+  blockViewHeight: 394
   zoom: 1
   scrollViewRect:
     serializedVersion: 2
@@ -4315,7 +4311,7 @@ MonoBehaviour:
   selectedBlocks:
   - {fileID: 1481581194}
   selectedCommands:
-  - {fileID: 1481581197}
+  - {fileID: 1481581193}
   variables:
   - {fileID: 1481581178}
   description: 
@@ -4551,7 +4547,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 22.158539
+    x: 21.158539
     y: -13.219513
     width: 111
     height: 40
@@ -4629,10 +4625,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 11
   indentLevel: 0
-  storyText: 'But no worries, you can break those projectiles by pressing J!
+  storyText: 'But do not fear, you can break projectiles by pressing J (F left hand)!
 
     Wait
-    until the projectile enters the gray zone, and PRESS THE BUTTON!'
+    until the projectile enters the  middle of the gray zone, and PRESS THE BUTTON!'
   description: 
   character: {fileID: 0}
   portrait: {fileID: 0}
@@ -4811,7 +4807,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 13
   indentLevel: 0
-  storyText: Oh no! There is a projectile shooting at you!
+  storyText: Oh no! There is a projectile coming at you!
   description: 
   character: {fileID: 0}
   portrait: {fileID: 0}
@@ -4990,7 +4986,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 15
   indentLevel: 0
-  storyText: But be aware, you could ONLY break the projectiles on the same lane.
+  storyText: But be aware, you can ONLY break the projectiles in the same lane.
   description: 
   character: {fileID: 0}
   portrait: {fileID: 0}
@@ -5019,7 +5015,7 @@ MonoBehaviour:
   indentLevel: 0
   storyText: 'Good luck then.
 
-    It''s time to start your trip!'
+    It''s time to start your journey...'
   description: 
   character: {fileID: 0}
   portrait: {fileID: 0}
@@ -5060,6 +5056,7 @@ MonoBehaviour:
   - {fileID: 1481581198}
   - {fileID: 1481581195}
   - {fileID: 1481581197}
+  - {fileID: 1481581199}
   - {fileID: 1481581193}
   - {fileID: 1481581196}
   suppressAllAutoSelections: 0
@@ -5079,8 +5076,8 @@ MonoBehaviour:
   indentLevel: 0
   storyText: 'In the real game, instead of destroying the projectiles,
 
-    you could
-    also dodge the projectiles by jumping or changing lanes.
+    you can
+    dodge the projectiles by jumping or changing lanes.
 
 '
   description: 
@@ -5128,8 +5125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 20
   indentLevel: 0
-  storyText: But you could only defeat your enemy if you destroy enough amount of
-    their attacks.
+  storyText: But you will only beat a level with at least 70% of the best score.
   description: 
   character: {fileID: 0}
   portrait: {fileID: 0}
@@ -5144,7 +5140,7 @@ MonoBehaviour:
   setSayDialog: {fileID: 0}
 --- !u!114 &1481581198
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -5156,10 +5152,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 21
   indentLevel: 0
-  storyText: 'There might be blue projectiles which J doesn''t work on them.
+  storyText: 'There are also "Alternate" blue projectiles.
 
-    Try
-    using K to destroy blue projectiles.'
+    Use your alternate
+    attack K (D left) to break it.'
+  description: 
+  character: {fileID: 0}
+  portrait: {fileID: 0}
+  voiceOverClip: {fileID: 0}
+  showAlways: 1
+  showCount: 1
+  extendPrevious: 0
+  fadeWhenDone: 1
+  waitForClick: 1
+  stopVoiceover: 1
+  waitForVO: 0
+  setSayDialog: {fileID: 0}
+--- !u!114 &1481581199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481581168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec422cd568a9c4a31ad7c36d0572b9da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 22
+  indentLevel: 0
+  storyText: There are also "HP Trees" with hearts you can collect to restore HP!
   description: 
   character: {fileID: 0}
   portrait: {fileID: 0}
