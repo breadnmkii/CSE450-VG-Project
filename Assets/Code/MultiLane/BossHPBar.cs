@@ -12,10 +12,17 @@ using UnityEngine;
 
 public class BossHPBar : MonoBehaviour
 {
+    public static BossHPBar instance;
+
     public MusicScoreManager MSM;
 
     Slider slider;
     bool init;
+
+    void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {

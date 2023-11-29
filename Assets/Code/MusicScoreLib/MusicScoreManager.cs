@@ -5,6 +5,8 @@ using UnityEngine;
 // MusicNote
 using MusicNote;
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
+using TMPro;
 
 /* Docs:
  *  Since we want to make note spawning
@@ -283,7 +285,7 @@ public class MusicScoreManager : MonoBehaviour
                 else if (!_gameWon)
                 {
                     _gameWon = true;
-                    Player.instance.onWin();
+                    onWin();
                 }
                 //else if (!_finalAttackSpawned)
                 //{
@@ -385,5 +387,66 @@ public class MusicScoreManager : MonoBehaviour
     public void resumeSong()
     {
         AudioListener.pause = false;
+    }
+
+    // Show win screen
+    public void onWin()
+    {
+        // calculate stats
+        int totalNotes = GetTotalNotes();
+        int goodHits = Player.instance.numGoodHits;
+        int greatHits = Player.instance.numGreatHits;
+        int perfectHits = Player.instance.numPerfectHits;
+        int totalNotesHit = goodHits + greatHits + perfectHits;
+        int missedNotes = Player.instance.numMisses;
+
+        // clear UI elements
+        BossHPBar.instance.gameObject.SetActive(false);
+        Destroy(Player.instance.scoreUI);
+
+        // display stats
+        Player.instance.WinUI.SetActive(true);
+        Player.instance.WinUI.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = Player.instance.GetScore().ToString();
+        Player.instance.WinUI.transform.GetChild(4).GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = totalNotesHit + " / " + totalNotes;
+        Player.instance.WinUI.transform.GetChild(4).GetChild(2).GetChild(0).GetComponent<TMP_Text>().text = goodHits + " / " + totalNotesHit;
+        Player.instance.WinUI.transform.GetChild(4).GetChild(3).GetChild(0).GetComponent<TMP_Text>().text = greatHits + " / " + totalNotesHit;
+        Player.instance.WinUI.transform.GetChild(4).GetChild(4).GetChild(0).GetComponent<TMP_Text>().text = perfectHits + " / " + totalNotesHit;
+        Player.instance.WinUI.transform.GetChild(4).GetChild(5).GetChild(0).GetComponent<TMP_Text>().text = missedNotes + " / " + totalNotesHit;
+        Player.instance.WinUI.transform.GetChild(4).GetChild(6).GetChild(0).GetComponent<TMP_Text>().text = Player.instance.numNotesDamaged.ToString() + " Notes";
+
+        // display grade
+        double maxScore = GetTotalNotes() * Player.instance.perfHitReward;
+        double myScore = Player.instance.GetScore();
+        double grade = myScore / maxScore;
+        Player.instance.WinUI.transform.GetChild(1).GetComponent<TMP_Text>().text = "Grade: " + getLetterGrade(grade);
+    }
+
+    // calculate grade
+    private String getLetterGrade(double grade)
+    {
+        String retGrade = "";
+
+        if (grade < 60)
+        {
+            retGrade = "F";
+        }
+        else if (grade < 70)
+        {
+            retGrade = "D";
+        }
+        else if (grade < 80)
+        {
+            retGrade = "C";
+        }
+        else if (grade < 90)
+        {
+            retGrade = "B";
+        }
+        else
+        {
+            retGrade = "A";
+        }
+
+        return retGrade;
     }
 }

@@ -290,12 +290,6 @@ public class Player : MonoBehaviour
         DeadUI.SetActive(true);
     }
 
-    // Show win screen
-    public void onWin()
-    {
-        WinUI.SetActive(true);
-    }
-
     //Change Operation Type;
     public void setOperationType(int type)
     {
