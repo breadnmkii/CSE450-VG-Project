@@ -10,9 +10,12 @@ public class CarouselCardController : MonoBehaviour
     // Start is called before the first frame update
 
     public TMP_Text difficulty_Text;
+    public TMP_Text highScoreText;
+    public int LevelIndex;
 
     void Start(){
         difficulty = 0;
+        highScoreText.text = "High Score: " + GetHighScore(LevelIndex).ToString();
     }
 
     public void changeDifficulty(int n){
@@ -25,5 +28,26 @@ public class CarouselCardController : MonoBehaviour
 
     public void startSong(string song){
         Util.LoadScene(song);
+    }
+
+    private int GetHighScore(int levelIndex)
+    {
+        switch (levelIndex)
+        {
+            case 0:
+                return PlayerPrefs.GetInt("HighScoreBUGBUG");
+            case 1:
+                return PlayerPrefs.GetInt("HighScoreCATCAT");
+            case 2:
+                return PlayerPrefs.GetInt("HighScoreCOCO");
+            case 3:
+                return PlayerPrefs.GetInt("HighScoreGASGAS");
+            case 4:
+                return PlayerPrefs.GetInt("HighScoreJOJO");
+            case 5:
+                return PlayerPrefs.GetInt("HighScoreSHELTSHELT");
+            default:
+                return 0;
+        }
     }
 }

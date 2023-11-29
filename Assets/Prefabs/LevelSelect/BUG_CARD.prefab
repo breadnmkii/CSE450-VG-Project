@@ -1318,6 +1318,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   difficulty_Text: {fileID: 7967808125150478399}
+  highScoreText: {fileID: 6038743073247283716}
+  LevelIndex: 0
 --- !u!1 &7260942291930398157
 GameObject:
   m_ObjectHideFlags: 0
