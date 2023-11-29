@@ -34,7 +34,7 @@ public class transition : MonoBehaviour
 
     IEnumerator trans()
     {
-        yield return new WaitForSeconds(21);
+        yield return new WaitForSeconds(22);
 
         Util.LoadScene(0);
     }
