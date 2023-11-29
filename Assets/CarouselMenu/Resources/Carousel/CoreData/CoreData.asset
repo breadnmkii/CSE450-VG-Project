@@ -17,7 +17,7 @@ MonoBehaviour:
   BoundaryUpdateType: 1
   Loop: 1
   InstantUpdate: 0
-  CellGap: -330
+  CellGap: -130
   FocusSpeed: 20
   ScaleSpeed: 5
   RotateSpeed: 5
