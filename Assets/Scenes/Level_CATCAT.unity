@@ -1683,6 +1683,7 @@ MonoBehaviour:
   damageSoundVolume: 0.25
   jumpSound: {fileID: 8300000, guid: b3d5b45dc5ce24ddfb742503d9074c88, type: 3}
   slamSound: {fileID: 8300000, guid: b3d5b45dc5ce24ddfb742503d9074c88, type: 3}
+  isImmune: 0
   Lanes:
   - {fileID: 857067235}
   - {fileID: 757460947}
@@ -3994,6 +3995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc326ff1cf7b3c2468ba961951d2f420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LevelIndex: 1
   songAudio: {fileID: 8300000, guid: 6dc0903aabc312942b6cf44add8b6f25, type: 3}
   metroUpAudio: {fileID: 8300000, guid: ac53e0368759edb4f9aeaba4e5038aff, type: 3}
   metroAudio: {fileID: 8300000, guid: 26ba0e0437847d044ab8b34fe9a92bb6, type: 3}
@@ -4012,6 +4014,7 @@ MonoBehaviour:
   - {fileID: 1934890866547492867, guid: d3c8a8d6dc82b6249afc2b4147861835, type: 3}
   - {fileID: 4426215571676826967, guid: cfeba5b50496b224891e5b6a3d961eab, type: 3}
   - {fileID: 8253162692230657669, guid: ebfc921b7687449409ddb6bcab67733a, type: 3}
+  boss: {fileID: 1619203703}
   TOTALLY_PROGRAMMATIC_NOT_HARDCODED_NOTE_SPAWN_offset: 4.3
 --- !u!4 &1523707881
 Transform:

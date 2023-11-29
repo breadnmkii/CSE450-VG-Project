@@ -3994,6 +3994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc326ff1cf7b3c2468ba961951d2f420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LevelIndex: 5
   songAudio: {fileID: 8300000, guid: 2afb61819312c2d40bad4ae824816e99, type: 3}
   metroUpAudio: {fileID: 8300000, guid: ac53e0368759edb4f9aeaba4e5038aff, type: 3}
   metroAudio: {fileID: 8300000, guid: 26ba0e0437847d044ab8b34fe9a92bb6, type: 3}

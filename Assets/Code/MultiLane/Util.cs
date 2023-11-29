@@ -62,4 +62,52 @@ public class Util
     {
         SceneManager.LoadScene(Levels[id]);
     }
+
+    public static int GetHighScore(int levelIndex)
+    {
+        switch (levelIndex)
+        {
+            case 0:
+                return PlayerPrefs.GetInt("HighScoreBUGBUG");
+            case 1:
+                return PlayerPrefs.GetInt("HighScoreCATCAT");
+            case 2:
+                return PlayerPrefs.GetInt("HighScoreCOCO");
+            case 3:
+                return PlayerPrefs.GetInt("HighScoreGASGAS");
+            case 4:
+                return PlayerPrefs.GetInt("HighScoreJOJO");
+            case 5:
+                return PlayerPrefs.GetInt("HighScoreSHELTSHELT");
+            default:
+                return 0;
+        }
+    }
+
+    public static void SetHighScore(int levelIndex, int score)
+    {
+        switch (levelIndex)
+        {
+            case 0:
+                PlayerPrefs.SetInt("HighScoreBUGBUG", score);
+                break;
+            case 1:
+                PlayerPrefs.SetInt("HighScoreCATCAT", score);
+                break;
+            case 2:
+                PlayerPrefs.SetInt("HighScoreCOCO", score);
+                break;
+            case 3:
+                PlayerPrefs.SetInt("HighScoreGASGAS", score);
+                break;
+            case 4:
+                PlayerPrefs.SetInt("HighScoreJOJO", score);
+                break;
+            case 5:
+                PlayerPrefs.SetInt("HighScoreSHELTSHELT", score);
+                break;
+            default:
+                break;
+        }
+    }
 }

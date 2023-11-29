@@ -106,6 +106,7 @@ public class MusicScoreManager : MonoBehaviour
     /* Outlets */
     // AudioSource
     AudioSource _as;
+    public int LevelIndex;
     public AudioClip songAudio;
     public AudioClip metroUpAudio;
     public AudioClip metroAudio;
@@ -401,6 +402,13 @@ public class MusicScoreManager : MonoBehaviour
     IEnumerator onWin()
     {
         yield return new WaitForSeconds(3);
+
+        // update high score if necessary
+        int currentHighScore = Util.GetHighScore(LevelIndex);
+        if (Player.instance.GetScore() > currentHighScore)
+        {
+            Util.SetHighScore(LevelIndex, (int)Player.instance.GetScore());
+        }
 
         // calculate stats
         int totalNotes = GetTotalNotes();
