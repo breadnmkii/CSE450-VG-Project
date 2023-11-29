@@ -17,7 +17,7 @@ MonoBehaviour:
   BoundaryUpdateType: 1
   Loop: 1
   InstantUpdate: 0
-  CellGap: 15
+  CellGap: -330
   FocusSpeed: 20
   ScaleSpeed: 5
   RotateSpeed: 5
@@ -29,5 +29,5 @@ MonoBehaviour:
   Axes: {x: 1, y: 0, z: 0}
   MinScaleRange: 0.5
   MaxScaleRange: 100
-  ShowBoundaryRect: 1
+  ShowBoundaryRect: 0
   BoundaryRectOutlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
