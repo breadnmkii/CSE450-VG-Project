@@ -127,6 +127,12 @@ public class PauseUi : MonoBehaviour
     {
 
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Scenes/StartScene");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void onClickQuit()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Scenes/mainmenu");
     }
 }
