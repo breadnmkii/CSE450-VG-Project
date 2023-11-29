@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     public AudioClip jumpSound;
     public AudioClip slamSound;
 
+    public bool isImmune;
+
     // A tmp Character to solve possible animation problem.
     // public GameObject CharacterShadow;
     // List of lane pivot point, to hold the positions for player to move.
@@ -90,6 +92,7 @@ public class Player : MonoBehaviour
     //Initialize
     private void Start()
     {
+        isImmune = false;
         operationType = 0;
         lane_No = 0;
         if (MaxHP > 8)
@@ -202,7 +205,7 @@ public class Player : MonoBehaviour
     // HP Getter
     public int getHP()
     {
-        return this.HP;
+        return HP;
     }
 
 
@@ -211,8 +214,18 @@ public class Player : MonoBehaviour
     // Constraint current HP within range [0, MaxHP] 
     public void ModifyHP(int n)
     {
-        this.HP += n;
-        if (HP < 0)
+        if(n < 0 && !isImmune)
+        {
+            HP += n;
+            isImmune = true;
+            StartCoroutine(immune());
+        }
+        else if (n > 0)
+        {
+            HP += n;
+        }
+        
+        if (HP < 0 )
         {
             HP = 0;
         }
@@ -220,6 +233,13 @@ public class Player : MonoBehaviour
         {
             HP = MaxHP;
         }
+    }
+
+    IEnumerator immune()
+    {
+        yield return new WaitForSeconds(1);
+
+        isImmune = false;
     }
 
     // check for collisions
