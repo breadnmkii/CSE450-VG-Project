@@ -125,14 +125,17 @@ public class PauseUi : MonoBehaviour
 
     public void onClickRestart()
     {
-
         Time.timeScale = 1f;
+        musicManger.resumeSong();
+        isPausing = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void onClickQuit()
     {
         Time.timeScale = 1f;
+        musicManger.resumeSong();
+        isPausing = false;
         SceneManager.LoadScene("Scenes/mainmenu");
     }
 }
