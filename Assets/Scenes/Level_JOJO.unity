@@ -1504,8 +1504,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageSound: {fileID: 8300000, guid: 9a57a14901322514baba9e891fdda232, type: 3}
   damageSoundVolume: 0.25
-  jumpSound: {fileID: 0}
-  slamSound: {fileID: 0}
+  jumpSound: {fileID: 8300000, guid: b3d5b45dc5ce24ddfb742503d9074c88, type: 3}
+  slamSound: {fileID: 8300000, guid: b3d5b45dc5ce24ddfb742503d9074c88, type: 3}
   Lanes:
   - {fileID: 857067235}
   - {fileID: 757460947}
@@ -1515,6 +1515,7 @@ MonoBehaviour:
   MaxHP: 1083
   jumpsLeft: 1
   DeadUI: {fileID: 1718630070}
+  WinUI: {fileID: 3439563716554906415}
   goodHitReward: 10
   greatHitReward: 20
   perfHitReward: 30
@@ -7081,6 +7082,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1219880639339359569, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 601065274}
+    - target: {fileID: 1219880639339359569, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
+      propertyPath: checker
+      value: 
+      objectReference: {fileID: 2139164483}
+    - target: {fileID: 1219880639339359569, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
+      propertyPath: musicManger
+      value: 
+      objectReference: {fileID: 1523707880}
     - target: {fileID: 3020651868807737743, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
       propertyPath: m_Pivot.x
       value: 0

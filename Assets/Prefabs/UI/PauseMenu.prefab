@@ -1942,7 +1942,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1219880639339359569}
         m_TargetAssemblyTypeName: PauseUi, Assembly-CSharp
-        m_MethodName: onClickRestart
+        m_MethodName: onClickQuit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

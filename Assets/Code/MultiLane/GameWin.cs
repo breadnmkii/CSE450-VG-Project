@@ -12,7 +12,7 @@ public class GameWin : MonoBehaviour
 
     public GameObject ButtonRestart;
 
-    public GameObject ButtonNextL;
+    public GameObject ButtonHome;
 
     // Start is called before the first frame update
     void Start()
@@ -24,33 +24,20 @@ public class GameWin : MonoBehaviour
     void OnEnable()
     {
         Time.timeScale = 0;
-        if (curLevel != Util.Levels.Length - 1)
-        {
-            
-            ButtonNextL.SetActive(true);
-        }
-        else
-        {
-            ButtonNextL.SetActive(false);
-        }
+        ButtonHome.SetActive(true);
         ButtonRestart.SetActive(true);
     }
 
     public void restart()
     {
         Time.timeScale = 1;
-        Util.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void QuitGame()
     {
-        Application.Quit();
-
-    }
-
-    public void toLevel(int i)
-    {
-        Util.LoadScene(i);
+        Time.timeScale = 1;
+        Util.LoadScene("Scenes/mainmenu");
     }
 
     public void enterDino()

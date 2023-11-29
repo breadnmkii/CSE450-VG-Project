@@ -1042,7 +1042,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 2.25
   m_AngularDrag: 0
-  m_GravityScale: 6
+  m_GravityScale: 7
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1133,7 +1133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e17b106cfe63c89469cd40edab63a79e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpSound: {fileID: 8300000, guid: 391201bf9ec43a743be1a4713304b94d, type: 3}
+  jumpSound: {fileID: 8300000, guid: b3d5b45dc5ce24ddfb742503d9074c88, type: 3}
   slamSound: {fileID: 8300000, guid: a7971854bb141754d8a1a4df51d94677, type: 3}
   volume: 0.5
   jumpsLeft: 1

@@ -49,7 +49,7 @@ public class Obstacles : MonoBehaviour
             {
                 player.ModifyHP(1);
             }
-            else
+            else if (!player.isImmune)
             {
                 player.ModifyHP(-1);
                 player.PlayDamageSound();
