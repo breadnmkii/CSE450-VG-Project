@@ -1556,6 +1556,7 @@ MonoBehaviour:
   damageSoundVolume: 0.25
   jumpSound: {fileID: 8300000, guid: b3d5b45dc5ce24ddfb742503d9074c88, type: 3}
   slamSound: {fileID: 8300000, guid: b3d5b45dc5ce24ddfb742503d9074c88, type: 3}
+  isImmune: 0
   Lanes:
   - {fileID: 857067235}
   - {fileID: 757460947}
