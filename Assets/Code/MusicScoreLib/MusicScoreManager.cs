@@ -300,8 +300,8 @@ public class MusicScoreManager : MonoBehaviour
     {
         double passingGradePercentInCSE450 = 0.7;
         Debug.Log("Did pass score: ");
-        Debug.Log(Player.instance.GetScore() / (GetTotalNotes() * Player.instance.perfHitReward));
-        return (Player.instance.GetScore() / (GetTotalNotes() * Player.instance.perfHitReward)) > passingGradePercentInCSE450;
+        Debug.Log(Player.instance.GetScore() / (GetTotalNotes() * Player.instance.greatHitReward));
+        return (Player.instance.GetScore() / (GetTotalNotes() * Player.instance.greatHitReward)) > passingGradePercentInCSE450;
     }
 
     // Method to spawn a note
@@ -398,9 +398,7 @@ public class MusicScoreManager : MonoBehaviour
         int perfectHits = Player.instance.numPerfectHits;
         int totalNotesHit = goodHits + greatHits + perfectHits;
         int missedNotes = totalNotes - totalNotesHit;
-        int greatHitBonus = greatHits * ((int)Player.instance.greatHitReward - (int)Player.instance.goodHitReward);
-        int perfectHitBonus = perfectHits * ((int)Player.instance.perfHitReward - (int)Player.instance.goodHitReward);
-        int bonusPoints = greatHitBonus + perfectHitBonus;
+        int bonusPoints = perfectHits * ((int)Player.instance.perfHitReward - (int)Player.instance.greatHitReward);
 
         // clear UI elements
         BossHPBar.instance.gameObject.SetActive(false);
@@ -415,7 +413,7 @@ public class MusicScoreManager : MonoBehaviour
         Player.instance.WinUI.transform.GetChild(1).GetChild(1).GetChild(4).GetChild(0).GetComponent<TMP_Text>().text = Player.instance.numNotesDamaged.ToString() + " Notes";
 
         // display grade
-        double maxScore = GetTotalNotes() * Player.instance.goodHitReward;
+        double maxScore = GetTotalNotes() * Player.instance.greatHitReward;
         double myScore = Player.instance.GetScore();
         double grade = myScore / maxScore;
         Player.instance.WinUI.transform.GetChild(1).GetChild(3).GetComponent<TMP_Text>().text = "Grade: " + getLetterGrade(grade);
