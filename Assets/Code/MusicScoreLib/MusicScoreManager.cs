@@ -115,7 +115,7 @@ public class MusicScoreManager : MonoBehaviour
     // Public members for song properties (readonly)
     public TextAsset scoreFile;
     public double BPM;
-    public static Difficulty difficulty = Difficulty.concert;   // Default concert difficulty
+    public static Difficulty difficulty = Difficulty.protege;   // Default difficulty is protege
     // DIFFICULTY ON TIME OFFSET DIFFERENCE
     // protege --> 2    (0)
     // concert --> 0.9  (-1.1)
@@ -256,18 +256,6 @@ public class MusicScoreManager : MonoBehaviour
                 {
                     double actualSpawnTime = _nextNote.Item2; //- avgDelayOffset;
 
-                    //double advanceSpawnTime = MSMUtil.TimeForNoteToTravelDistance(_nextNote.Item1,
-                    //                                                                difficulty,
-                    //                                                                _spawnToZoneDistance);
-
-
-                    // If Rest note, remove immediately from queue (to see next real note)
-                    //if (_nextNote.Item1.Type == NoteType.Rest || _nextNote.Item1.isTied)
-                    //{
-                    //    // Debug.Log("(MSM) Removed rest note");
-                    //    _musicScore.readNote();
-                    //}
-
                     // Spawn based on note actual spawn time
                     if (_songTime >= actualSpawnTime) // - advanceSpawnTime)
                     {
@@ -288,17 +276,10 @@ public class MusicScoreManager : MonoBehaviour
                     _gameWon = true;
                     if (DidPassLevel())
                     {
-                        //Debug.Log("YAYY YOU PASSED LEVEL");
                         boss.GetComponent<Animator>().SetTrigger("dead");
                     }
-                    //Debug.Log("Begin onWin() coroutine...");
                     StartCoroutine(onWin());
                 }
-                //else if (!_finalAttackSpawned)
-                //{
-                //    SpawnFinalAttack();
-                //    _finalAttackSpawned = true;
-                //}
 
             }
 

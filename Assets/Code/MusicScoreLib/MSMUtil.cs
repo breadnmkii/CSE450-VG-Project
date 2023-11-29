@@ -114,14 +114,6 @@ public class MSMUtil : MonoBehaviour
 
         /* BODY BLOCK PROCESSING */
         Debug.Log("(MSMUtil) XML MUSIC BODY PROCESSSING");
-        // TODO: inject n=beatsPerMeasure startup beats of beat-duration note length (rest notes with metronome sound)
-        /*
-        for (int i=0; i<beatsPerMeasure; i++)
-        {
-            Note startupNote = new(NoteType.Rest, beatDuration, false, NoteLocation.Lane1);
-            notes.Add(startupNote);
-        }
-        */
 
         /* Automatic beatmapping property variables */
         //bool noteAtkType = false;       // "Alternate note type" method
@@ -130,8 +122,11 @@ public class MSMUtil : MonoBehaviour
         int noteAtkTypeCounter = noteAtkTypeCounter_mid;             // "Random n-bit Saturating counter" method
         bool inTiedGroup = false;   // Flag to indicate whether current group of notes are tied
         bool inTupletGroup = false;     // Flag to indicate whether current group is triplet
-        bool firstRestOfMeasureSeen = false;    // Flag to limit "seen" (spawned) rest note powerups to one per
-                                                // measure (if they occur)
+                                        // measure (if they occur)
+        bool firstRestOfMeasureSeen;
+        double onBeatSubdivisionSum;     // Var to hold running sum of every note spawned subdiviisons
+                                          // to use in determining on-beat notes (for easy note spawns)
+
         int measureCount = 0;
 
         // Get every measure of instrument part
@@ -140,7 +135,11 @@ public class MSMUtil : MonoBehaviour
         {
             measureCount++;
             Debug.Log("Processing measure " + measureCount);
+
+            // Reset per-measure vars
             firstRestOfMeasureSeen = false;
+            onBeatSubdivisionSum = 0;
+
             string lastNotePitch = "";      // String containing "<octave-num><note-letter>" pitch of last note
                                             //  to determine if rise or fall in pitch
             int lastNoteLane = 0;           // In conjunction with `lastNotePitch` to determine to shift lane
@@ -235,7 +234,15 @@ public class MSMUtil : MonoBehaviour
 
                 /* Note Type Parse */
                 NoteType currNoteType;
-                if (note.SelectSingleNode("./rest") != null)
+                if ((int)songDifficulty == (int)Difficulty.protege && onBeatSubdivisionSum % (1/(double)beatDuration) != 0)
+                {
+                    // If subdivision sum is not a multiple of beatDuration, it is not on beat
+                    // For "easy" (protege) difficulty, set all off-beat notes as "NULL" to only spawn on beat
+                    // notes (reduce note density)
+                    currNoteType = NoteType.Null;
+                    
+                }
+                else if (note.SelectSingleNode("./rest") != null)
                 {
                     if (!firstRestOfMeasureSeen)
                     {
@@ -306,6 +313,9 @@ public class MSMUtil : MonoBehaviour
                         currNoteLen = MxmlLengthToNoteLength(note.SelectSingleNode("./type").InnerXml);
                     }
                 }
+                onBeatSubdivisionSum += 1 / (double)currNoteLen;
+                
+                
 
 
                 /* Note Location Parse */
@@ -377,7 +387,7 @@ public class MSMUtil : MonoBehaviour
         switch (diff)
         {
             case Difficulty.protege:
-                return 0.5F;
+                return 1;           // easier comes from less note density
             case Difficulty.concert:
                 return 1;
             case Difficulty.virtuoso:
