@@ -408,28 +408,28 @@ public class MusicScoreManager : MonoBehaviour
         int greatHits = Player.instance.numGreatHits;
         int perfectHits = Player.instance.numPerfectHits;
         int totalNotesHit = goodHits + greatHits + perfectHits;
-        int missedNotes = Player.instance.numMisses;
+        int missedNotes = totalNotes - totalNotesHit;
+        int greatHitBonus = greatHits * ((int)Player.instance.greatHitReward - (int)Player.instance.goodHitReward);
+        int perfectHitBonus = perfectHits * ((int)Player.instance.perfHitReward - (int)Player.instance.goodHitReward);
+        int bonusPoints = greatHitBonus + perfectHitBonus;
 
         // clear UI elements
         BossHPBar.instance.gameObject.SetActive(false);
         Destroy(Player.instance.scoreUI);
 
         // display stats
-
         Player.instance.WinUI.SetActive(true);
-        Player.instance.WinUI.transform.GetChild(4).GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = Player.instance.GetScore().ToString();
-        Player.instance.WinUI.transform.GetChild(4).GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = totalNotesHit + " / " + totalNotes;
-        Player.instance.WinUI.transform.GetChild(4).GetChild(2).GetChild(0).GetComponent<TMP_Text>().text = goodHits + " / " + totalNotesHit;
-        Player.instance.WinUI.transform.GetChild(4).GetChild(3).GetChild(0).GetComponent<TMP_Text>().text = greatHits + " / " + totalNotesHit;
-        Player.instance.WinUI.transform.GetChild(4).GetChild(4).GetChild(0).GetComponent<TMP_Text>().text = perfectHits + " / " + totalNotesHit;
-        Player.instance.WinUI.transform.GetChild(4).GetChild(5).GetChild(0).GetComponent<TMP_Text>().text = missedNotes + " / " + totalNotesHit;
-        Player.instance.WinUI.transform.GetChild(4).GetChild(6).GetChild(0).GetComponent<TMP_Text>().text = Player.instance.numNotesDamaged.ToString() + " Notes";
+        Player.instance.WinUI.transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = Player.instance.GetScore().ToString();
+        Player.instance.WinUI.transform.GetChild(1).GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = totalNotesHit + " / " + totalNotes;
+        Player.instance.WinUI.transform.GetChild(1).GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_Text>().text = missedNotes + " / " + totalNotes;
+        Player.instance.WinUI.transform.GetChild(1).GetChild(1).GetChild(3).GetChild(0).GetComponent<TMP_Text>().text = bonusPoints.ToString();
+        Player.instance.WinUI.transform.GetChild(1).GetChild(1).GetChild(4).GetChild(0).GetComponent<TMP_Text>().text = Player.instance.numNotesDamaged.ToString() + " Notes";
 
         // display grade
         double maxScore = GetTotalNotes() * Player.instance.goodHitReward;
         double myScore = Player.instance.GetScore();
         double grade = myScore / maxScore;
-        Player.instance.WinUI.transform.GetChild(1).GetComponent<TMP_Text>().text = "Grade: " + getLetterGrade(grade);
+        Player.instance.WinUI.transform.GetChild(1).GetChild(3).GetComponent<TMP_Text>().text = "Grade: " + getLetterGrade(grade);
     }
 
     // calculate grade
