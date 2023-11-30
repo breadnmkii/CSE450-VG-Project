@@ -6475,7 +6475,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.5, y: -2, z: 0}
-  m_LocalScale: {x: 1.5, y: 2, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -6495,7 +6495,7 @@ MonoBehaviour:
   MyPlayer: {fileID: 601065269}
   Boss: {fileID: 1619203707}
   hitSound: {fileID: 8300000, guid: 438550589ee0e7a4abaa15bcfa3507d1, type: 3}
-  hitSoundVolume: 1
+  hitSoundVolume: 0.7
 --- !u!212 &2139164484
 SpriteRenderer:
   m_ObjectHideFlags: 0
