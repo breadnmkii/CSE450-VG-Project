@@ -6933,7 +6933,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8254c159d5ccdbd48a30ad0c0c50e029, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.4117647}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -7161,18 +7161,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1219880639339359569, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 601065274}
-    - target: {fileID: 1219880639339359569, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
-      propertyPath: checker
-      value: 
-      objectReference: {fileID: 2139164483}
-    - target: {fileID: 1219880639339359569, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
-      propertyPath: musicManger
-      value: 
-      objectReference: {fileID: 1523707880}
     - target: {fileID: 3020651868807737743, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -7253,45 +7241,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5060527703700609402, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 2.7975044
-      objectReference: {fileID: 0}
-    - target: {fileID: 5060527703700609402, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -41.999992
-      objectReference: {fileID: 0}
     - target: {fileID: 5534582101825696389, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
       propertyPath: m_Name
       value: PauseMenu
-      objectReference: {fileID: 0}
-    - target: {fileID: 5534582101825696389, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7023367175606557524, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -2.9999957
-      objectReference: {fileID: 0}
-    - target: {fileID: 7023367175606557524, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 57.999992
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031265301234796100, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -2.9999957
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031265301234796100, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -142
-      objectReference: {fileID: 0}
-    - target: {fileID: 8004196848790772998, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8004196848790772998, guid: c889b1463ab9c524b81f7fe9b6f00628, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 158
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
